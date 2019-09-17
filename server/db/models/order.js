@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const BeerOrder = require('./beerorder')
 const db = require('../db')
+const Beer = require('./beer')
 
 const Order = db.define('order', {
   status: {
@@ -10,7 +11,7 @@ const Order = db.define('order', {
 })
 
 Order.prototype.subTotal = function() {
-  //make this function
+  // let subTotal =
 }
 
 module.exports = Order
