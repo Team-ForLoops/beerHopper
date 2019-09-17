@@ -7,9 +7,6 @@ const Beer = db.define('beer', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  type: {
-    type: Sequelize.ENUM('ale', 'lager', 'stout', 'sour', 'saison')
-  },
   ibu: {
     type: Sequelize.INTEGER,
     validate: {
@@ -37,7 +34,7 @@ const Beer = db.define('beer', {
   }
 })
 
-Beer.averageRating = async function(beerId) {
+Beer.prototype.averageRating = async function(beerId) {
   try {
     const reviews = await Review.findAll({
       where: {
