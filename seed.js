@@ -1,6 +1,8 @@
 const Beer = require('./server/db/models/beer');
 const User = require('./server/db/models/review');
 const Review = require('./server/db/models/review');
+const db = require('./server/db/db')
+
 
 const seedBeers = [
 	{
