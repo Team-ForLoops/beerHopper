@@ -2,7 +2,6 @@ const {User, Beer, Order, Review, BeerOrder} = require('./server/db/models')
 
 const db = require('./server/db/db')
 
-
 const seedUsers = [
   {
     username: 'theo_truong',
@@ -63,7 +62,7 @@ const seedBeers = [
     description: 'Sweet potato ale. Comparable to pumpkin spice ales.',
     imageUrl: '/images/bad-mama-yama.jpg',
     quantityInv: 20,
-    price: 12.99
+    price: 1299
   },
   {
     name: 'Dark Paradise',
@@ -74,7 +73,7 @@ const seedBeers = [
       'Stout with coconut added in secondary. Chocolatey, roasty, coconutty, delicious.',
     imageUrl: '/images/dark-paradise.jpg',
     quantityInv: 10,
-    price: 15.0
+    price: 1500
   },
   {
     name: 'Hibiscus Saison',
@@ -85,7 +84,7 @@ const seedBeers = [
       'Slightly tart, sessionable saison with a beautiful light pink color',
     imageUrl: '/images/hibiscus-saison.jpg',
     quantityInv: 100,
-    price: 49.99
+    price: 4999
   },
   {
     name: 'Hi Honey',
@@ -95,7 +94,7 @@ const seedBeers = [
     description: 'American honey ale, brewed and fermented with honey',
     imageUrl: '/images/hi-honey.jpg',
     quantityInv: 10,
-    price: 8.99
+    price: 899
   },
   {
     name: 'Wedding Saison',
@@ -105,13 +104,13 @@ const seedBeers = [
     description: 'Become married with the saison at the firts sip',
     imageUrl: '/images/wedding-saison.jpg',
     quantityInv: 2,
-    price: 5.99
+    price: 599
   },
   {
     name: 'J',
     type: 'ale',
     color: 'light',
-    price: 5.0
+    price: 500
   }
 ]
 
@@ -151,8 +150,14 @@ const seedReviews = [
     rating: 1
   }
 ]
+//order seed data
+const seedOrder = [
+  {
+    status: 'open'
+  }
+]
 
-// from robots and projects seed
+// seed function
 const seed = async () => {
   try {
     await db.sync({force: true})
