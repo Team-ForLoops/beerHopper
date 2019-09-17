@@ -1,6 +1,7 @@
-const Beer = require('./server/db/models/beer')
+const {User, Beer, Order, Review, BeerOrder} = require('./server/db/models')
+
 const db = require('./server/db/db')
-const User = require('./server/db/models/user')
+
 
 const seedUsers = [
   {
@@ -114,6 +115,43 @@ const seedBeers = [
   }
 ]
 
+const seedReviews = [
+  {
+    description: 'Love this beer. Great on a hot day!',
+    rating: 5
+  },
+  {
+    description: 'I do not even like beer, but I still enjoyed this drink',
+    rating: 4
+  },
+  {
+    description: 'I did not even receive my order. Terrible.',
+    rating: 1
+  },
+  {
+    description:
+      'I bought this beer as a gift for a friend. The bottle cracked and I did not want to waste it. so I licked the bottle. Cut my tongue but the beer tasted great.',
+    rating: 5
+  },
+  {
+    description: 'I think it is all right',
+    rating: 3
+  },
+  {
+    description: 'The bottle design looks pretty',
+    rating: 2
+  },
+  {
+    description:
+      'I am definitely 21 years old and can drink. This is a good drink.',
+    rating: 4
+  },
+  {
+    description: 'I have no idea',
+    rating: 1
+  }
+]
+
 // from robots and projects seed
 const seed = async () => {
   try {
@@ -137,6 +175,24 @@ const seed = async () => {
       userEight
     ] = await User.bulkCreate(seedUsers, {returning: true})
     console.log('done seeding users!')
+    const [
+      reviewOne,
+      reviewTwo,
+      reviewThree,
+      reviewFour,
+      reviewFive,
+      reviewSix,
+      reviewSeven,
+      reviewEight
+    ] = await Review.bulkCreate(seedReviews, {
+      returning: true
+    })
+    await beerOne.addReviews([reviewOne, reviewTwo])
+    await beerTwo.addReview(reviewThree)
+    await beerThree.addReview(reviewFour)
+    await beerFour.addReview(reviewFive)
+    await beerFive.addReviews([reviewSix, reviewEight])
+    await beerSix.addReview(reviewSeven)
     db.close()
   } catch (err) {
     console.log(err)
@@ -144,5 +200,4 @@ const seed = async () => {
 }
 
 seed()
-
 module.exports = seed
