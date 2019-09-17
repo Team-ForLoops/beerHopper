@@ -3,6 +3,14 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+  username: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  role: {
+    type: Sequelize.ENUM('guest', 'user', 'admin'),
+    defaultValue: 'guest'
+  },
   email: {
     type: Sequelize.STRING,
     unique: true,
