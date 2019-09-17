@@ -7,7 +7,7 @@ const Beer = db.define('beer', {
     allowNull: false
   },
   type: {
-    type: Sequelize.ENUM('ale', 'lager', 'stout', 'sour')
+    type: Sequelize.ENUM('ale', 'lager', 'stout', 'sour', 'saison')
   },
   ibu: {
     type: Sequelize.INTEGER,
@@ -23,14 +23,16 @@ const Beer = db.define('beer', {
     type: Sequelize.TEXT
   },
   imageUrl: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    defaultValue: '/images/default-beer'
   },
   quantityInv: {
     type: Sequelize.INTEGER,
     defaultValue: 1
   },
   price: {
-    type: Sequelize.FLOAT
+    type: Sequelize.FLOAT,
+    allowNull: false
   }
 })
 

@@ -1,11 +1,14 @@
-const beers = [
+import Beer from '../server/db/models/beer'
+import User from '../server/db/models/user'
+
+const seedBeers = [
   {
     name: 'Bad Mama Yama',
     type: 'ale',
     ibu: 25,
     color: 'red',
     description: 'Sweet potato ale. Comparable to pumpkin spice ales.',
-    imageUrl: './bad-mama-yama',
+    imageUrl: '/images/bad-mama-yama.jpg',
     quantityInv: 20,
     price: 12.99
   },
@@ -16,39 +19,46 @@ const beers = [
     color: 'dark',
     description:
       'Stout with coconut added in secondary. Chocolatey, roasty, coconutty, delicious.',
-    imageUrl: './bad-mama-yama',
-    quantityInv: 20,
-    price: 12.99
+    imageUrl: '/images/dark-paradise.jpg',
+    quantityInv: 10,
+    price: 15.0
   },
   {
-    name: 'Bad Mama Yama',
-    type: 'ale',
-    ibu: 25,
-    color: 'red',
-    description: 'Sweet potato ale. Comparable to pumpkin spice ales.',
-    imageUrl: './bad-mama-yama',
-    quantityInv: 20,
-    price: 12.99
+    name: 'Hibiscus Saison',
+    type: 'saison',
+    ibu: 40,
+    color: 'light',
+    description:
+      'Slightly tart, sessionable saison with a beautiful light pink color',
+    imageUrl: '/images/hibiscus-saison.jpg',
+    quantityInv: 100,
+    price: 49.99
   },
   {
-    name: 'Bad Mama Yama',
+    name: 'Hi Honey',
     type: 'ale',
     ibu: 25,
-    color: 'red',
-    description: 'Sweet potato ale. Comparable to pumpkin spice ales.',
-    imageUrl: './bad-mama-yama',
-    quantityInv: 20,
-    price: 12.99
+    color: 'light',
+    description: 'American honey ale, brewed and fermented with honey',
+    imageUrl: '/images/hi-honey.jpg',
+    quantityInv: 10,
+    price: 8.99
   },
   {
-    name: 'Bad Mama Yama',
+    name: 'Wedding Saison',
+    type: 'saison',
+    ibu: 13,
+    color: 'light',
+    description: 'Become married with the saison at the firts sip',
+    imageUrl: '/images/wedding-saison.jpg',
+    quantityInv: 2,
+    price: 5.99
+  },
+  {
+    name: 'Jalapeno Business',
     type: 'ale',
-    ibu: 25,
-    color: 'red',
-    description: 'Sweet potato ale. Comparable to pumpkin spice ales.',
-    imageUrl: './bad-mama-yama',
-    quantityInv: 20,
-    price: 12.99
+    color: 'light',
+    price: 5.0
   }
 ]
 
@@ -57,28 +67,22 @@ const seed = async () => {
   try {
     await db.sync({force: true})
     const [
-      robotOne,
-      robotTwo,
-      robotThree,
-      robotFour,
-      robotFive,
-      robotSix
-    ] = await Robot.bulkCreate(seedRobots, {returning: true})
+      beerOne,
+      beerTwo,
+      beerThree,
+      beerFour,
+      beerFive,
+      beerSix
+    ] = await Beer.bulkCreate(seedBeers, {returning: true})
     const [
-      projectOne,
-      projectTwo,
-      projectThree,
-      projectFour,
-      projectFive
-    ] = await Project.bulkCreate(seedProjects, {returning: true})
-    await projectFive.addRobot(robotThree)
-    await projectThree.addRobot(robotThree)
-    await projectTwo.addRobot(robotThree)
-    await projectFour.addRobot(robotOne)
-    await projectFour.addRobot(robotTwo)
-    await projectThree.addRobot(robotFive)
+      userOne,
+      userTwo,
+      userThree,
+      userFour,
+      userFive
+    ] = await User.bulkCreate(seedUsers, {returning: true})
   } catch (err) {
-    console.log(red(err))
+    console.log(err)
   }
 }
 
