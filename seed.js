@@ -1,5 +1,6 @@
-import Beer from '../server/db/models/beer'
-import User from '../server/db/models/user'
+const Beer = require('./server/db/models/beer')
+const db = require('./server/db/db')
+// import User from '../server/db/models/user'
 
 const seedBeers = [
   {
@@ -66,24 +67,28 @@ const seedBeers = [
 const seed = async () => {
   try {
     await db.sync({force: true})
-    const [
-      beerOne,
-      beerTwo,
-      beerThree,
-      beerFour,
-      beerFive,
-      beerSix
-    ] = await Beer.bulkCreate(seedBeers, {returning: true})
-    const [
-      userOne,
-      userTwo,
-      userThree,
-      userFour,
-      userFive
-    ] = await User.bulkCreate(seedUsers, {returning: true})
+    // const [
+    //   beerOne,
+    //   beerTwo,
+    //   beerThree,
+    //   beerFour,
+    //   beerFive,
+    //   beerSix
+    // ] =
+    await Beer.bulkCreate(seedBeers)
+    // const [
+    //   userOne,
+    //   userTwo,
+    //   userThree,
+    //   userFour,
+    //   userFive
+    // ] = await User.bulkCreate(seedUsers, {returning: true})
+    db.close()
   } catch (err) {
     console.log(err)
   }
 }
+
+seed()
 
 module.exports = seed
