@@ -7,7 +7,7 @@ const Beer = db.define('beer', {
     allowNull: false
   },
   type: {
-    type: Sequelize.ENUM('ale', 'lager', 'stout')
+    type: Sequelize.ENUM('ale', 'lager', 'stout', 'sour')
   },
   ibu: {
     type: Sequelize.INTEGER,
@@ -17,7 +17,7 @@ const Beer = db.define('beer', {
     }
   },
   color: {
-    type: Sequelize.ENUM('light', 'dark', 'red')
+    type: Sequelize.ENUM('light', 'dark', 'red', 'brown')
   },
   description: {
     type: Sequelize.TEXT
