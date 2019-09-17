@@ -47,7 +47,7 @@ Beer.averageRating = async function(beerId) {
     const ratingTotal = reviews.reduce((avg = 0, review) => {
       return avg + review.rating
     })
-    const averageRating = Math.floor(ratingTotal / reviews.length)
+    const averageRating = (ratingTotal / reviews.length).toFixed(1)
     return averageRating
   } catch (err) {
     console.log(err)
