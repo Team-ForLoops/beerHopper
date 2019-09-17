@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const BeerOrder = db.define('beer-order', {
+const BeerOrder = db.define('beer-orders', {
   quantity: {
     type: Sequelize.INTEGER
   }
