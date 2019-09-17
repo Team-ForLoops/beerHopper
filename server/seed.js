@@ -1,6 +1,6 @@
-import Beer from '../server/db/models/beer';
-import User from '../server/db/models/user';
-const Review = require('../server/db/models/review');
+const Beer = require('./db/models/beer');
+const User = require('.db/models/review');
+const Review = require('.db/models/review');
 
 const seedBeers = [
 	{
@@ -90,6 +90,10 @@ const seedReviews = [
 	{
 		description: 'I am definitely 21 years old and can drink. This is a good drink.',
 		rating: 4
+	},
+	{
+		description: 'I have no idea',
+		rating: 1
 	}
 ];
 
@@ -110,7 +114,8 @@ const seed = async () => {
 			reviewFour,
 			reviewFive,
 			reviewSix,
-			reviewSeven
+			reviewSeven,
+			reviewEight
 		] = await Review.bulkCreate(seedReviews, {
 			returning: true
 		});
@@ -118,7 +123,7 @@ const seed = async () => {
 		await beerTwo.addReview(reviewThree);
 		await beerThree.addReview(reviewFour);
 		await beerFour.addReview(reviewFive);
-		await beerFive.addReview(reviewSix);
+		await beerFive.addReviews([ reviewSix, reviewEight ]);
 		await beerSix.addReview(reviewSeven);
 		db.close();
 	} catch (err) {
