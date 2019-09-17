@@ -11,7 +11,7 @@ const Order = db.define('order', {
 })
 
 Order.prototype.subTotal = function() {
-  // let subTotal =
+  //
 }
 
 module.exports = Order

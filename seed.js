@@ -151,9 +151,15 @@ const seedReviews = [
   }
 ]
 //order seed data
-const seedOrder = [
+const seedOrders = [
   {
     status: 'open'
+  },
+  {
+    status: 'processing'
+  },
+  {
+    status: 'cancelled'
   }
 ]
 
@@ -192,12 +198,24 @@ const seed = async () => {
     ] = await Review.bulkCreate(seedReviews, {
       returning: true
     })
+    //seeding orders
+    const [order1, order2, order3] = await Promise.all(
+      seedOrders.map(order => Order.create(order))
+    )
+
+    //assoications
     await beerOne.addReviews([reviewOne, reviewTwo])
     await beerTwo.addReview(reviewThree)
     await beerThree.addReview(reviewFour)
     await beerFour.addReview(reviewFive)
     await beerFive.addReviews([reviewSix, reviewEight])
     await beerSix.addReview(reviewSeven)
+
+    //order associations
+    await order1.setUser(userOne)
+    await order2.setUser(userTwo)
+    await order3.setUser(userThree)
+
     db.close()
   } catch (err) {
     console.log(err)
