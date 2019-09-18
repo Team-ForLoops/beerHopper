@@ -24,3 +24,14 @@ router.get('/:beerId', async (req, res, next) => {
     next(err)
   }
 })
+
+// 8080/api/beer/:id/review
+
+router.post('/', async (req, res, next) => {
+  try {
+    const newRobot = await Robot.create(req.body)
+    res.json(newRobot)
+  } catch (err) {
+    next(err)
+  }
+})

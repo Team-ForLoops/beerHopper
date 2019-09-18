@@ -4,7 +4,7 @@ import React from 'react'
 import {fetchSingleBeer} from '../store/singleBeer' // unassignProjectThunk
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
-import AddReviewForm from './addNewReview'
+import {toDollars} from '../store/allBeers'
 
 class SingleBeer extends React.Component {
   constructor() {
@@ -48,22 +48,20 @@ class SingleBeer extends React.Component {
         <div id="single-beer" className="column">
           <ul>
             <li>
-              <Link to={`/beer/${beer.id}`}>
-                <p>Beer Name: {beer.name}</p>
-                <img
-                  src={beer.imageUrl}
-                  alt={`beer: ${beer.id} Image`}
-                  height="230"
-                  width="295"
-                />
-              </Link>
-              <p>Beer Type: {beer.type}</p>
-              <p>Beer IBU: {beer.ibu}</p>
-              <p>Beer Color: {beer.color}</p>
-              <p>Beer Description: {beer.description}</p>
-              <p>Beer Inventory: {beer.quantityInv}</p>
-              <p>Beer Price: {beer.price}</p>
+              <p>Beer Name: {beer.name}</p>
+              <img src={beer.imageUrl} className="highlight" />
             </li>
+            <div className="details">
+              <li>
+                <p>Beer Type: {beer.type}</p>
+                <p>Beer IBU: {beer.ibu}</p>
+                <p>Beer Color: {beer.color}</p>
+                <p>Beer Description: {beer.description}</p>
+                {/* <p>Beer Inventory: {beer.quantityInv}</p> */}
+                {/* maybe add a message about low quantity later */}
+                <p>Beer Price: {toDollars(beer.price)}</p>
+              </li>
+            </div>
           </ul>
         </div>
         {/* setup conditional for if beer has no projects */}
