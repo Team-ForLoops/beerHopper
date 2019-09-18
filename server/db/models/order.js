@@ -10,8 +10,28 @@ const Order = db.define('order', {
   }
 })
 
-Order.prototype.subTotal = function() {
-  //
+Order.prototype.subTotal = async function() {
+  let orderBeers = await BeerOrder.findAll({
+    where: {
+      orderId: this.id
+    }
+  })
+  console.log('orderBeers', orderBeers)
+
+  let beerPrice = await Promise.all(
+    orderBeers.map(beer => {
+      beer = Beer.findById(beer.id).price
+    })
+  )
+
+  let quantity = orderBeers.map(beer => {
+    beer = beer.quantity
+
+    for (let i in quantity) {
+      subtotal += quantity[i] * beerPrice[i]
+    }
+    return subtotal
+  }) //array of number of beers
 }
 
 module.exports = Order
