@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, SingleBeer} from './components'
 import {me} from './store'
 import AllBeers from './components/AllBeers'
+import {getBeers} from './store/allBeers'
 
 /**
  * COMPONENT
@@ -12,6 +13,7 @@ import AllBeers from './components/AllBeers'
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
+    this.props.fetchInitialBeers()
   }
 
   render() {
@@ -52,7 +54,8 @@ const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me())
-    }
+    },
+    fetchInitialBeers: () => dispatch(getBeers())
   }
 }
 
