@@ -90,11 +90,11 @@ const createApp = () => {
   //cart middleware
   app.use('*', (req, res) => {
     try {
-      const cart = Order.findAll({
-        where: {
-          status: 'open'
-        }
-      })
+      const cart = {
+        sessionId: req.session.id,
+        userId: '',
+        orderId: ''
+      }
       req.session.cart = cart
       console.log(req.session)
       res.sendStatus(201)

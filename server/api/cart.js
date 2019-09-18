@@ -54,18 +54,20 @@ router.post('/', (req, res) => {
 // });
 
 //Updates cart
-router.put('/:beerId', async (req, res, next) => {
+//think about when a user goes to the single beer page and tries to a beer to the cart
+//post is create, put is update
+router.post('/:beerId', async (req, res, next) => {
   try {
     //get orderId from session.cart and get order that way
     const cart = await Order.findOne({
       where: {
         status: 'open'
+        // userId: req.user.id
       }
     })
 
     const beer = await Beer.findByPk(req.params.beerId)
     await cart.addBeer(beer)
-    // cart.update(req.body)
     res.sendStatus(204)
   } catch (error) {
     next(error)

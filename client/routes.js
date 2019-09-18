@@ -4,6 +4,7 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, SingleBeer} from './components'
 import {me} from './store'
+import {fetchCart} from './store/cart'
 
 // import AdminDash from './components/adminDashboard'
 
@@ -18,6 +19,7 @@ class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
     this.props.fetchInitialBeers()
+    // this.props.fetchCart();
   }
 
   render() {
