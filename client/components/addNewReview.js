@@ -21,7 +21,8 @@ class AddReviewForm extends Component {
     console.log('In handle change:', this.state)
   }
 
-  handleSubmit = async () => {
+  handleSubmit = () => {
+    //event.preventDefault()
     //clear inputs and make axios post to database, hence post in first part!!!!!
     console.log('before post req')
 
