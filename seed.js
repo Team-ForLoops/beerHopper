@@ -3,7 +3,7 @@ const {User, Beer, Order, Review, BeerOrder} = require('./server/db/models')
 const db = require('./server/db/db')
 
 //random Index function
-const randomIndex = array => {
+let randomIndex = array => {
   return Math.floor(Math.random() * array.length)
 }
 
@@ -172,69 +172,34 @@ const seedOrders = [
 const seed = async () => {
   try {
     await db.sync({force: true})
-    const [
-      beerOne,
-      beerTwo,
-      beerThree,
-      beerFour,
-      beerFive,
-      beerSix
-    ] = await Beer.bulkCreate(seedBeers, {returning: true})
-    const [
-      userOne,
-      userTwo,
-      userThree,
-      userFour,
-      userFive,
-      userSix,
-      userSeven,
-      userEight
-    ] = await User.bulkCreate(seedUsers, {returning: true})
-    console.log('done seeding users!')
-    const [
-      reviewOne,
-      reviewTwo,
-      reviewThree,
-      reviewFour,
-      reviewFive,
-      reviewSix,
-      reviewSeven,
-      reviewEight
-    ] = await Review.bulkCreate(seedReviews, {
-      returning: true
-    })
+    const beers = await Beer.bulkCreate(seedBeers, {returning: true})
+    const users = await User.bulkCreate(seedUsers, {returning: true})
+    const reviews = await Review.bulkCreate(seedReviews, {returning: true})
     //seeding orders
-    const [order1, order2, order3] = await Promise.all(
+    const orders = await Promise.all(
       seedOrders.map(order => Order.create(order))
     )
 
-    //assoications
-    await beerOne.addReviews([reviewOne, reviewTwo])
-    await beerTwo.addReview(reviewThree)
-    await beerThree.addReview(reviewFour)
-    await beerFour.addReview(reviewFive)
-    await beerFive.addReviews([reviewSix, reviewEight])
-    await beerSix.addReview(reviewSeven)
+    //associations
+    for (let i = 0; i < 7; i++) {
+      await beers[randomIndex(beers)].addReview(reviews[randomIndex(reviews)])
+      await reviews[randomIndex(reviews)].setUser(users[randomIndex(users)])
+      await orders[randomIndex(orders)].setUser(users[randomIndex(users)])
+      await orders[randomIndex(orders)].addBeer(beers[randomIndex(beers)])
 
-    //order associations
-    await order1.setUser(userOne)
-    await order2.setUser(userTwo)
-    await order3.setUser(userThree)
+      await BeerOrder.findOrCreate({
+        where: {
+          orderId: orders[randomIndex(orders)].id,
+          beerId: beers[randomIndex(beers)].id
+        },
+        defaults: {
+          quantity: 1,
+          itemPrice: beers[randomIndex(beers)].price
+        }
+      })
+    }
 
-    await order1.addBeer(beerOne)
-
-    //create beer-orders
-    await BeerOrder.findOrCreate({
-      where: {
-        orderId: 1,
-        beerId: 2
-      },
-      defaults: {
-        quantity: 1,
-        itemPrice: beerOne.price
-      }
-    })
-
+    console.log('done seeding!')
     db.close()
   } catch (err) {
     console.log(err)
