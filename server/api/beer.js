@@ -13,10 +13,11 @@ router.get('/', async (req, res, next) => {
 })
 
 // 8080/api/beer/:id
-router.get('/:id', async (req, res, next) => {
+router.get('/:beerId', async (req, res, next) => {
+  let beerId = req.params.beerId
   try {
-    const beer = await Beer.findByPk(req.params.id)
-    res.json(beer)
+    const beer = await Beer.findByPk(beerId)
+    res.send(beer)
   } catch (err) {
     next(err)
   }
