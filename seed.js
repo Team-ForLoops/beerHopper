@@ -1,7 +1,18 @@
-const {User, Beer, Order, Review, BeerOrder} = require('./server/db/models')
+const {
+  User,
+  Beer,
+  Order,
+  Review,
+  BeerOrder,
+  Category
+} = require('./server/db/models')
 
 const db = require('./server/db/db')
 
+//random Index function
+let randomIndex = array => {
+  return Math.floor(Math.random() * array.length)
+}
 
 const seedUsers = [
   {
@@ -63,7 +74,7 @@ const seedBeers = [
     description: 'Sweet potato ale. Comparable to pumpkin spice ales.',
     imageUrl: '/images/bad-mama-yama.jpg',
     quantityInv: 20,
-    price: 12.99
+    price: 1299
   },
   {
     name: 'Dark Paradise',
@@ -74,7 +85,7 @@ const seedBeers = [
       'Stout with coconut added in secondary. Chocolatey, roasty, coconutty, delicious.',
     imageUrl: '/images/dark-paradise.jpg',
     quantityInv: 10,
-    price: 15.0
+    price: 1500
   },
   {
     name: 'Hibiscus Saison',
@@ -85,7 +96,7 @@ const seedBeers = [
       'Slightly tart, sessionable saison with a beautiful light pink color',
     imageUrl: '/images/hibiscus-saison.jpg',
     quantityInv: 100,
-    price: 49.99
+    price: 4999
   },
   {
     name: 'Hi Honey',
@@ -95,7 +106,7 @@ const seedBeers = [
     description: 'American honey ale, brewed and fermented with honey',
     imageUrl: '/images/hi-honey.jpg',
     quantityInv: 10,
-    price: 8.99
+    price: 899
   },
   {
     name: 'Wedding Saison',
@@ -105,13 +116,13 @@ const seedBeers = [
     description: 'Become married with the saison at the firts sip',
     imageUrl: '/images/wedding-saison.jpg',
     quantityInv: 2,
-    price: 5.99
+    price: 599
   },
   {
     name: 'J',
     type: 'ale',
     color: 'light',
-    price: 5.0
+    price: 500
   }
 ]
 
@@ -151,53 +162,80 @@ const seedReviews = [
     rating: 1
   }
 ]
+//order seed data
+const seedOrders = [
+  {
+    status: 'open'
+  },
+  {
+    status: 'processing'
+  },
+  {
+    status: 'cancelled'
+  }
+]
+//beer categories
+const beerCats = ['ale', 'lager', 'stout', 'sour', 'saison']
 
-// from robots and projects seed
+// seed function
 const seed = async () => {
   try {
     await db.sync({force: true})
-    const [
-      beerOne,
-      beerTwo,
-      beerThree,
-      beerFour,
-      beerFive,
-      beerSix
-    ] = await Beer.bulkCreate(seedBeers, {returning: true})
-    const [
-      userOne,
-      userTwo,
-      userThree,
-      userFour,
-      userFive,
-      userSix,
-      userSeven,
-      userEight
-    ] = await User.bulkCreate(seedUsers, {returning: true})
-    console.log('done seeding users!')
-    const [
-      reviewOne,
-      reviewTwo,
-      reviewThree,
-      reviewFour,
-      reviewFive,
-      reviewSix,
-      reviewSeven,
-      reviewEight
-    ] = await Review.bulkCreate(seedReviews, {
-      returning: true
-    })
-    await beerOne.addReviews([reviewOne, reviewTwo])
-    await beerTwo.addReview(reviewThree)
-    await beerThree.addReview(reviewFour)
-    await beerFour.addReview(reviewFive)
-    await beerFive.addReviews([reviewSix, reviewEight])
-    await beerSix.addReview(reviewSeven)
-    db.close()
+
+    const beers = await Beer.bulkCreate(seedBeers, {returning: true})
+    const users = await User.bulkCreate(seedUsers, {returning: true})
+    const reviews = await Review.bulkCreate(seedReviews, {returning: true})
+    const orders = await Promise.all(
+      seedOrders.map(order => Order.create(order))
+    )
+    const categories = await Promise.all(
+      beerCats.map(cat =>
+        Category.create({
+          type: cat
+        })
+      )
+    )
+
+    //associations
+    await Promise.all(
+      reviews.map(review => review.setBeer(beers[randomIndex(beers)]))
+    )
+    await Promise.all(
+      reviews.map(review => review.setUser(users[randomIndex(users)]))
+    )
+    await Promise.all(
+      orders.map(order => order.setUser(users[randomIndex(users)]))
+    )
+    await Promise.all(
+      orders.map(order => order.addBeer(beers[randomIndex(beers)]))
+    )
+
+    //create beer-orders
+    await Promise.all(
+      orders.map(order =>
+        BeerOrder.findOrCreate({
+          where: {
+            orderId: order.id,
+            beerId: beers[randomIndex(beers)].id
+          }
+        })
+      )
+    )
+    //create beer-categories join table
+    //console.log(Beer.prototype); how to get magic methods
+    await Promise.all(
+      beers.map(beer => {
+        beer.addCategory(categories[randomIndex(categories)])
+      })
+    )
+
+    console.log('done seeding!')
+    // db.close();
   } catch (err) {
     console.log(err)
   }
 }
 
 seed()
+
 module.exports = seed
