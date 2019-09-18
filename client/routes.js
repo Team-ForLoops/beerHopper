@@ -5,11 +5,10 @@ import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, SingleBeer} from './components'
 import {me} from './store'
 
-import AdminDash from './components/adminDashboard'
+// import AdminDash from './components/adminDashboard'
 
 import AllBeers from './components/AllBeers'
 import {getBeers} from './store/allBeers'
-
 
 /**
  * COMPONENT
@@ -29,9 +28,9 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
 
-        <Route exact path="/beer/:beerId/edit" component={AdminDash} />{' '}
+        {/* <Route exact path="/beer/:beerId/edit" component={AdminDash} />{' '} */}
         {/* Added placeholder */}
-        <Route exact path="/beer/dashboard" component={AdminDash} />
+        {/* <Route exact path="/beer/dashboard" component={AdminDash} /> */}
 
         <Route path="/beers" component={AllBeers} />
         <Route path="/beer/:beerId" component={SingleBeer} />
