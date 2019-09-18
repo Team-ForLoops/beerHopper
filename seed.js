@@ -216,6 +216,8 @@ const seed = async () => {
     await order2.setUser(userTwo)
     await order3.setUser(userThree)
 
+    await order1.addBeer(beerOne)
+
     db.close()
   } catch (err) {
     console.log(err)

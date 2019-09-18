@@ -10,8 +10,6 @@ const Order = db.define('order', {
   }
 })
 
-Order.prototype.subTotal = function() {
-  //
-}
+Order.prototype.subTotal = function() {}
 
 module.exports = Order
