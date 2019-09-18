@@ -2,6 +2,11 @@ const {User, Beer, Order, Review, BeerOrder} = require('./server/db/models')
 
 const db = require('./server/db/db')
 
+//random Index function
+const randomIndex = array => {
+  return Math.floor(Math.random() * array.length)
+}
+
 const seedUsers = [
   {
     username: 'theo_truong',
@@ -217,6 +222,18 @@ const seed = async () => {
     await order3.setUser(userThree)
 
     await order1.addBeer(beerOne)
+
+    //create beer-orders
+    await BeerOrder.findOrCreate({
+      where: {
+        orderId: 1,
+        beerId: 2
+      },
+      defaults: {
+        quantity: 1,
+        itemPrice: beerOne.price
+      }
+    })
 
     db.close()
   } catch (err) {
