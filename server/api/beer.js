@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Beer, Review} = require('../db/models')
+const {Beer, Review, User} = require('../db/models')
 module.exports = router
 
 // 8080/api/beer/
@@ -17,7 +17,7 @@ router.get('/:beerId', async (req, res, next) => {
   let beerId = req.params.beerId
   try {
     const beer = await Beer.findByPk(beerId, {
-      include: [{model: Review}]
+      include: [{model: Review, include: {model: User}}]
     })
     res.send(beer)
   } catch (err) {
@@ -27,10 +27,26 @@ router.get('/:beerId', async (req, res, next) => {
 
 // 8080/api/beer/:id/review
 
-router.post('/', async (req, res, next) => {
+router.post('/:id/review', async (req, res, next) => {
   try {
-    const newRobot = await Robot.create(req.body)
-    res.json(newRobot)
+    console.log(
+      'req.user #######################################################################',
+      req.user
+    )
+    const {rating, description} = req.body
+    console.log(
+      'req.body #######################################################################',
+      req.body
+    )
+    const {id} = req.user
+
+    const beer = await Beer.findByPk(req.params.id)
+    // console.log(beer)
+
+    const newReview = await Review.create({rating, description, userId: id})
+    newReview.setBeer(beer)
+
+    res.json(newReview)
   } catch (err) {
     next(err)
   }

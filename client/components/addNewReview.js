@@ -1,15 +1,18 @@
 import React, {Component} from 'react'
 import axios from 'axios'
+import {connect} from 'react-redux'
+import {postReviewThunk, fetchSingleBeer} from '../store/singleBeer'
 
 class AddReviewForm extends Component {
   constructor() {
     super()
     this.state = {
-      name: '',
+      // name: '',
       rating: '',
       description: ''
     }
   }
+
   handleChange = event => {
     //update the state with input fields
     this.setState({
@@ -17,25 +20,29 @@ class AddReviewForm extends Component {
     })
     console.log('In handle change:', this.state)
   }
+
   handleSubmit = async () => {
     //clear inputs and make axios post to database, hence post in first part!!!!!
     console.log('before post req')
-    //  try {
-    //     //  await axios.post('/student', this.state);
-    //  }catch(err){
-    //      console.log(err.message);
-    //  }
-    //  console.log(this.state)
-    //  this.setState({
-    //      firstName: '',
-    //      lastName: '',
-    //      email: ''
-    //  });
+
+    const newReview = {
+      // name: this.state.name,
+      rating: this.state.rating,
+      description: this.state.description
+    }
+
+    this.props.postReviewThunk(this.props.beer.id, newReview)
+
+    this.setState({
+      // name: '',
+      rating: '',
+      description: ''
+    })
   }
   render() {
     return (
       <form onSubmit={() => this.handleSubmit()}>
-        <div className="form-group">
+        {/* <div className="form-group">
           <label htmlFor="name">Reviewer Name:</label>
           <input
             className="form-control"
@@ -44,13 +51,15 @@ class AddReviewForm extends Component {
             name="name"
             value={this.state.name}
           />
-        </div>
+    </div> */}
         <div className="form-group">
           <label htmlFor="rating">Rating:</label>
           <input
             className="form-control"
             onChange={this.handleChange}
-            type="text"
+            type="number"
+            min="1"
+            max="5"
             name="rating"
             value={this.state.rating}
           />
@@ -60,7 +69,7 @@ class AddReviewForm extends Component {
           <input
             className="form-control"
             onChange={this.handleChange}
-            type="email"
+            type="text"
             name="description"
             value={this.state.description}
           />
@@ -73,4 +82,20 @@ class AddReviewForm extends Component {
   }
 }
 
-export default AddReviewForm
+const mapStateToProps = state => {
+  return {
+    beer: state.singleBeer
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    postReviewThunk: (beerId, Review) =>
+      dispatch(postReviewThunk(beerId, Review)),
+    loadSingleBeer: id => dispatch(fetchSingleBeer(id))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddReviewForm)
+
+// export default AddReviewForm
