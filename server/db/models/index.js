@@ -19,13 +19,14 @@ Review.belongsTo(Beer)
 User.hasMany(Review)
 Review.belongsTo(User)
 
-BeerType.belongsToMany(Beer, {through: 'beer-categories'})
 Beer.belongsToMany(BeerType, {through: 'beer-categories'})
+BeerType.belongsToMany(Beer, {through: 'beer-categories'})
 
 module.exports = {
   User,
   Beer,
   Order,
   Review,
-  BeerOrder
+  BeerOrder,
+  BeerType
 }

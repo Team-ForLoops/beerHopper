@@ -1,4 +1,11 @@
-const {User, Beer, Order, Review, BeerOrder} = require('./server/db/models')
+const {
+  User,
+  Beer,
+  Order,
+  Review,
+  BeerOrder,
+  BeerType
+} = require('./server/db/models')
 
 const db = require('./server/db/db')
 
@@ -167,37 +174,57 @@ const seedOrders = [
     status: 'cancelled'
   }
 ]
+//beer categories
+const beerCats = ['ale', 'lager', 'stout', 'sour', 'saison']
 
 // seed function
 const seed = async () => {
   try {
     await db.sync({force: true})
+
     const beers = await Beer.bulkCreate(seedBeers, {returning: true})
     const users = await User.bulkCreate(seedUsers, {returning: true})
     const reviews = await Review.bulkCreate(seedReviews, {returning: true})
-    //seeding orders
     const orders = await Promise.all(
       seedOrders.map(order => Order.create(order))
     )
+    const categories = await Promise.all(
+      beerCats.map(cat =>
+        BeerType.create({
+          type: cat
+        })
+      )
+    )
 
     //associations
-    for (let i = 0; i < 7; i++) {
-      await beers[randomIndex(beers)].addReview(reviews[randomIndex(reviews)])
-      await reviews[randomIndex(reviews)].setUser(users[randomIndex(users)])
-      await orders[randomIndex(orders)].setUser(users[randomIndex(users)])
-      await orders[randomIndex(orders)].addBeer(beers[randomIndex(beers)])
+    await Promise.all(
+      reviews.map(review => review.setBeer(beers[randomIndex(beers)]))
+    )
+    await Promise.all(
+      reviews.map(review => review.setUser(users[randomIndex(users)]))
+    )
+    await Promise.all(
+      orders.map(order => order.setUser(users[randomIndex(users)]))
+    )
+    await Promise.all(
+      orders.map(order => order.addBeer(beers[randomIndex(beers)]))
+    )
 
-      await BeerOrder.findOrCreate({
-        where: {
-          orderId: orders[randomIndex(orders)].id,
-          beerId: beers[randomIndex(beers)].id
-        },
-        defaults: {
-          quantity: 1,
-          itemPrice: beers[randomIndex(beers)].price
-        }
-      })
-    }
+    //create beer-orders
+    await Promise.all(
+      orders.map(order =>
+        BeerOrder.findOrCreate({
+          where: {
+            orderId: order.id,
+            beerId: beers[randomIndex(beers)].id
+          }
+        })
+      )
+    )
+    //create beer-categories join table
+    await Promise.all(
+      beers.map(beer => beer.addBeerType(categories[randomIndex(categories)]))
+    )
 
     console.log('done seeding!')
     db.close()

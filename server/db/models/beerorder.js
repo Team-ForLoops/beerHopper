@@ -3,7 +3,8 @@ const db = require('../db')
 
 const BeerOrder = db.define('beer-orders', {
   quantity: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    defaultValue: 1
   },
   itemPrice: {
     type: Sequelize.FLOAT,
