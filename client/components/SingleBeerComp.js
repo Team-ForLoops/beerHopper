@@ -4,14 +4,30 @@ import React from 'react'
 import {fetchSingleBeer} from '../store/singleBeer' // unassignProjectThunk
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
+import AddReviewForm from './addNewReview'
 
 class SingleBeer extends React.Component {
+  constructor() {
+    super()
+
+    this.state = {
+      showForm: false
+    }
+  }
+
   componentDidMount() {
     try {
       this.props.loadSingleBeer(this.props.match.params.beerId)
     } catch (error) {
       console.error(error)
     }
+  }
+
+  clickHandler() {
+    let hidden = this.state.showForm
+    this.setState({
+      showForm: !hidden
+    })
   }
 
   render() {
@@ -51,6 +67,17 @@ class SingleBeer extends React.Component {
           </ul>
         </div>
         {/* setup conditional for if beer has no projects */}
+        <div>
+          <button
+            onClick={() => {
+              this.clickHandler()
+            }}
+            type="button"
+          >
+            Add Review
+          </button>
+          {this.state.showForm && <AddReviewForm />}
+        </div>
         <div id="single-beer-reviews" className="set-later">
           {reviews.length === 0
             ? `${beer.name} has no reviews!`

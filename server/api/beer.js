@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Beer} = require('../db/models')
+const {Beer, Review} = require('../db/models')
 module.exports = router
 
 // 8080/api/beer/
@@ -16,7 +16,9 @@ router.get('/', async (req, res, next) => {
 router.get('/:beerId', async (req, res, next) => {
   let beerId = req.params.beerId
   try {
-    const beer = await Beer.findByPk(beerId)
+    const beer = await Beer.findByPk(beerId, {
+      include: [{model: Review}]
+    })
     res.send(beer)
   } catch (err) {
     next(err)
