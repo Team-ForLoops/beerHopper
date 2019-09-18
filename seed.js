@@ -1,6 +1,18 @@
-const {User, Beer, Order, Review, BeerOrder} = require('./server/db/models')
+const {
+  User,
+  Beer,
+  Order,
+  Review,
+  BeerOrder,
+  Category
+} = require('./server/db/models')
 
 const db = require('./server/db/db')
+
+//random Index function
+let randomIndex = array => {
+  return Math.floor(Math.random() * array.length)
+}
 
 const seedUsers = [
   {
@@ -162,65 +174,68 @@ const seedOrders = [
     status: 'cancelled'
   }
 ]
+//beer categories
+const beerCats = ['ale', 'lager', 'stout', 'sour', 'saison']
 
 // seed function
 const seed = async () => {
   try {
     await db.sync({force: true})
-    const [
-      beerOne,
-      beerTwo,
-      beerThree,
-      beerFour,
-      beerFive,
-      beerSix
-    ] = await Beer.bulkCreate(seedBeers, {returning: true})
-    const [
-      userOne,
-      userTwo,
-      userThree,
-      userFour,
-      userFive,
-      userSix,
-      userSeven,
-      userEight
-    ] = await User.bulkCreate(seedUsers, {returning: true})
-    console.log('done seeding users!')
-    const [
-      reviewOne,
-      reviewTwo,
-      reviewThree,
-      reviewFour,
-      reviewFive,
-      reviewSix,
-      reviewSeven,
-      reviewEight
-    ] = await Review.bulkCreate(seedReviews, {
-      returning: true
-    })
-    //seeding orders
-    const [order1, order2, order3] = await Promise.all(
+
+    const beers = await Beer.bulkCreate(seedBeers, {returning: true})
+    const users = await User.bulkCreate(seedUsers, {returning: true})
+    const reviews = await Review.bulkCreate(seedReviews, {returning: true})
+    const orders = await Promise.all(
       seedOrders.map(order => Order.create(order))
     )
+    const categories = await Promise.all(
+      beerCats.map(cat =>
+        Category.create({
+          type: cat
+        })
+      )
+    )
 
-    //assoications
-    await beerOne.addReviews([reviewOne, reviewTwo])
-    await beerTwo.addReview(reviewThree)
-    await beerThree.addReview(reviewFour)
-    await beerFour.addReview(reviewFive)
-    await beerFive.addReviews([reviewSix, reviewEight])
-    await beerSix.addReview(reviewSeven)
+    //associations
+    await Promise.all(
+      reviews.map(review => review.setBeer(beers[randomIndex(beers)]))
+    )
+    await Promise.all(
+      reviews.map(review => review.setUser(users[randomIndex(users)]))
+    )
+    await Promise.all(
+      orders.map(order => order.setUser(users[randomIndex(users)]))
+    )
+    await Promise.all(
+      orders.map(order => order.addBeer(beers[randomIndex(beers)]))
+    )
 
-    //order associations
-    await order1.setUser(userOne)
-    await order2.setUser(userTwo)
-    await order3.setUser(userThree)
+    //create beer-orders
+    await Promise.all(
+      orders.map(order =>
+        BeerOrder.findOrCreate({
+          where: {
+            orderId: order.id,
+            beerId: beers[randomIndex(beers)].id
+          }
+        })
+      )
+    )
+    //create beer-categories join table
+    //console.log(Beer.prototype); how to get magic methods
+    await Promise.all(
+      beers.map(beer => {
+        beer.addCategory(categories[randomIndex(categories)])
+      })
+    )
 
-    db.close()
+    console.log('done seeding!')
+    // db.close();
   } catch (err) {
     console.log(err)
   }
 }
 
 seed()
+
 module.exports = seed

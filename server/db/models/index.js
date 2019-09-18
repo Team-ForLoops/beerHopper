@@ -3,7 +3,7 @@ const Beer = require('./beer')
 const Order = require('./order')
 const Review = require('./review')
 const BeerOrder = require('./beerorder')
-const BeerType = require('./beerType')
+const Category = require('./beerType')
 
 // associations
 
@@ -19,13 +19,14 @@ Review.belongsTo(Beer)
 User.hasMany(Review)
 Review.belongsTo(User)
 
-BeerType.belongsToMany(Beer, {through: 'beer-categories'})
-Beer.belongsToMany(BeerType, {through: 'beer-categories'})
+Beer.belongsToMany(Category, {through: 'beer-categories'})
+Category.belongsToMany(Beer, {through: 'beer-categories'})
 
 module.exports = {
   User,
   Beer,
   Order,
   Review,
-  BeerOrder
+  BeerOrder,
+  Category
 }
