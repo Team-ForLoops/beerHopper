@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const BeerOrder = require('./beerorder')
+const {BeerOrder} = require('./index')
 const db = require('../db')
 const Beer = require('./beer')
 
@@ -9,11 +9,12 @@ const Order = db.define('order', {
     defaultValue: 'open'
   }
 })
-
+//deal with it later
 Order.prototype.subTotal = async function() {
+  const id = this.id
   let orderBeers = await BeerOrder.findAll({
     where: {
-      orderId: this.id
+      ordedId: id
     }
   })
   console.log('orderBeers', orderBeers)

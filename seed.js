@@ -4,7 +4,7 @@ const {
   Order,
   Review,
   BeerOrder,
-  BeerType
+  Category
 } = require('./server/db/models')
 
 const db = require('./server/db/db')
@@ -190,7 +190,7 @@ const seed = async () => {
     )
     const categories = await Promise.all(
       beerCats.map(cat =>
-        BeerType.create({
+        Category.create({
           type: cat
         })
       )
@@ -222,16 +222,20 @@ const seed = async () => {
       )
     )
     //create beer-categories join table
+    //console.log(Beer.prototype); how to get magic methods
     await Promise.all(
-      beers.map(beer => beer.addBeerType(categories[randomIndex(categories)]))
+      beers.map(beer => {
+        beer.addCategory(categories[randomIndex(categories)])
+      })
     )
 
     console.log('done seeding!')
-    db.close()
+    // db.close();
   } catch (err) {
     console.log(err)
   }
 }
 
 seed()
+
 module.exports = seed
