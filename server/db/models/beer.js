@@ -22,7 +22,7 @@ const Beer = db.define('beer', {
   },
   imageUrl: {
     type: Sequelize.STRING,
-    defaultValue: '/images/default-beer'
+    defaultValue: '/images/default-beer.jpg'
   },
   quantityInv: {
     type: Sequelize.INTEGER,
