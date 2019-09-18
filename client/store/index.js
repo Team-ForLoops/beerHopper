@@ -8,6 +8,7 @@ import allBeers from './allBeers'
 
 const reducer = combineReducers({
   user,
+  singleBeer,
   allBeers
 })
 const middleware = composeWithDevTools(

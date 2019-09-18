@@ -19,8 +19,17 @@ const setBeers = beers => ({
 })
 
 /**
+ * DOLLAR HELPER
+ */
+
+export const toDollars = cents => {
+  return `$${(cents / 100).toFixed(2)}`
+}
+
+/**
  * THUNK CREATORS
  */
+
 export const getBeers = () => async dispatch => {
   try {
     const {data} = await axios.get('/api/beer')

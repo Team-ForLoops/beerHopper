@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getBeers} from '../store/allBeers'
+import {toDollars, getBeers} from '../store/allBeers'
+import {Link} from 'react-router-dom'
 
 export class AllBeers extends React.Component {
   componentDidMount() {
@@ -9,17 +10,25 @@ export class AllBeers extends React.Component {
 
   render() {
     const beers = this.props.beers
-    console.log(beers)
     return (
       <div>
-        {beers.map(beer => (
-          <div key={beer.id} className="list-container card">
-            <div className="highlight">
-              <img src={beer.imageUrl} />
-            </div>
-            <h3>{beer.name}</h3>
-          </div>
-        ))}
+        <div>filter</div>
+        <div>sort</div>
+        <ul>
+          {beers.map(beer => (
+            <Link to={`/beer/${beer.id}`} key={beer.id}>
+              <li>
+                <div className="highlight">
+                  <img src={beer.imageUrl} />
+                </div>
+                <div className="details">
+                  <h3>{beer.name}</h3>
+                  <div>{toDollars(beer.price)}</div>
+                </div>
+              </li>
+            </Link>
+          ))}
+        </ul>
       </div>
     )
   }

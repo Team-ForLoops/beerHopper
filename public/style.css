@@ -20,6 +20,15 @@ form div {
   display: inline-block;
 }
 
+ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  flex-wrap: wrap;
+  list-style-type: none;
+}
+
 .highlight {
   display: flex;
   justify-content: center;
@@ -27,12 +36,6 @@ form div {
   overflow: hidden;
   width: 10rem;
   height: 10rem;
-  background: rgb(146, 49, 88);
-  background: radial-gradient(
-    circle,
-    rgba(146, 49, 88, 1) 17%,
-    rgba(47, 0, 19, 1) 100%
-  );
 }
 
 img {
