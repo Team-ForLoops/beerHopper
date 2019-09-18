@@ -3,16 +3,32 @@
 import React from 'react'
 import {fetchSingleBeer} from '../store/singleBeer' // unassignProjectThunk
 import {connect} from 'react-redux'
-import {Link, withRouter} from 'react-router-dom'
 import {toDollars} from '../store/allBeers'
+import AddReviewForm from './addNewReview'
 
 class SingleBeer extends React.Component {
+  constructor() {
+    super()
+
+    this.state = {
+      showForm: false
+    }
+  }
+
   componentDidMount() {
     try {
+      console.log('this.props.match.params', this.props)
       this.props.loadSingleBeer(this.props.match.params.beerId)
     } catch (error) {
       console.error(error)
     }
+  }
+
+  clickHandler() {
+    let hidden = this.state.showForm
+    this.setState({
+      showForm: !hidden
+    })
   }
 
   render() {
@@ -50,25 +66,28 @@ class SingleBeer extends React.Component {
           </ul>
         </div>
         {/* setup conditional for if beer has no projects */}
+        <div>
+          <button
+            onClick={() => {
+              this.clickHandler()
+            }}
+            type="button"
+          >
+            Add Review
+          </button>
+          {this.state.showForm && <AddReviewForm />}
+        </div>
         <div id="single-beer-reviews" className="set-later">
           {reviews.length === 0
             ? `${beer.name} has no reviews!`
             : reviews.map(review => (
-                <li key={review.id}>
-                  <p> Review ID: {review.id} </p>
+                <div key={review.id}>
                   <p> Review Rating: {review.rating} </p>
                   <p> Review Description: {review.description} </p>
-                  <p> Reviewer Name: {review.userId} </p> {/* pull name */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      this.props.addReviewThunk(beer, review)
-                    }}
-                  >
-                    {' '}
-                    Add Review{' '}
-                  </button>
-                </li>
+                  <p> Reviewer Name: {review.user.username} </p>
+                  {/* pull name */}
+                  <p> ---------------------------------------------------</p>
+                </div>
               ))}
         </div>
 

@@ -56,6 +56,7 @@ router.post('/', (req, res) => {
 //Updates cart
 router.put('/:beerId', async (req, res, next) => {
   try {
+    //get orderId from session.cart and get order that way
     const cart = await Order.findOne({
       where: {
         status: 'open'
