@@ -39,6 +39,53 @@ export const getBeers = () => async dispatch => {
   }
 }
 
+export const sortBeers = (sortBy, beers) => dispatch => {
+  try {
+    beers = beers.slice()
+    switch (sortBy) {
+      case 'priceHighToLow':
+        dispatch(
+          setBeers(
+            beers.sort((a, b) => {
+              return b.price - a.price
+            })
+          )
+        )
+        break
+      case 'priceLowToHigh':
+        dispatch(
+          setBeers(
+            beers.sort((a, b) => {
+              return a.price - b.price
+            })
+          )
+        )
+        break
+      case 'name':
+        dispatch(
+          setBeers(
+            beers.sort(function(a, b) {
+              var nameA = a.name.toUpperCase() // ignore upper and lowercase
+              var nameB = b.name.toUpperCase() // ignore upper and lowercase
+              if (nameA < nameB) {
+                return -1
+              }
+              if (nameA > nameB) {
+                return 1
+              }
+              return 0
+            })
+          )
+        )
+        break
+      default:
+        return beers
+    }
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 /**
  * REDUCER
  */
