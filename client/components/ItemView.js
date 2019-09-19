@@ -15,11 +15,13 @@ function ItemView(props) {
   const beer = findBeer(item.beerId)
   return (
     <Row>
+      <Col sm={4} />
       <Col sm={4}>
         <span>{beer.name}</span>
         <img src={beer.imageUrl} />
         <span>{beer.price}</span>
       </Col>
+      <Col sm={4} />
     </Row>
   )
 }

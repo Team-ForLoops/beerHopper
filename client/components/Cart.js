@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import ItemView from './ItemView'
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
 
 class Cart extends Component {
   render() {
@@ -13,8 +14,9 @@ class Cart extends Component {
         {items !== []
           ? items.map(item => <ItemView key={item.beerId} item={item} />)
           : 'There are no items in your cart!'}
-
-        <Button variant="success">Checkout</Button>
+        <Row>
+          <Button variant="success">Checkout</Button>
+        </Row>
       </Container>
     )
   }
