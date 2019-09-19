@@ -119,7 +119,7 @@ const seedBeers = [
     price: 599
   },
   {
-    name: 'J',
+    name: 'Jalapeno Business',
     type: 'ale',
     color: 'light',
     price: 500
@@ -225,7 +225,10 @@ const seed = async () => {
     //console.log(Beer.prototype); how to get magic methods
     await Promise.all(
       beers.map(beer => {
-        beer.addCategory(categories[randomIndex(categories)])
+        let catIdx = randomIndex(categories)
+        if (catIdx) beer.addCategory(categories[0])
+        if (catIdx % 2) beer.addCategory(categories[2])
+        beer.addCategory(categories[catIdx])
       })
     )
 
