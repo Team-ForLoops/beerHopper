@@ -18,17 +18,7 @@ class ItemView extends Component {
     this.props.deleteItem(beerId)
   }
   render() {
-    const item = this.props.item
-    const findBeer = searchId => {
-      let [currentBeer] = this.props.beers.filter(beer => beer.id === searchId)
-      return currentBeer
-    }
-    let beer = {}
-    if (this.props.cart.userId) {
-      beer = findBeer(item.id)
-    } else {
-      beer = findBeer(item.beerId)
-    }
+    const beer = this.props.item
 
     return (
       <Card>
