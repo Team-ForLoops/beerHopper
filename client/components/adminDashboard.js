@@ -1,9 +1,13 @@
 import React from 'react'
-import {connect} from 'react-ReduxLogger'
-import {link} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
+import {getBeers} from '../store/allBeers'
 
 class AdminDash extends React.Component {
   render() {
+    console.log('before beer......', this.props.beers)
+    const beers = this.props.beers
+    console.log('beer variable......', beers)
     return (
       <div>
         <div>
@@ -39,7 +43,14 @@ class AdminDash extends React.Component {
 
 const mapState = state => {
   return {
-    beers: state.beers
+    beers: state.allBeers
   }
 }
+
+// const mapDispatch = (dispatch) => {
+//   return {
+//     fetchBeers: () => dispatch(getBeers)
+//   }
+// }
+
 export default connect(mapState)(AdminDash)

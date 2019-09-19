@@ -2,11 +2,21 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {toDollars, getBeers, sortBeers} from '../store/allBeers'
 import {Link} from 'react-router-dom'
+import BeerFilter from './BeerFilter'
+import Accordion from 'react-bootstrap/Accordion'
 
 export class AllBeers extends React.Component {
   constructor() {
     super()
     this.handleChange = this.handleChange.bind(this)
+  }
+
+  componentDidMount() {
+    try {
+      this.props.fetchInitialBeers()
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   handleChange(event) {
@@ -15,6 +25,7 @@ export class AllBeers extends React.Component {
 
   render() {
     const beers = this.props.beers
+    console.log(this.props)
 
     return (
       <div>
@@ -25,13 +36,8 @@ export class AllBeers extends React.Component {
             <option value="priceLowToHigh">Price (low to high)</option>
             <option value="name">Name</option>
           </select>
-          <div>
-            Filter:
-            <div>
-              <label htmlFor="beer">Beer</label>
-              <input type="checkbox" id="beer" name="beer" />
-            </div>
-          </div>
+
+          <BeerFilter />
         </div>
         <ul>
           {beers.map(beer => (
@@ -61,7 +67,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchInitialBeers: () => dispatch(getBeers()),
     getSortedBeers: (sortBy, beers) => dispatch(sortBeers(sortBy, beers))
   }
 }

@@ -2,15 +2,16 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, SingleBeer} from './components'
+import {Login, Signup, UserHome, SingleBeer, UpdateBeer} from './components'
 import {me} from './store'
 import {fetchCart} from './store/cart'
 
-// import AdminDash from './components/adminDashboard'
+import AdminDash from './components/adminDashboard'
 
 import AllBeers from './components/AllBeers'
 import Cart from './components/Cart'
 import {getBeers} from './store/allBeers'
+import {getCategories} from './store/categories'
 
 /**
  * COMPONENT
@@ -20,6 +21,7 @@ class Routes extends Component {
     this.props.loadInitialData()
     this.props.fetchInitialBeers()
     this.props.fetchCart()
+    this.props.fetchCategories()
   }
 
   render() {
@@ -31,9 +33,9 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
 
-        {/* <Route exact path="/beer/:beerId/edit" component={AdminDash} />{' '} */}
+        {/* <Route exact path="/beer/:beerId/edit" component={AdminDash} /> */}
         {/* Added placeholder */}
-        {/* <Route exact path="/beer/dashboard" component={AdminDash} /> */}
+        <Route exact path="/beer/dashboard" component={AdminDash} />
 
         <Route path="/beers" component={AllBeers} />
         <Route path="/beer/:beerId" component={SingleBeer} />
@@ -42,6 +44,8 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
+            {/* Create Admin section and move there later ... testing here for now */}
+            <Route path="/admin/edit/:beerId" component={UpdateBeer} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
@@ -68,7 +72,8 @@ const mapDispatch = dispatch => {
       dispatch(me())
     },
     fetchInitialBeers: () => dispatch(getBeers()),
-    fetchCart: () => dispatch(fetchCart())
+    fetchCart: () => dispatch(fetchCart()),
+    fetchCategories: () => dispatch(getCategories())
   }
 }
 
