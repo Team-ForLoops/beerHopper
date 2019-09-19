@@ -11,6 +11,7 @@ import AdminDash from './components/adminDashboard'
 import AllBeers from './components/AllBeers'
 import Cart from './components/Cart'
 import {getBeers} from './store/allBeers'
+import {getCategories} from './store/categories'
 
 /**
  * COMPONENT
@@ -20,6 +21,7 @@ class Routes extends Component {
     this.props.loadInitialData()
     this.props.fetchInitialBeers()
     this.props.fetchCart()
+    this.props.fetchCategories()
   }
 
   render() {
@@ -68,7 +70,8 @@ const mapDispatch = dispatch => {
       dispatch(me())
     },
     fetchInitialBeers: () => dispatch(getBeers()),
-    fetchCart: () => dispatch(fetchCart())
+    fetchCart: () => dispatch(fetchCart()),
+    fetchCategories: () => dispatch(getCategories())
   }
 }
 
