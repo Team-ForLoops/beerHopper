@@ -33,8 +33,13 @@ export const fetchCart = () => {
   }
 }
 export const addItemThunk = itemDetails => {
-  return dispatch => {
-    dispatch(addItem(itemDetails))
+  return async dispatch => {
+    try {
+      await axios.put(`/api/cart/${itemDetails.id}`)
+      dispatch(addItem(itemDetails))
+    } catch (err) {
+      console.log(err)
+    }
   }
 }
 //REDUCER
