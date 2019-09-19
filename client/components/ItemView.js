@@ -1,6 +1,9 @@
 import React from 'react'
 import {fetchSingleBeer} from '../store/singleBeer'
 import {connect} from 'react-redux'
+import Button from 'react-bootstrap/Button'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
 
 function ItemView(props) {
   const item = props.item
@@ -10,11 +13,11 @@ function ItemView(props) {
   }
   const beer = findBeer(item.beerId)
   return (
-    <div id="item-container">
+    <Row>
       <span>{beer.name}</span>
       <img src={beer.imageUrl} />
       <span>{beer.price}</span>
-    </div>
+    </Row>
   )
 }
 const mapStateToProps = state => {
