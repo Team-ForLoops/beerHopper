@@ -21,7 +21,12 @@ function ItemView(props) {
       </Card.Header>
       <Card.Body>
         <img src={beer.imageUrl} />
-        <Card.Text>{beer.price}</Card.Text>
+        <Card.Text>
+          {beer.price}
+          <Button variant="danger" size="sm">
+            remove item
+          </Button>
+        </Card.Text>
       </Card.Body>
     </Card>
   )
