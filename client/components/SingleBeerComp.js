@@ -20,7 +20,6 @@ class SingleBeer extends React.Component {
 
   componentDidMount() {
     try {
-      console.log('this.props.match.params', this.props)
       this.props.loadSingleBeer(this.props.match.params.beerId)
     } catch (error) {
       console.error(error)
@@ -35,7 +34,7 @@ class SingleBeer extends React.Component {
   }
   addToCartHandler = () => {
     const beerId = this.props.beer.id
-    this.props.addItem({beerId, quantity: 1})
+    this.props.addItem({id: beerId, quantity: 1})
   }
 
   render() {
@@ -43,13 +42,9 @@ class SingleBeer extends React.Component {
     // reviews are properties on beer
 
     const beer = this.props.beer || {}
-    console.log('BEER PROP', beer)
-    console.log('BEER PROP SINGLEBEER', this.props)
-
     // reviews array inside beer prop
 
     const reviews = beer.reviews || []
-    console.log('REVIEWS PROP', reviews)
 
     return (
       <div>

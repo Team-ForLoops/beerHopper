@@ -8,12 +8,12 @@ import Row from 'react-bootstrap/Row'
 class Cart extends Component {
   render() {
     const cart = this.props.cart || {}
-    const items = cart.items || []
+    let items = cart.items || []
     return (
       <Container>
         <Row>
           {items !== []
-            ? items.map(item => <ItemView key={item.beerId} item={item} />)
+            ? items.map(item => <ItemView key={item.id} item={item} />)
             : 'There are no items in your cart!'}
         </Row>
         <Row>
