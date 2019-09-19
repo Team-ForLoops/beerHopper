@@ -28,37 +28,36 @@ router.get('/', async (req, res, next) => {
       cart = order.beers
     } else {
       //unauthenicated user
-      let order = await Order.create({
-        where: {
-          status: 'open'
-        }
-      })
-      cart = order[0].beers
+      let order = []
+      if (!req.session.userInfo) {
+        //if order doesn't exist create a new order
+        order = await Order.create({
+          where: {
+            status: 'open'
+          }
+        })
+        req.session.userInfo.orderId = order.id
+        console.log('created order', order)
+      } else {
+        order = await Order.findOne({
+          where: {
+            id: req.session.userInfo.orderId
+          },
+          include: {
+            model: Beer
+          }
+        })
+        console.log('found order', order)
+      }
+      // cart = order[0].beers
     }
     req.session.userInfo = userInfo
-
     res.json(req.session)
   } catch (error) {
     next(error)
   }
 })
 
-//
-// router.post('/', async (req, res, next) => {
-// 	try {
-// 		const cart = await Order.findOne({
-// 			where: {
-// 				status: 'open'
-// 			}
-// 		});
-// 	} catch (error) {
-// 		next(error);
-// 	}
-// });
-
-//Updates cart
-//think about when a user goes to the single beer page and tries to a beer to the cart
-//post is create, put is update
 router.put('/:beerId', async (req, res, next) => {
   let beerId = +req.params.beerId
   try {
