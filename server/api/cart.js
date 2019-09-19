@@ -14,7 +14,7 @@ router.get('/', async (req, res, next) => {
     }
     req.session.cart = cart
 
-    res.json(req.session.cart)
+    res.json(req.session)
   } catch (error) {
     next(error)
   }
