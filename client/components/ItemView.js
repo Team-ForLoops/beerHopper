@@ -13,7 +13,12 @@ function ItemView(props) {
     let [currentBeer] = props.beers.filter(beer => beer.id === searchId)
     return currentBeer
   }
-  const beer = findBeer(item.beerId)
+  let beer = {}
+  if (props.cart.userId) {
+    beer = findBeer(item.id)
+  } else {
+    beer = findBeer(item.beerId)
+  }
   return (
     <Card>
       <Card.Header>
@@ -33,7 +38,8 @@ function ItemView(props) {
 }
 const mapStateToProps = state => {
   return {
-    beers: state.allBeers
+    beers: state.allBeers,
+    cart: state.cart
   }
 }
 

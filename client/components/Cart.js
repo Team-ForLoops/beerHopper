@@ -8,12 +8,8 @@ import Row from 'react-bootstrap/Row'
 class Cart extends Component {
   render() {
     const cart = this.props.cart || {}
-    if (cart) {
-      const items = cart.items
-    } else {
-      const items = []
-    }
     console.log(this.props)
+    let items = cart.items || []
     return (
       <Container>
         <Row>
