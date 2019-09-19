@@ -6,6 +6,7 @@ const initalState = {}
 const GET_CART = 'GET_CART'
 const ADD_ITEM = 'ADD_ITEM'
 const GET_PRODUCTS = 'GET_PRODUCTS'
+const DELETE_ITEM = 'DELETE_ITEM'
 
 //ACTION CREATOR
 const getCart = cart => {
@@ -18,6 +19,12 @@ const addItem = itemDetails => {
   return {
     type: ADD_ITEM,
     itemDetails
+  }
+}
+const deleteItem = newItems => {
+  return {
+    type: DELETE_ITEM,
+    newItems
   }
 }
 
@@ -42,6 +49,17 @@ export const addItemThunk = itemDetails => {
     }
   }
 }
+export const deleteItemThunk = beerId => {
+  return async dispatch => {
+    try {
+      let {data} = await axios.delete(`/api/cart/${beerId}`)
+      let newItems = data.items
+      dispatch(deleteItem(newItems))
+    } catch (err) {
+      console.log(err)
+    }
+  }
+}
 //REDUCER
 const cart = (state = initalState, action) => {
   switch (action.type) {
@@ -49,6 +67,8 @@ const cart = (state = initalState, action) => {
       return action.cart
     case ADD_ITEM:
       return {...state, items: [...state.items, action.itemDetails]}
+    case DELETE_ITEM:
+      return {...state, items: action.items}
     default:
       return state
   }

@@ -82,9 +82,10 @@ router.put('/:beerId', async (req, res, next) => {
 router.delete('/:beerId', async (req, res, next) => {
   try {
     let cart = req.session.cart
+    console.log(cart)
     await BeerOrder.destroy({
       where: {
-        orderId: cart.id,
+        orderId: cart.orderId,
         beerId: req.params.beerId
       }
     })
