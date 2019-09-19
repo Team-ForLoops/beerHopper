@@ -34,7 +34,7 @@ class SingleBeer extends React.Component {
   }
   addToCartHandler = () => {
     const beerId = this.props.beer.id
-    this.props.addItem({beerId, quantity: 1})
+    this.props.addItem({id: beerId, quantity: 1})
   }
 
   render() {
