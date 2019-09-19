@@ -59,6 +59,7 @@ router.get('/', async (req, res, next) => {
 
 router.put('/:beerId', async (req, res, next) => {
   let beerId = +req.params.beerId
+  console.log(req.session)
   try {
     //get orderId from session.cart and get order that way
 

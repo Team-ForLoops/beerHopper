@@ -1,6 +1,6 @@
 import axios from 'axios'
 //inital state
-const initalState = {}
+const initalState = []
 
 //ACTION CONSTANT
 const GET_CART = 'GET_CART'
@@ -73,7 +73,7 @@ const cart = (state = initalState, action) => {
       let arr = state.items.filter(beer => {
         return beer.id !== action.beerId
       })
-      return {...state, items: arr}
+      return arr
     default:
       return state
   }
