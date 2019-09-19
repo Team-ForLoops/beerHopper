@@ -72,24 +72,10 @@ class UpdateBeer extends React.Component {
                 onChange={this.handleChange}
               >
                 <option value="">Select a beer color</option>
-                <option value="../../public/images/bad-mam-yama.jpg">
-                  Bad Mama Yama
-                </option>
-                <option value="../../public/images/dark-paradise.jpg">
-                  Dark Paradise
-                </option>
-                <option value="../../public/images/default-beer.jpg">
-                  Default Beer
-                </option>
-                <option value="../../public/images/hi-honey.jpg">
-                  Hi Honey
-                </option>
-                <option value="../../public/images/hibiscus-saison.jpg">
-                  Hibiscus Saison
-                </option>
-                <option value="../../public/images/wedding-saison.jpg">
-                  Wedding Saison
-                </option>
+                <option value="">Light</option>
+                <option value="">Dark</option>
+                <option value="">Red</option>
+                <option value="b">Brown</option>
               </select>
             </span>
             <span>
@@ -109,10 +95,24 @@ class UpdateBeer extends React.Component {
                 onChange={this.handleChange}
               >
                 <option value="">Select a beer image</option>
-                <option value="">Light</option>
-                <option value="">Dark</option>
-                <option value="">Red</option>
-                <option value="b">Brown</option>
+                <option value="../../public/images/bad-mam-yama.jpg">
+                  Bad Mama Yama
+                </option>
+                <option value="../../public/images/dark-paradise.jpg">
+                  Dark Paradise
+                </option>
+                <option value="../../public/images/default-beer.jpg">
+                  Default Beer
+                </option>
+                <option value="../../public/images/hi-honey.jpg">
+                  Hi Honey
+                </option>
+                <option value="../../public/images/hibiscus-saison.jpg">
+                  Hibiscus Saison
+                </option>
+                <option value="../../public/images/wedding-saison.jpg">
+                  Wedding Saison
+                </option>
               </select>
             </span>
             <span>
