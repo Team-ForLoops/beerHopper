@@ -34,11 +34,7 @@ class ItemView extends Component {
           <img src={beer.imageUrl} />
           <Card.Text>
             {beer.price}
-            <Button
-              variant="danger"
-              size="sm"
-              onClick={this.deleteItemHandler(beer.id)}
-            >
+            <Button variant="danger" size="sm">
               remove item
             </Button>
           </Card.Text>
