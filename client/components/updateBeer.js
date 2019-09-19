@@ -8,14 +8,14 @@ class UpdateBeer extends React.Component {
     super(props)
 
     this.state = {
-      name: '',
-      type: '',
-      ibu: '',
-      color: '',
-      description: '',
-      imageUrl: '',
-      quantityInv: '',
-      price: ''
+      name: this.props.beer.name,
+      type: this.props.beer.type,
+      ibu: this.props.beer.ibu,
+      color: this.props.beer.color,
+      description: this.props.beer.description,
+      imageUrl: this.props.beer.imageUrl,
+      quantityInv: this.props.beer.quantityInv,
+      price: this.props.beer.price
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -25,7 +25,10 @@ class UpdateBeer extends React.Component {
   componentDidMount() {
     try {
       console.log('this.props.match.params', this.props)
-      this.props.loadSingleBeer(this.props.match.params.beerId)
+      this.props.loadSingleBeer(this.props.match.params.beerId).then(res => {
+        console.log('res', res)
+      })
+      //console.log('test', test)
     } catch (error) {
       console.error(error)
     }
@@ -42,8 +45,21 @@ class UpdateBeer extends React.Component {
 
     // fetch updated robot
     console.log('STATE', this.state)
-    this.state.id = this.props.beer.id // beer
-    await this.props.updateBeerThunk(this.state)
+    this.state.id = this.props.beer.id
+
+    const updatedBeer = {
+      id: this.props.beer.id,
+      name: this.state.name,
+      type: this.state.type,
+      ibu: Number(this.state.ibu),
+      color: this.state.color,
+      description: this.state.description,
+      imageUrl: this.state.imageUrl,
+      quantityInv: Number(this.state.quantityInv),
+      price: Number(this.state.price)
+    }
+
+    await this.props.updateBeerThunk(updatedBeer)
 
     // Uncomment if rest of code runs
     // this.setState({
@@ -80,7 +96,8 @@ class UpdateBeer extends React.Component {
   render() {
     // pull form variables from state -- check this
 
-    console.log('PROPS', this.props.beer.ibu)
+    console.log('PROPS', this.props)
+    console.log('STATE', this.state)
 
     return (
       <div>
@@ -93,7 +110,12 @@ class UpdateBeer extends React.Component {
                 type="text"
                 name="name"
                 defaultValue={this.props.beer.name}
-                value={this.state.name}
+                value={
+                  //this.state.name
+                  typeof this.state.name === 'string'
+                    ? this.state.name
+                    : this.props.beer.name
+                }
                 onChange={this.handleChange}
               />
             </span>
@@ -101,16 +123,17 @@ class UpdateBeer extends React.Component {
             <span>
               <p>IBU</p>
               <input
+                id="hello"
                 type="number"
                 defaultValue={this.props.beer.ibu}
                 name="ibu"
                 min="0"
                 max="100"
                 value={
-                  this.state.ibu
-                  // typeof this.state.ibu === 'number'
-                  //   ? this.state.ibu
-                  //   : this.props.beer.ibu
+                  //this.state.ibu
+                  typeof this.state.ibu === 'string'
+                    ? this.state.ibu
+                    : this.props.beer.ibu
                 }
                 onChange={this.handleChange}
               />
@@ -121,7 +144,11 @@ class UpdateBeer extends React.Component {
               <select
                 name="color"
                 defaultValue={this.props.beer.color}
-                value={this.state.color}
+                value={
+                  typeof this.state.color === 'string'
+                    ? this.state.color
+                    : this.props.beer.color
+                }
                 onChange={this.handleChange}
               >
                 <option value="">Select a beer color</option>
@@ -138,7 +165,11 @@ class UpdateBeer extends React.Component {
                 type="text"
                 name="description"
                 defaultValue={this.props.beer.description}
-                value={this.state.description}
+                value={
+                  typeof this.state.description === 'string'
+                    ? this.state.description
+                    : this.props.beer.description
+                }
                 onChange={this.handleChange}
               />
             </span>
@@ -148,7 +179,11 @@ class UpdateBeer extends React.Component {
               <select
                 name="imageUrl"
                 defaultValue={this.props.beer.imageUrl}
-                value={this.state.imageUrl}
+                value={
+                  typeof this.state.imageUrl === 'string'
+                    ? this.state.imageUrl
+                    : this.props.beer.imageUrl
+                }
                 onChange={this.handleChange}
               >
                 <option value="">Select a beer image</option>
@@ -172,7 +207,11 @@ class UpdateBeer extends React.Component {
                 // limit min of number selection
                 name="quantityInv"
                 defaultValue={this.props.beer.quantityInv}
-                value={this.state.quantityInv}
+                value={
+                  typeof this.state.quantityInv === 'string'
+                    ? this.state.quantityInv
+                    : this.props.beer.quantityInv
+                }
                 onChange={this.handleChange}
               />
             </span>
@@ -183,7 +222,11 @@ class UpdateBeer extends React.Component {
                 type="number"
                 name="price"
                 defaultValue={this.props.beer.price}
-                value={this.state.price}
+                value={
+                  typeof this.state.price === 'string'
+                    ? this.state.price
+                    : this.props.beer.price
+                }
                 onChange={this.handleChange}
               />
             </span>

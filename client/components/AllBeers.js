@@ -9,6 +9,14 @@ export class AllBeers extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
+  componentDidMount() {
+    try {
+      this.props.fetchInitialBeers()
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   handleChange(event) {
     return this.props.getSortedBeers(event.target.value, this.props.beers)
   }
