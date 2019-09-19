@@ -76,7 +76,23 @@ router.put('/:beerId', async (req, res, next) => {
     next(error)
   }
 })
-
+router.delete('/:beerId', async (req, res, next) => {
+  try {
+    let cart = req.session.cart
+    await BeerOrder.destroy({
+      where: {
+        orderId: cart.id,
+        beerId: req.params.beerId
+      }
+    })
+    req.session.cart.items.filter(item => {
+      return item.id !== req.params.beerId
+    })
+    res.status(204).send(req.session.cart)
+  } catch (error) {
+    next(error)
+  }
+})
 router.delete('/', async (req, res, next) => {
   try {
     await Order.destroy({
