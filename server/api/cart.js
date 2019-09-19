@@ -6,11 +6,32 @@ module.exports = router
 router.get('/', async (req, res, next) => {
   try {
     //determine user is logged in
-    const cart = {
-      sessionId: req.session.id,
-      userId: '',
-      orderId: '',
-      items: []
+    let cart = {}
+    if (req.session.passport) {
+      let userId = req.session.passport.user
+      let result = await Order.findOrCreate({
+        where: {
+          userId: userId,
+          status: 'open'
+        },
+        include: {
+          model: Beer
+        }
+      })
+      let order = result[0]
+      cart = {
+        sessionId: req.session.id,
+        userId: userId,
+        orderId: order.id,
+        items: order.beers
+      }
+    } else {
+      cart = {
+        sessionId: req.session.id,
+        userId: '',
+        orderId: '',
+        items: []
+      }
     }
     req.session.cart = cart
 
@@ -36,38 +57,43 @@ router.get('/', async (req, res, next) => {
 //Updates cart
 //think about when a user goes to the single beer page and tries to a beer to the cart
 //post is create, put is update
-router.post('/:beerId', async (req, res, next) => {
+router.put('/:beerId', async (req, res, next) => {
   try {
     //get orderId from session.cart and get order that way
-    const cart = await Order.findOne({
-      where: {
-        status: 'open'
-        // userId: req.user.id
-      }
-    })
+    let cart = req.session.cart
 
-    const beer = await Beer.findByPk(req.params.beerId)
-    await BeerOrder.findOrCreate({
+    let order = await Order.findOne({
       where: {
-        beerId: beer.id,
-        orderId: cart.id
+        id: cart.orderId
       }
     })
-    BeerOrder.update(req.body)
+    const beer = await Beer.findByPk(req.params.beerId)
+    let objBeer = {
+      id: beer.id,
+      quantity: 1
+    }
+    cart.items.push(objBeer)
+    order.addBeer(beer)
     res.sendStatus(204)
   } catch (error) {
     next(error)
   }
 })
-
-router.delete('/', async (req, res, next) => {
+router.delete('/:beerId', async (req, res, next) => {
   try {
-    await Order.destroy({
+    let cart = req.session.cart
+    console.log(cart)
+    await BeerOrder.destroy({
       where: {
-        status: 'open'
+        orderId: cart.orderId,
+        beerId: req.params.beerId
       }
     })
-    res.sendStatus(204)
+    req.session.cart.items.filter(item => {
+      return item.id !== req.params.beerId
+    })
+    console.log(req.session.cart)
+    res.status(204).send(req.session.cart)
   } catch (error) {
     next(error)
   }
