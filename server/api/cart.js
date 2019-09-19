@@ -92,6 +92,7 @@ router.delete('/:beerId', async (req, res, next) => {
     req.session.cart.items.filter(item => {
       return item.id !== req.params.beerId
     })
+    console.log(req.session.cart)
     res.status(204).send(req.session.cart)
   } catch (error) {
     next(error)

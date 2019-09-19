@@ -52,9 +52,8 @@ export const addItemThunk = itemDetails => {
 export const deleteItemThunk = beerId => {
   return async dispatch => {
     try {
-      await axios.delete(`/api/cart/${beerId}`)
-      //console.log('data', data);
-      //let newItems = data.items;
+      let {data} = await axios.delete(`/api/cart/${beerId}`)
+      console.log('data', data)
       dispatch(deleteItem(beerId))
     } catch (err) {
       console.log(err)
@@ -71,10 +70,10 @@ const cart = (state = initalState, action) => {
     case DELETE_ITEM:
       console.log('state', state)
       console.log('action', action)
-      return state.items.filter(beer => {
+      let arr = state.items.filter(beer => {
         return beer.id !== action.beerId
       })
-    //return { ...state, items: action.items };
+      return {...state, items: arr}
     default:
       return state
   }

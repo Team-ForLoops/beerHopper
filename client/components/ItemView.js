@@ -40,6 +40,7 @@ class ItemView extends Component {
           <Card.Text>
             {beer.price}
             <Button
+              type="button"
               variant="danger"
               size="sm"
               onClick={() => this.deleteItemHandler(beer.id)}
