@@ -117,8 +117,6 @@ const mapDispatchToProps = dispatch => {
   return {
     loadSingleBeer: id => dispatch(fetchSingleBeer(id)),
     addItem: itemDetail => dispatch(addItemThunk(itemDetail))
-    // unassignProjectThunk: (beerId, projectId) =>
-    //   dispatch(unassignProjectThunk(beerId, projectId))
   }
 }
 
