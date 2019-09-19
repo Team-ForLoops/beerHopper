@@ -4,9 +4,15 @@ module.exports = router
 
 //8080/api/cart
 router.get('/', async (req, res, next) => {
+  //create session data
+  const userInfo = {
+    sessionId: req.session.id,
+    userId: '',
+    orderId: ''
+  }
+  let cart = {}
   try {
-    //determine user is logged in
-    let cart = {}
+    //if user is logged in
     if (req.session.passport) {
       let userId = req.session.passport.user
       let result = await Order.findOrCreate({
@@ -19,23 +25,19 @@ router.get('/', async (req, res, next) => {
         }
       })
       let order = result[0]
-      cart = {
-        sessionId: req.session.id,
-        userId: userId,
-        orderId: order.id,
-        items: order.beers
-      }
+      cart = order.beers
     } else {
-      cart = {
-        sessionId: req.session.id,
-        userId: '',
-        orderId: '',
-        items: []
-      }
+      //unauthenicated user
+      let order = await Order.create({
+        where: {
+          status: 'open'
+        }
+      })
+      cart = order[0].beers
     }
-    req.session.cart = cart
+    req.session.userInfo = userInfo
 
-    res.json(req.session.cart)
+    res.json(req.session)
   } catch (error) {
     next(error)
   }
