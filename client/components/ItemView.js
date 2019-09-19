@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 function ItemView(props) {
   const item = props.item
@@ -14,9 +15,11 @@ function ItemView(props) {
   const beer = findBeer(item.beerId)
   return (
     <Row>
-      <span>{beer.name}</span>
-      <img src={beer.imageUrl} />
-      <span>{beer.price}</span>
+      <Col sm={4}>
+        <span>{beer.name}</span>
+        <img src={beer.imageUrl} />
+        <span>{beer.price}</span>
+      </Col>
     </Row>
   )
 }

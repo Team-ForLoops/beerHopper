@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import ItemView from './ItemView'
-import {fetchCart} from '../store/cart'
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 
