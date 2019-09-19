@@ -9,7 +9,12 @@ import Card from 'react-bootstrap/Card'
 import {deleteItemThunk} from '../store/cart'
 
 class ItemView extends Component {
+  constructor() {
+    super()
+    this.deleteItemHandler = this.deleteItemHandler.bind(this)
+  }
   deleteItemHandler = beerId => {
+    //console.log(beerId);
     this.props.deleteItem(beerId)
   }
   render() {
@@ -34,7 +39,11 @@ class ItemView extends Component {
           <img src={beer.imageUrl} />
           <Card.Text>
             {beer.price}
-            <Button variant="danger" size="sm">
+            <Button
+              variant="danger"
+              size="sm"
+              onClick={() => this.deleteItemHandler(beer.id)}
+            >
               remove item
             </Button>
           </Card.Text>
