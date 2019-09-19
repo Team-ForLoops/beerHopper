@@ -102,6 +102,7 @@ class UpdateBeer extends React.Component {
     return (
       <div>
         <h1>Edit Beer</h1>
+        <img src={this.props.beer.imageUrl} className="highlight" />
         <form onSubmit={this.handleSubmit}>
           <div>
             <span>
