@@ -4,10 +4,18 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
+//react bootstrap components
+import Container from 'react-bootstrap/Container'
+import NavBar from 'react-bootstrap/Navbar'
+import Nav from 'react-bootstrap/Nav'
+import Row from 'react-bootstrap/Row'
+
 const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <h1>BEER HOPPER</h1>
-    <nav>
+  <Container>
+    <Row className="justify-content-md-center">
+      <h1>BEER HOPPER</h1>
+    </Row>
+    <NavBar className="justify-content-md-center">
       {isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}
@@ -26,9 +34,12 @@ const Navbar = ({handleClick, isLoggedIn}) => (
       <div>
         <Link to="/beers">Beers</Link>
       </div>
-    </nav>
+      <div className="justify-content-end">
+        <Link to="/cart"> Cart</Link>
+      </div>
+    </NavBar>
     <hr />
-  </div>
+  </Container>
 )
 
 /**

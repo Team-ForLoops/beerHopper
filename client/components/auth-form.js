@@ -3,6 +3,12 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
 
+//bootstrap components
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+
 /**
  * COMPONENT
  */
@@ -10,14 +16,14 @@ const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
+    <Container>
+      <Form onSubmit={handleSubmit} name={name}>
+        <Form.Group>
           <label htmlFor="email">
             <small>Email</small>
           </label>
           <input name="email" type="text" />
-        </div>
+        </Form.Group>
         <div>
           <label htmlFor="password">
             <small>Password</small>
@@ -25,12 +31,12 @@ const AuthForm = props => {
           <input name="password" type="password" />
         </div>
         <div>
-          <button type="submit">{displayName}</button>
+          <Button type="submit">{displayName}</Button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
-      </form>
+      </Form>
       <a href="/auth/google">{displayName} with Google</a>
-    </div>
+    </Container>
   )
 }
 

@@ -87,22 +87,6 @@ const createApp = () => {
     res.sendFile(path.join(__dirname, '..', 'public/index.html'))
   })
 
-  //cart middleware
-  app.use('*', (req, res) => {
-    try {
-      const cart = {
-        sessionId: req.session.id,
-        userId: '',
-        orderId: ''
-      }
-      req.session.cart = cart
-      console.log(req.session)
-      res.sendStatus(201)
-    } catch (err) {
-      console.log(err)
-    }
-  })
-
   // error handling endware
   app.use((err, req, res, next) => {
     console.error(err)

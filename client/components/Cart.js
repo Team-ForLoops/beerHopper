@@ -2,24 +2,24 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import ItemView from './ItemView'
 import {fetchCart} from '../store/cart'
+import Button from 'react-bootstrap/Button'
+import Container from 'react-bootstrap/Container'
 
 class Cart extends Component {
   componentDidMount() {
     this.props.fetchCart()
   }
   render() {
-    const cart = this.props.cart.cart || {}
-    const thing = {...cart[0]}
-    console.log('cart', cart)
-    console.log('thing', thing)
-    const beers = thing.beers || []
+    const cart = this.props.cart || {}
+    const beers = cart.items || []
     return (
-      <div>
-        {beers ? 'add items view' : 'There are no items in your cart!'}
-        {/* {items.map(item => (
-          <ItemView key ={item.id} item = {item}/>
-        ))} */}
-      </div>
+      <Container>
+        {beers
+          ? beers.map(beer => <ItemView key={beer.id} item={beer} />)
+          : 'There are no items in your cart!'}
+
+        <Button variant="success">Checkout</Button>
+      </Container>
     )
   }
 }

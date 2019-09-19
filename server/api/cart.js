@@ -5,41 +5,21 @@ module.exports = router
 //8080/api/cart
 router.get('/', async (req, res, next) => {
   try {
-    //session id or userid available
-    const cart = await Order.findOrCreate({
-      where: {
-        status: 'open'
-      },
-      include: {
-        model: Beer
-      }
-    })
-    req.session.cart = cart
-    if (req.session.counter) {
-      req.session.counter++
-    } else {
-      req.session.counter = 1
+    //determine user is logged in
+    const cart = {
+      sessionId: req.session.id,
+      userId: '',
+      orderId: '',
+      items: []
     }
+    req.session.cart = cart
 
-    console.log(req.session)
-    res.json(req.session)
-    // const items = await BeerOrder.findAll({
-    //   where: {
-    //     orderId: cart.id
-    //   }
-    // })
-    // console.log('here')
-    // res.send(items)
+    res.json(req.session.cart)
   } catch (error) {
     next(error)
   }
 })
 
-router.post('/', (req, res) => {
-  let cart = req.body
-  req.session.cart = cart
-  res.json(req.session.cart)
-})
 //
 // router.post('/', async (req, res, next) => {
 // 	try {
@@ -67,7 +47,13 @@ router.post('/:beerId', async (req, res, next) => {
     })
 
     const beer = await Beer.findByPk(req.params.beerId)
-    await cart.addBeer(beer)
+    await BeerOrder.findOrCreate({
+      where: {
+        beerId: beer.id,
+        orderId: cart.id
+      }
+    })
+    BeerOrder.update(req.body)
     res.sendStatus(204)
   } catch (error) {
     next(error)
