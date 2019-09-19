@@ -6,16 +6,13 @@ import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 
 class Cart extends Component {
-  componentDidMount() {
-    this.props.fetchCart()
-  }
   render() {
     const cart = this.props.cart || {}
-    const beers = cart.items || []
+    const items = cart.items || []
     return (
       <Container>
-        {beers
-          ? beers.map(beer => <ItemView key={beer.id} item={beer} />)
+        {items !== []
+          ? items.map(item => <ItemView key={item.beerId} item={item} />)
           : 'There are no items in your cart!'}
 
         <Button variant="success">Checkout</Button>
@@ -28,10 +25,5 @@ const mapStateToProps = state => {
     cart: state.cart
   }
 }
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchCart: () => dispatch(fetchCart())
-  }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cart)
+export default connect(mapStateToProps)(Cart)

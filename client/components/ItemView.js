@@ -1,14 +1,27 @@
 import React from 'react'
+import {fetchSingleBeer} from '../store/singleBeer'
+import {connect} from 'react-redux'
 
-const ItemView = props => {
+function ItemView(props) {
   const item = props.item
+  props.fetchBeer(item.beerId)
+  const beer = props.beer
   return (
     <div id="item-container">
-      <span>{item.name}</span>
-      <img src={item.imageUrl} />
-      <span>{item.price}</span>
+      <span>{beer.name}</span>
+      <img src={beer.imageUrl} />
+      <span>{beer.price}</span>
     </div>
   )
 }
-
-export default ItemView
+const mapStateToProps = state => {
+  return {
+    beer: state.singleBeer
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchBeer: beerId => dispatch(fetchSingleBeer(beerId))
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ItemView)

@@ -5,7 +5,7 @@ import {fetchSingleBeer} from '../store/singleBeer' // unassignProjectThunk
 import {connect} from 'react-redux'
 import {toDollars} from '../store/allBeers'
 import AddReviewForm from './addNewReview'
-import addItemThunk from '../store/cart'
+import {addItemThunk} from '../store/cart'
 
 import Button from 'react-bootstrap/Button'
 
@@ -35,8 +35,7 @@ class SingleBeer extends React.Component {
   }
   addToCartHandler = () => {
     const beerId = this.props.beer.id
-    console.log(beerId)
-    this.props.addItem(beerId)
+    this.props.addItem({beerId, quantity: 1})
   }
 
   render() {
@@ -100,9 +99,9 @@ class SingleBeer extends React.Component {
         </div>
 
         {/* <add beer to cart /> */}
-        <button type="button" onClick={() => this.addToCartHandler()}>
+        <Button variant="warning" onClick={() => this.addToCartHandler()}>
           Add To Cart
-        </button>
+        </Button>
       </div>
     )
   }
