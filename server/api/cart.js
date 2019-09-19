@@ -68,8 +68,11 @@ router.put('/:beerId', async (req, res, next) => {
       }
     })
     const beer = await Beer.findByPk(req.params.beerId)
-    cart.items.push(beer)
-
+    let objBeer = {
+      id: beer.id,
+      quantity: 1
+    }
+    cart.items.push(objBeer)
     order.addBeer(beer)
     res.sendStatus(204)
   } catch (error) {
