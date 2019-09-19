@@ -39,19 +39,26 @@ export const getBeers = () => async dispatch => {
   }
 }
 
-export const filterBeers = (types, beers) => dispatch => {
+export const filterBeers = (types = ['sour', 'stout']) => async dispatch => {
   try {
-    const beerArray = beers.filter(beer =>
-      beer.categories.map(category => {
-        if (types.includes(category.type)) {
-          return category
-        }
-      })
-    )
-    dispatch(setBeers(beerArray))
+    types = types.join('+')
+    const {data} = await axios.get(`/api/beer/filter/${types}`)
+    dispatch(setBeers(data))
   } catch (err) {
     console.error(err)
   }
+
+  // let filteredBeers = []
+  // for (let i = 0; i < beers.length; i++){
+  // 	let beer = beers[i]
+  // 	for (let j = 0; j < beer.categories.length; j++){
+  // 		let currentType = beer.categories[j].type
+  // 		if (types.includes(currentType) && !filteredBeers.includes(beer)) {
+  //       filteredBeers.push(beer)
+  // 		}
+  // 	}
+  // }
+  // dispatch(setBeers(filteredBeers))
 }
 
 export const sortBeers = (sortBy, beers) => dispatch => {
