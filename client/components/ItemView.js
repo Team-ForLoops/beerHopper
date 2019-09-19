@@ -4,8 +4,11 @@ import {connect} from 'react-redux'
 
 function ItemView(props) {
   const item = props.item
-  props.fetchBeer(item.beerId)
-  const beer = props.beer
+  const findBeer = searchId => {
+    let [currentBeer] = props.beers.filter(beer => beer.id === searchId)
+    return currentBeer
+  }
+  const beer = findBeer(item.beerId)
   return (
     <div id="item-container">
       <span>{beer.name}</span>
@@ -16,12 +19,8 @@ function ItemView(props) {
 }
 const mapStateToProps = state => {
   return {
-    beer: state.singleBeer
+    beers: state.allBeers
   }
 }
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchBeer: beerId => dispatch(fetchSingleBeer(beerId))
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(ItemView)
+
+export default connect(mapStateToProps)(ItemView)

@@ -5,6 +5,7 @@ const initalState = {}
 //ACTION CONSTANT
 const GET_CART = 'GET_CART'
 const ADD_ITEM = 'ADD_ITEM'
+const GET_PRODUCTS = 'GET_PRODUCTS'
 
 //ACTION CREATOR
 const getCart = cart => {
@@ -19,6 +20,7 @@ const addItem = itemDetails => {
     itemDetails
   }
 }
+
 //THUNK
 export const fetchCart = () => {
   return async dispatch => {
