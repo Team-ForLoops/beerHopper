@@ -18,8 +18,12 @@ export class BeerFilter extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-
-    console.log(this.state)
+    // call our thunk
+    // pass array of type strings and beers
+    let types = Object.keys(this.state)
+    const typesObj = this.state
+    types = types.filter(type => typesObj[type])
+    this.props.getFilteredBeers(types, this.props.beers)
   }
 
   render() {
@@ -60,7 +64,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    // getFilteredBeers: (filterObj, beers) => dispatch(filterBeers(filterObj, beers))
+    getFilteredBeers: (types, beers) => dispatch(filterBeers(types, beers))
   }
 }
 

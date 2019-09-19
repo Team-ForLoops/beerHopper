@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {toDollars, getBeers, sortBeers} from '../store/allBeers'
 import {Link} from 'react-router-dom'
 import BeerFilter from './BeerFilter'
-import Accordion from 'react-bootstrap/Accordion'
+// import Accordion from 'react-bootstrap/Accordion'
 
 export class AllBeers extends React.Component {
   constructor() {
@@ -17,7 +17,6 @@ export class AllBeers extends React.Component {
 
   render() {
     const beers = this.props.beers
-    console.log(this.props)
 
     return (
       <div>
@@ -28,8 +27,7 @@ export class AllBeers extends React.Component {
             <option value="priceLowToHigh">Price (low to high)</option>
             <option value="name">Name</option>
           </select>
-
-          <BeerFilter />
+          <BeerFilter beers={this.props.beers} />
         </div>
         <ul>
           {beers.map(beer => (

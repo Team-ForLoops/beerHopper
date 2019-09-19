@@ -39,6 +39,22 @@ export const getBeers = () => async dispatch => {
   }
 }
 
+export const filterBeers = (types, beers) => dispatch => {
+  try {
+    console.log(beers)
+    const beerArray = beers.filter(beer =>
+      beer.categories.map(category => {
+        if (types.includes(category.type)) {
+          return category
+        }
+      })
+    )
+    dispatch(setBeers(beerArray))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export const sortBeers = (sortBy, beers) => dispatch => {
   try {
     beers = beers.slice()
