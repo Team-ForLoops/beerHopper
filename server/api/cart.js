@@ -6,15 +6,36 @@ module.exports = router
 router.get('/', async (req, res, next) => {
   try {
     //determine user is logged in
-    const cart = {
-      sessionId: req.session.id,
-      userId: '',
-      orderId: '',
-      items: []
+    let cart = {}
+    if (req.session.passport) {
+      let userId = req.session.passport.user
+      let result = await Order.findOrCreate({
+        where: {
+          userId: userId,
+          status: 'open'
+        },
+        include: {
+          model: Beer
+        }
+      })
+      let order = result[0]
+      cart = {
+        sessionId: req.session.id,
+        userId: userId,
+        orderId: order.id,
+        items: order.beers
+      }
+    } else {
+      cart = {
+        sessionId: req.session.id,
+        userId: '',
+        orderId: '',
+        items: []
+      }
     }
     req.session.cart = cart
 
-    res.json(req.session)
+    res.json(req.session.cart)
   } catch (error) {
     next(error)
   }
