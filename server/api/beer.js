@@ -1,11 +1,13 @@
 const router = require('express').Router()
-const {Beer, Review, User} = require('../db/models')
+const {Beer, Review, User, Category} = require('../db/models')
 module.exports = router
 
 // 8080/api/beer/
 router.get('/', async (req, res, next) => {
   try {
-    const beers = await Beer.findAll()
+    const beers = await Beer.findAll({
+      include: Category
+    })
     res.json(beers)
   } catch (err) {
     next(err)
@@ -26,18 +28,10 @@ router.get('/:beerId', async (req, res, next) => {
 })
 
 // 8080/api/beer/:id/review
-
 router.post('/:id/review', async (req, res, next) => {
   try {
-    console.log(
-      'req.user #######################################################################',
-      req.user
-    )
     const {rating, description} = req.body
-    console.log(
-      'req.body #######################################################################',
-      req.body
-    )
+
     const {id} = req.user
 
     const beer = await Beer.findByPk(req.params.id)
