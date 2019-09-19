@@ -5,6 +5,7 @@ import axios from 'axios'
 // action types
 
 const SET_SINGLE_BEER = 'SET_SINGLE_BEER'
+//const ADD_TO_CART = 'ADD_TO_CART'
 const ADD_REVIEW = 'ADD_REVIEW'
 
 // action creators
