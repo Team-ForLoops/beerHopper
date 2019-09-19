@@ -20,8 +20,8 @@ function ItemView(props) {
         <span>{beer.name}</span>
       </Card.Header>
       <Card.Body>
-        <span>{beer.price}</span>
         <img src={beer.imageUrl} />
+        <Card.Text>{beer.price}</Card.Text>
       </Card.Body>
     </Card>
   )
