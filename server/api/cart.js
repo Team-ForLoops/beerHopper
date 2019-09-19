@@ -58,6 +58,7 @@ router.get('/', async (req, res, next) => {
 //think about when a user goes to the single beer page and tries to a beer to the cart
 //post is create, put is update
 router.put('/:beerId', async (req, res, next) => {
+  let beerId = +req.params.beerId
   try {
     //get orderId from session.cart and get order that way
     let cart = req.session.cart
@@ -67,7 +68,7 @@ router.put('/:beerId', async (req, res, next) => {
         id: cart.orderId
       }
     })
-    const beer = await Beer.findByPk(req.params.beerId)
+    const beer = await Beer.findByPk(beerId)
     let objBeer = {
       id: beer.id,
       quantity: 1
