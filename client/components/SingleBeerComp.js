@@ -5,6 +5,9 @@ import {fetchSingleBeer} from '../store/singleBeer' // unassignProjectThunk
 import {connect} from 'react-redux'
 import {toDollars} from '../store/allBeers'
 import AddReviewForm from './addNewReview'
+import addItemThunk from '../store/cart'
+
+import Button from 'react-bootstrap/Button'
 
 class SingleBeer extends React.Component {
   constructor() {
@@ -29,6 +32,11 @@ class SingleBeer extends React.Component {
     this.setState({
       showForm: !hidden
     })
+  }
+  addToCartHandler = () => {
+    const beerId = this.props.beer.id
+    console.log(beerId)
+    this.props.addItem(beerId)
   }
 
   render() {
@@ -92,10 +100,9 @@ class SingleBeer extends React.Component {
         </div>
 
         {/* <add beer to cart /> */}
-        {/*         <div>
-          <h1>Add to cart</h1>
-          <AddToCart beer={beer} />
-        </div> */}
+        <button type="button" onClick={() => this.addToCartHandler()}>
+          Add To Cart
+        </button>
       </div>
     )
   }
@@ -109,7 +116,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadSingleBeer: id => dispatch(fetchSingleBeer(id))
+    loadSingleBeer: id => dispatch(fetchSingleBeer(id)),
+    addItem: itemDetail => dispatch(addItemThunk(itemDetail))
     // unassignProjectThunk: (beerId, projectId) =>
     //   dispatch(unassignProjectThunk(beerId, projectId))
   }

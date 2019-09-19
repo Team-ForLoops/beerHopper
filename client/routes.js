@@ -19,7 +19,7 @@ class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
     this.props.fetchInitialBeers()
-    // this.props.fetchCart();
+    this.props.fetchCart()
   }
 
   render() {
@@ -67,7 +67,8 @@ const mapDispatch = dispatch => {
     loadInitialData() {
       dispatch(me())
     },
-    fetchInitialBeers: () => dispatch(getBeers())
+    fetchInitialBeers: () => dispatch(getBeers()),
+    fetchCart: () => dispatch(fetchCart())
   }
 }
 
