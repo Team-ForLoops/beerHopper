@@ -6,11 +6,9 @@ module.exports = router
 router.get('/', async (req, res, next) => {
   //create session data
   const userInfo = {
-    sessionId: req.session.id,
-    userId: '',
-    orderId: ''
+    sessionId: req.session.id
   }
-  let cart = {}
+  let cart = []
   try {
     //if user is logged in
     if (req.session.passport) {
@@ -31,28 +29,29 @@ router.get('/', async (req, res, next) => {
       let order = []
       if (!req.session.userInfo) {
         //if order doesn't exist create a new order
+        req.session.userInfo = userInfo
         order = await Order.create({
           where: {
             status: 'open'
           }
         })
-        req.session.userInfo.orderId = order.id
+        req.session.userInfo.orderId = +order.dataValues.id
         console.log('created order', order)
-      } else {
-        order = await Order.findOne({
-          where: {
-            id: req.session.userInfo.orderId
-          },
-          include: {
-            model: Beer
-          }
-        })
-        console.log('found order', order)
       }
+      //else {
+      //   order = await Order.findOne({
+      //     where: {
+      //       id: req.session.userInfo.orderId
+      //     },
+      //     include: {
+      //       model: Beer
+      //     }
+      //   })
+      console.log('found order', order)
+      //}
       // cart = order[0].beers
     }
-    req.session.userInfo = userInfo
-    res.json(req.session)
+    res.json(cart)
   } catch (error) {
     next(error)
   }
@@ -62,20 +61,15 @@ router.put('/:beerId', async (req, res, next) => {
   let beerId = +req.params.beerId
   try {
     //get orderId from session.cart and get order that way
-    let cart = req.session.cart
+    console.log(req.session)
 
     let order = await Order.findOne({
       where: {
-        id: cart.orderId
+        id: req.session.userInfo.orderId
       }
     })
     const beer = await Beer.findByPk(beerId)
-    let objBeer = {
-      id: beer.id,
-      quantity: 1
-    }
-    cart.items.push(objBeer)
-    order.addBeer(beer)
+    await order.addBeer(beer)
     res.sendStatus(204)
   } catch (error) {
     next(error)
