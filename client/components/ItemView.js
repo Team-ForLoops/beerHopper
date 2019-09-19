@@ -20,10 +20,8 @@ function ItemView(props) {
         <span>{beer.name}</span>
       </Card.Header>
       <Card.Body>
-        <Card.Img>
-          <img src={beer.imageUrl} />
-        </Card.Img>
         <span>{beer.price}</span>
+        <img src={beer.imageUrl} />
       </Card.Body>
     </Card>
   )
