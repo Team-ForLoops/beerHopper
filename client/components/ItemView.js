@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Card from 'react-bootstrap/Card'
 
 function ItemView(props) {
   const item = props.item
@@ -14,15 +15,15 @@ function ItemView(props) {
   }
   const beer = findBeer(item.beerId)
   return (
-    <Row>
-      <Col sm={4} />
-      <Col sm={4}>
+    <Card>
+      <Card.Header>
         <span>{beer.name}</span>
+      </Card.Header>
+      <Card.Body>
         <img src={beer.imageUrl} />
         <span>{beer.price}</span>
-      </Col>
-      <Col sm={4} />
-    </Row>
+      </Card.Body>
+    </Card>
   )
 }
 const mapStateToProps = state => {

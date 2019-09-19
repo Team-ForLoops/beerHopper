@@ -11,10 +11,11 @@ class Cart extends Component {
     const items = cart.items || []
     return (
       <Container>
-        {items !== []
-          ? items.map(item => <ItemView key={item.beerId} item={item} />)
-          : 'There are no items in your cart!'}
         <Row>
+          {items !== []
+            ? items.map(item => <ItemView key={item.beerId} item={item} />)
+            : 'There are no items in your cart!'}
+
           <Button variant="success">Checkout</Button>
         </Row>
       </Container>
