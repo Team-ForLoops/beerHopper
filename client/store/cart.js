@@ -49,17 +49,17 @@ export const addItemThunk = itemDetails => {
     }
   }
 }
-export const deleteItemThunk = beerId => {
-  return async dispatch => {
-    try {
-      let {data} = await axios.delete(`/api/cart/${beerId}`)
-      let newItems = data.items
-      dispatch(deleteItem(newItems))
-    } catch (err) {
-      console.log(err)
-    }
-  }
-}
+// export const deleteItemThunk = beerId => {
+//   return async dispatch => {
+//     try {
+//       let {data} = await axios.delete(`/api/cart/${beerId}`)
+//       let newItems = data.items
+//       dispatch(deleteItem(newItems))
+//     } catch (err) {
+//       console.log(err)
+//     }
+//   }
+// }
 //REDUCER
 const cart = (state = initalState, action) => {
   switch (action.type) {
@@ -67,8 +67,8 @@ const cart = (state = initalState, action) => {
       return action.cart
     case ADD_ITEM:
       return {...state, items: [...state.items, action.itemDetails]}
-    case DELETE_ITEM:
-      return {...state, items: action.items}
+    // case DELETE_ITEM:
+    //   return {...state, items: action.items}
     default:
       return state
   }

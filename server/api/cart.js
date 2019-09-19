@@ -97,15 +97,3 @@ router.delete('/:beerId', async (req, res, next) => {
     next(error)
   }
 })
-router.delete('/', async (req, res, next) => {
-  try {
-    await Order.destroy({
-      where: {
-        status: 'open'
-      }
-    })
-    res.sendStatus(204)
-  } catch (error) {
-    next(error)
-  }
-})
