@@ -15,7 +15,8 @@ class Cart extends Component {
           {items !== []
             ? items.map(item => <ItemView key={item.beerId} item={item} />)
             : 'There are no items in your cart!'}
-
+        </Row>
+        <Row>
           <Button variant="success">Checkout</Button>
         </Row>
       </Container>
