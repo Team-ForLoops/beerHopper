@@ -61,7 +61,6 @@ router.put('/:beerId', async (req, res, next) => {
   let beerId = +req.params.beerId
   try {
     //get orderId from session.cart and get order that way
-    console.log(req.session)
 
     let order = await Order.findOne({
       where: {
@@ -70,7 +69,16 @@ router.put('/:beerId', async (req, res, next) => {
     })
     const beer = await Beer.findByPk(beerId)
     await order.addBeer(beer)
-    res.sendStatus(204)
+    const newOrder = await Order.findOne({
+      where: {
+        id: order.id
+      },
+      include: {
+        model: Beer
+      }
+    })
+    console.log('hello', newOrder.dataValues.beers)
+    res.status(201).send(newOrder.dataValues.beers)
   } catch (error) {
     next(error)
   }
