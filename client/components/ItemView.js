@@ -7,49 +7,68 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import {deleteItemThunk} from '../store/cart'
+import Table from 'react-bootstrap/Table'
+import axios from 'axios'
 
 class ItemView extends Component {
   constructor() {
     super()
+    this.state = {
+      quantity: 1
+    }
     this.deleteItemHandler = this.deleteItemHandler.bind(this)
   }
+  async componentDidMount() {
+    let {data} = await axios.get(`/api/cart/${this.props.item.id}/quantity`)
+    this.setState({
+      quantity: data
+    })
+  }
+
   deleteItemHandler = beerId => {
     //console.log(beerId);
     this.props.deleteItem(beerId)
   }
   render() {
-    const item = this.props.item
-    const findBeer = searchId => {
-      let [currentBeer] = this.props.beers.filter(beer => beer.id === searchId)
-      return currentBeer
-    }
-    let beer = {}
-    if (this.props.cart.userId) {
-      beer = findBeer(item.id)
-    } else {
-      beer = findBeer(item.beerId)
-    }
+    const beer = this.props.item
 
     return (
-      <Card>
-        <Card.Header>
-          <span>{beer.name}</span>
-        </Card.Header>
-        <Card.Body>
-          <img src={beer.imageUrl} />
-          <Card.Text>
-            {beer.price}
-            <Button
-              type="button"
-              variant="danger"
-              size="sm"
-              onClick={() => this.deleteItemHandler(beer.id)}
-            >
-              remove item
+      <tr className="my-2">
+        <td>
+          <span>
+            <img src={beer.imageUrl} />
+            <strong>{beer.name}</strong>
+          </span>
+        </td>
+        <td>
+          <div className="mx-3">
+            Price: ${Math.floor(beer.price / 100).toFixed(2)}
+          </div>
+        </td>
+        <td>
+          <p>Quantity : {this.state.quantity}</p>
+          <span>
+            <Button type="button" variant="primary" size="sm">
+              {' '}
+              -
             </Button>
-          </Card.Text>
-        </Card.Body>
-      </Card>
+            <Button type="button" variant="primary" size="sm">
+              {' '}
+              +
+            </Button>
+          </span>
+        </td>
+        <div>
+          <Button
+            type="button"
+            variant="outline-dark"
+            size="sm"
+            onClick={() => this.deleteItemHandler(beer.id)}
+          >
+            remove
+          </Button>
+        </div>
+      </tr>
     )
   }
 }

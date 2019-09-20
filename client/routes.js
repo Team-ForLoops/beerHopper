@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, SingleBeer} from './components'
+import {Login, Signup, UserHome, SingleBeer, UpdateBeer} from './components'
 import {me} from './store'
 import {fetchCart} from './store/cart'
 
@@ -26,6 +26,7 @@ class Routes extends Component {
 
   render() {
     const {isLoggedIn} = this.props
+    const {isAdmin} = this.props
 
     return (
       <Switch>
@@ -35,7 +36,6 @@ class Routes extends Component {
 
         {/* <Route exact path="/beer/:beerId/edit" component={AdminDash} /> */}
         {/* Added placeholder */}
-        <Route exact path="/beer/dashboard" component={AdminDash} />
 
         <Route path="/beers" component={AllBeers} />
         <Route path="/beer/:beerId" component={SingleBeer} />
@@ -44,6 +44,16 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
+            {/* Create Admin section and move there later ... testing here for now */}
+          </Switch>
+        )}
+
+        {isAdmin && (
+          <Switch>
+            {/* Routes placed here are only available after logging in */}
+            <Route path="/home" component={AdminDash} />
+            {/* Create Admin section and move there later ... testing here for now */}
+            <Route path="/admin/edit/beer/:beerId" component={UpdateBeer} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
@@ -60,7 +70,8 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isAdmin: state.user.role === 'admin'
   }
 }
 

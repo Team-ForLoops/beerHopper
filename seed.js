@@ -65,25 +65,6 @@ const seedUsers = [
   }
 ]
 
-// const newBeers = [
-// {name: "Jingle Beer", price: 6549, ibu: 7, quantity: 33, description: 'Evil artistry with essence of dirty baby diapers', imageUrl: '/images/1.jpg'},
-// {name: "Santa Clausthaler", price: 214, ibu: 0, quantity: 4, description: 'Skunky bitter bile with notes of rancid butter', imageUrl: '/images/2.jpg'},
-// {name: "Cuvée de Nol", price: 643, ibu: 9, quantity: 43, description: 'God awful bitterness with confident tannins', imageUrl: '/images/3.jpg'},
-// {name: "Julebrygg", price: 519, ibu: 45, quantity: 344, description: 'Nutty tsunami that flows like a pastoral poem', imageUrl: '/images/4.jpg'},
-// {name: "Julebryg", price: 574, ibu: 72, quantity: 3, description: 'Satisfying goodness reminiscent of a wet old box in your grandmas basement', imageUrl: '/images/5.jpg'},
-// {name: "Lade Gaards Brygghus Julel", price: 592, ibu: 65, quantity: 354, description: 'Infused nelson nectar with low hops', imageUrl: '/images/6.jpg'},
-// {name: "Ekstra Vellagret Julebrygg", price: 639, ibu: 65, quantity: 654, description: 'Girthy booze fest with maple undertones', imageUrl: '/images/7.jpg'},
-// {name: "Nissefar", price: 607, ibu: 7, quantity: 4, description: 'Sour mountains of bitterness but in a good way', imageUrl: '/images/8.jpg'},
-// {name: "Nissegodt", price: 6526, ibu: 45, quantity: 66, description: 'Insanely refreshing sour-patch kid with a gym sock funk', imageUrl: '/images/9.jpg'},
-// {name: "Nissel", price: 606, ibu: 45, quantity: 45, description: 'Burnt subtle wet blanket', imageUrl: '/images/10.jpg'},
-// {name: "God Jul", price: 589, ibu: 85, quantity: 24, description: 'Bitter funk with brett earthiness', imageUrl: '/images/11.jpg'},
-// {name: "Julesnadder", price: 719, ibu: 45, quantity: 11, description: 'Blonde lager with notes of leather-bound books', imageUrl: '/images/12.jpg'},
-// {name: "Special Holiday Ale", price: 671, ibu: 9, quantity: 42, description: 'Belch-inducing think piece with notes of marshmallow', imageUrl: '/images/13.jpg'},
-// {name: "Julebrygg", price: 6201, ibu: 47, quantity: 65, description: 'Wine-like swill with an influence of wild yeast', imageUrl: '/images/14.jpg'},
-// {name: "BBQ Sauce", price: 65201, ibu: 7, quantity: 6, description: 'Tastes like bbq sauce but carbonated. real gross', imageUrl: '/images/15.jpg'},
-// {name: "Cake City", price: 666, ibu: 99, quantity: 213, description: 'Want to drink cake? like bad things? this is the one for you. No bottles ever sold. Will you be the first? Make history by purchasing this beer!', imageUrl: '/images/16.jpg'},
-// ]
-
 const seedBeers = [
   {
     name: 'Jingle Beer',
@@ -312,7 +293,7 @@ const seedReviews = [
     rating: 1
   }
 ]
-//order seed data
+
 const seedOrders = [
   {
     status: 'open'
@@ -325,7 +306,7 @@ const seedOrders = [
   }
 ]
 //beer categories
-const beerCats = ['ale', 'lager', 'stout', 'sour', 'saison']
+const beerCats = ['ale', 'lager', 'stout', 'sour', 'saison', 'pickle', 'sfdfk']
 
 // seed function
 const seed = async () => {

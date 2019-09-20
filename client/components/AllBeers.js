@@ -46,7 +46,7 @@ export class AllBeers extends React.Component {
             ))}
           </ul>
         ) : (
-          <button type="submit" onClick={this.props.fetchBeers}>
+          <button type="submit" onClick={this.props.fetchInitialBeers}>
             How embarassing... no more beers like that. Take me to your leader!
           </button>
         )}
@@ -64,7 +64,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getSortedBeers: (sortBy, beers) => dispatch(sortBeers(sortBy, beers)),
-    fetchBeers: () => dispatch(getBeers())
+    fetchInitialBeers: () => dispatch(getBeers())
   }
 }
 
