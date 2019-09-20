@@ -1,5 +1,6 @@
 import React from 'react'
 import {updateBeerThunk, fetchSingleBeer} from '../store/singleBeer'
+import {getBeers} from '../store/allBeers'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 
@@ -82,37 +83,7 @@ class UpdateBeer extends React.Component {
     }
 
     await this.props.updateBeerThunk(updatedBeer)
-
-    // Uncomment if rest of code runs
-    // this.setState({
-    //   name: '',
-    //   type: '',
-    //   ibu: '',
-    //   color: '',
-    //   description: '',
-    //   imageUrl: '',
-    //   quantityInv: '',
-    //   price: ''
-    // })
-
-    /* ********************************************************************************************************************** */
-
-    // Theo Code
-    // const beerId = event.target.action // Need to find beerId
-
-    // const updatedBeer = {
-    //   name: this.state.name,
-    //   type: this.state.type,
-    //   ibu: this.state.ibu,
-    //   color: this.state.color,
-    //   description: this.state.description,
-    //   imageUrl: this.state.imageUrl,
-    //   quantityInv: this.state.quantityInv,
-    //   price: this.state.price
-    // }
-    // this.props.updateBeer(beerId, updatedBeer)
-
-    /* ********************************************************************************************************************** */
+    this.props.fetchInitialBeers()
   }
 
   render() {
@@ -276,7 +247,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   loadSingleBeer: id => dispatch(fetchSingleBeer(id)),
-  updateBeerThunk: updatedBeer => dispatch(updateBeerThunk(updatedBeer))
+  updateBeerThunk: updatedBeer => dispatch(updateBeerThunk(updatedBeer)),
+  fetchInitialBeers: () => dispatch(getBeers())
 })
 
 export default withRouter(

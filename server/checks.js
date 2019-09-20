@@ -9,7 +9,7 @@ const isUser = (req, res, next) => {
 }
 
 const isAdmin = (req, res, next) => {
-  if (req.user && req.user.role === 'admin') {
+  if (req.user && req.user.isAdmin) {
     return next()
   } else {
     const error = new Error(

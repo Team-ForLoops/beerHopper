@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {toDollars, getBeers, sortBeers} from '../store/allBeers'
 import {Link} from 'react-router-dom'
 import BeerFilter from './BeerFilter'
-import Accordion from 'react-bootstrap/Accordion'
+// import Accordion from 'react-bootstrap/Accordion'
 
 export class AllBeers extends React.Component {
   constructor() {
@@ -17,7 +17,6 @@ export class AllBeers extends React.Component {
 
   render() {
     const beers = this.props.beers
-    console.log(this.props)
 
     return (
       <div>
@@ -28,24 +27,29 @@ export class AllBeers extends React.Component {
             <option value="priceLowToHigh">Price (low to high)</option>
             <option value="name">Name</option>
           </select>
-
-          <BeerFilter />
+          <BeerFilter beers={this.props.beers} />
         </div>
-        <ul>
-          {beers.map(beer => (
-            <Link to={`/beer/${beer.id}`} key={beer.id}>
-              <li>
-                <div className="highlight">
-                  <img src={beer.imageUrl} />
-                </div>
-                <div className="details">
-                  <h3>{beer.name}</h3>
-                  <div>{toDollars(beer.price)}</div>
-                </div>
-              </li>
-            </Link>
-          ))}
-        </ul>
+        {this.props.beers.length ? (
+          <ul>
+            {beers.map(beer => (
+              <Link to={`/beer/${beer.id}`} key={beer.id}>
+                <li>
+                  <div className="highlight">
+                    <img src={beer.imageUrl} />
+                  </div>
+                  <div className="details">
+                    <h3>{beer.name}</h3>
+                    <div>{toDollars(beer.price)}</div>
+                  </div>
+                </li>
+              </Link>
+            ))}
+          </ul>
+        ) : (
+          <button type="submit" onClick={this.props.fetchInitialBeers}>
+            How embarassing... no more beers like that. Take me to your leader!
+          </button>
+        )}
       </div>
     )
   }

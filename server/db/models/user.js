@@ -7,9 +7,8 @@ const User = db.define('user', {
     type: Sequelize.STRING,
     allowNull: true
   },
-  role: {
-    type: Sequelize.ENUM('guest', 'user', 'admin'),
-    defaultValue: 'guest'
+  isAdmin: {
+    type: Sequelize.BOOLEAN
   },
   email: {
     type: Sequelize.STRING,
@@ -23,6 +22,11 @@ const User = db.define('user', {
     get() {
       return () => this.getDataValue('password')
     }
+  },
+  imageUrl: {
+    type: Sequelize.STRING,
+    defaultValue:
+      'https://s3media.247sports.com/Uploads/Assets/255/457/6_7457255.jpg'
   },
   salt: {
     type: Sequelize.STRING,
