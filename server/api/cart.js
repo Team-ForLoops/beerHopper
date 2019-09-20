@@ -4,9 +4,15 @@ module.exports = router
 
 //8080/api/cart
 router.get('/', async (req, res, next) => {
+  //create session data
+  const userInfo = {
+    sessionId: req.session.id,
+    orderId: '',
+    userId: ''
+  }
+  let cart = []
   try {
-    //determine user is logged in
-    let cart = {}
+    //if user is logged in
     if (req.session.passport) {
       let userId = req.session.passport.user
       let result = await Order.findOrCreate({
@@ -18,83 +24,105 @@ router.get('/', async (req, res, next) => {
           model: Beer
         }
       })
+      if (!req.session.userInfo) req.session.userInfo = userInfo
+      req.session.userInfo.orderId = result[0].dataValues.id
       let order = result[0]
-      cart = {
-        sessionId: req.session.id,
-        userId: userId,
-        orderId: order.id,
-        items: order.beers
-      }
+      cart = order.beers
     } else {
-      cart = {
-        sessionId: req.session.id,
-        userId: '',
-        orderId: '',
-        items: []
+      //unauthenicated user
+      let order = []
+      if (!req.session.userInfo) {
+        //if order doesn't exist create a new order
+        req.session.userInfo = userInfo
+        order = await Order.create({
+          where: {
+            status: 'open'
+          }
+        })
+        req.session.userInfo.orderId = +order.dataValues.id
+      } else {
+        order = await Order.findOne({
+          where: {
+            id: req.session.userInfo.orderId
+          },
+          include: {
+            model: Beer
+          }
+        })
       }
+      cart = order.beers
     }
-    req.session.cart = cart
-
-    res.json(req.session.cart)
+    res.json(cart)
   } catch (error) {
     next(error)
   }
 })
 
-//
-// router.post('/', async (req, res, next) => {
-// 	try {
-// 		const cart = await Order.findOne({
-// 			where: {
-// 				status: 'open'
-// 			}
-// 		});
-// 	} catch (error) {
-// 		next(error);
-// 	}
-// });
-
-//Updates cart
-//think about when a user goes to the single beer page and tries to a beer to the cart
-//post is create, put is update
 router.put('/:beerId', async (req, res, next) => {
   let beerId = +req.params.beerId
   try {
     //get orderId from session.cart and get order that way
-    let cart = req.session.cart
 
     let order = await Order.findOne({
       where: {
-        id: cart.orderId
+        id: req.session.userInfo.orderId
       }
     })
     const beer = await Beer.findByPk(beerId)
-    let objBeer = {
-      id: beer.id,
-      quantity: 1
-    }
-    cart.items.push(objBeer)
-    order.addBeer(beer)
-    res.sendStatus(204)
+    await order.addBeer(beer)
+    const newOrder = await Order.findOne({
+      where: {
+        id: order.id
+      },
+      include: {
+        model: Beer
+      }
+    })
+    res.status(201).send(newOrder.dataValues.beers)
   } catch (error) {
     next(error)
   }
 })
+router.get('/:beerId/quantity', async (req, res, next) => {
+  const beerId = req.params.beerId
+  try {
+    let beerOrder = await BeerOrder.findOne({
+      where: {
+        beerId: beerId,
+        orderId: req.session.userInfo.orderId
+      }
+    })
+    let quantity = beerOrder.quantity
+    res.json(quantity)
+  } catch (err) {
+    next(err)
+  }
+})
+router.put('/:beerId/updateQuantity', async (req, res, next) => {
+  const beerId = req.params.beerId
+  try {
+    let beerOrder = await BeerOrder.findOne({
+      where: {
+        beerId: beerId,
+        orderId: req.session.userInfo.orderId
+      }
+    })
+    await beerOrder.update(req.body)
+    res.sendStatus(201)
+  } catch (err) {
+    next(err)
+  }
+})
 router.delete('/:beerId', async (req, res, next) => {
   try {
-    let cart = req.session.cart
-    console.log(cart)
+    console.log('in delete route', req.session)
     await BeerOrder.destroy({
       where: {
-        orderId: cart.orderId,
+        orderId: req.session.userInfo.orderId,
         beerId: req.params.beerId
       }
     })
-    req.session.cart.items.filter(item => {
-      return item.id !== req.params.beerId
-    })
-    console.log(req.session.cart)
-    res.status(204).send(req.session.cart)
+    res.sendStatus(204)
   } catch (error) {
     next(error)
   }
