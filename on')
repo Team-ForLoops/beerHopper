@@ -1,0 +1,10 @@
+ id |         name         | ibu | color |                                   description                                    |          imageUrl           | quantityInv | price |         createdAt          |         updatedAt          
+----+----------------------+-----+-------+----------------------------------------------------------------------------------+-----------------------------+-------------+-------+----------------------------+----------------------------
+  2 | Dark Paradise        |   8 | dark  | Stout with coconut added in secondary. Chocolatey, roasty, coconutty, delicious. | /images/dark-paradise.jpg   |          10 |  1500 | 2019-09-19 16:30:09.225-05 | 2019-09-19 16:30:09.225-05
+  3 | Hibiscus Saison      |  40 | light | Slightly tart, sessionable saison with a beautiful light pink color              | /images/hibiscus-saison.jpg |         100 |  4999 | 2019-09-19 16:30:09.225-05 | 2019-09-19 16:30:09.225-05
+  4 | Hi Honey             |  25 | light | American honey ale, brewed and fermented with honey                              | /images/hi-honey.jpg        |          10 |   899 | 2019-09-19 16:30:09.225-05 | 2019-09-19 16:30:09.225-05
+  5 | Wedding Saison       |  13 | light | Become married with the saison at the firts sip                                  | /images/wedding-saison.jpg  |           2 |   599 | 2019-09-19 16:30:09.225-05 | 2019-09-19 16:30:09.225-05
+  6 | J                    |     | light |                                                                                  | /images/default-beer.jpg    |           1 |   500 | 2019-09-19 16:30:09.225-05 | 2019-09-19 16:30:09.225-05
+  1 | Changed Name of Beer |  25 | red   | Changed Description                                                              | /images/bad-mama-yama.jpg   |          20 |  2144 | 2019-09-19 16:30:09.225-05 | 2019-09-19 16:33:48.427-05
+(6 rows)
+
