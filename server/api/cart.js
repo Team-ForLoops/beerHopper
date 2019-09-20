@@ -83,6 +83,36 @@ router.put('/:beerId', async (req, res, next) => {
     next(error)
   }
 })
+router.get('/:beerId/quantity', async (req, res, next) => {
+  const beerId = req.params.beerId
+  try {
+    let beerOrder = await BeerOrder.findOne({
+      where: {
+        beerId: beerId,
+        orderId: req.session.userInfo.orderId
+      }
+    })
+    let quantity = beerOrder.quantity
+    res.json(quantity)
+  } catch (err) {
+    next(err)
+  }
+})
+router.put('/:beerId/updateQuantity', async (req, res, next) => {
+  const beerId = req.params.beerId
+  try {
+    let beerOrder = await BeerOrder.findOne({
+      where: {
+        beerId: beerId,
+        orderId: req.session.userInfo.orderId
+      }
+    })
+    await beerOrder.update(req.body)
+    res.sendStatus(201)
+  } catch (err) {
+    next(err)
+  }
+})
 router.delete('/:beerId', async (req, res, next) => {
   try {
     console.log('in delete route', req.session)

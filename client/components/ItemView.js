@@ -8,12 +8,23 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import {deleteItemThunk} from '../store/cart'
 import Table from 'react-bootstrap/Table'
+import axios from 'axios'
 
 class ItemView extends Component {
   constructor() {
     super()
+    this.state = {
+      quantity: 1
+    }
     this.deleteItemHandler = this.deleteItemHandler.bind(this)
   }
+  async componentDidMount() {
+    let {data} = await axios.get(`/api/cart/${this.props.item.id}/quantity`)
+    this.setState({
+      quantity: data
+    })
+  }
+
   deleteItemHandler = beerId => {
     //console.log(beerId);
     this.props.deleteItem(beerId)
@@ -35,7 +46,7 @@ class ItemView extends Component {
           </div>
         </td>
         <td>
-          <p>Quantity : 1</p>
+          <p>Quantity : {this.state.quantity}</p>
           <span>
             <Button type="button" variant="primary" size="sm">
               {' '}
