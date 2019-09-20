@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {filterBeers} from '../store/allBeers'
+import {filterBeers, getBeers} from '../store/allBeers'
 
 export class BeerFilter extends React.Component {
   constructor() {
@@ -18,8 +18,14 @@ export class BeerFilter extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-
-    console.log(this.state)
+    let types = Object.keys(this.state)
+    const typesObj = this.state
+    types = types.filter(type => typesObj[type])
+    if (!types.length) {
+      this.props.fetchBeers()
+    } else {
+      this.props.getFilteredBeers(types)
+    }
   }
 
   render() {
@@ -60,7 +66,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    // getFilteredBeers: (filterObj, beers) => dispatch(filterBeers(filterObj, beers))
+    getFilteredBeers: types => dispatch(filterBeers(types)),
+    fetchBeers: () => dispatch(getBeers())
   }
 }
 

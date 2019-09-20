@@ -39,6 +39,16 @@ export const getBeers = () => async dispatch => {
   }
 }
 
+export const filterBeers = types => async dispatch => {
+  try {
+    types = types.join('+')
+    const {data} = await axios.get(`/api/beer/filter/${types}`)
+    dispatch(setBeers(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export const sortBeers = (sortBy, beers) => dispatch => {
   try {
     beers = beers.slice()
