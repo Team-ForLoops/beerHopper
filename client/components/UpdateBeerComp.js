@@ -82,37 +82,6 @@ class UpdateBeer extends React.Component {
     }
 
     await this.props.updateBeerThunk(updatedBeer)
-
-    // Uncomment if rest of code runs
-    // this.setState({
-    //   name: '',
-    //   type: '',
-    //   ibu: '',
-    //   color: '',
-    //   description: '',
-    //   imageUrl: '',
-    //   quantityInv: '',
-    //   price: ''
-    // })
-
-    /* ********************************************************************************************************************** */
-
-    // Theo Code
-    // const beerId = event.target.action // Need to find beerId
-
-    // const updatedBeer = {
-    //   name: this.state.name,
-    //   type: this.state.type,
-    //   ibu: this.state.ibu,
-    //   color: this.state.color,
-    //   description: this.state.description,
-    //   imageUrl: this.state.imageUrl,
-    //   quantityInv: this.state.quantityInv,
-    //   price: this.state.price
-    // }
-    // this.props.updateBeer(beerId, updatedBeer)
-
-    /* ********************************************************************************************************************** */
   }
 
   render() {
