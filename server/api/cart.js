@@ -113,6 +113,37 @@ router.put('/:beerId/updateQuantity', async (req, res, next) => {
     next(err)
   }
 })
+//checkout route
+router.post('/checkout', async (req, res, next) => {
+  try {
+    let currentOrder = await Order.findByPk(req.session.userInfo.orderId)
+    const result = await currentOrder.update({status: 'processing'})
+    //create new order for a logged in guest
+    let newOrder = []
+    if (req.session.passport) {
+      newOrder = await Order.create({
+        where: {
+          status: 'open',
+          userId: req.session.passport.user
+        }
+      })
+      //update session orderId
+      req.session.userInfo.orderId = newOrder.dataValues.id //might need to change this
+    } else {
+      //new cart for unauthenicated guest
+      newOrder = await Order.create({
+        where: {
+          status: 'open'
+        }
+      })
+      req.session.userInfo.orderId = newOrder.dataValues.id //might need to change this
+    }
+    res.json(result)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.delete('/:beerId', async (req, res, next) => {
   try {
     console.log('in delete route', req.session)

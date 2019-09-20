@@ -5,8 +5,12 @@ import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Table from 'react-bootstrap/Table'
+import {checkoutThunk} from '../store/cart'
 
 class Cart extends Component {
+  checkoutHandler = () => {
+    this.props.checkout()
+  }
   render() {
     const cart = this.props.cart || []
     console.log(this.props)
@@ -26,7 +30,9 @@ class Cart extends Component {
             : 'There are no items in your cart!'}
         </tbody>
         <Container>
-          <Button variant="success">Checkout</Button>
+          <Button variant="success" onClick={this.checkoutHandler}>
+            Checkout
+          </Button>
         </Container>
       </Table>
     )
@@ -37,5 +43,10 @@ const mapStateToProps = state => {
     cart: state.cart
   }
 }
+const mapDispatchToProps = dispatch => {
+  return {
+    checkout: () => dispatch(checkoutThunk())
+  }
+}
 
-export default connect(mapStateToProps)(Cart)
+export default connect(mapStateToProps, mapDispatchToProps)(Cart)

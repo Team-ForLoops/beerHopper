@@ -7,7 +7,7 @@ const GET_CART = 'GET_CART'
 const ADD_ITEM = 'ADD_ITEM'
 const GET_PRODUCTS = 'GET_PRODUCTS'
 const DELETE_ITEM = 'DELETE_ITEM'
-
+const CHECKOUT = 'CHECKOUT'
 //ACTION CREATOR
 const getCart = cart => {
   return {
@@ -25,6 +25,12 @@ const deleteItem = beerId => {
   return {
     type: DELETE_ITEM,
     beerId
+  }
+}
+const checkout = newCart => {
+  return {
+    type: CHECKOUT,
+    newCart
   }
 }
 
@@ -60,6 +66,18 @@ export const deleteItemThunk = beerId => {
     }
   }
 }
+
+export const checkoutThunk = () => {
+  return async dispatch => {
+    try {
+      await axios.post('/api/cart/checkout')
+      //put in new cart should be empty []?
+      dispatch(checkout([]))
+    } catch (err) {
+      console.log(err)
+    }
+  }
+}
 //REDUCER
 const cart = (state = initalState, action) => {
   switch (action.type) {
@@ -72,6 +90,8 @@ const cart = (state = initalState, action) => {
         return beer.id !== action.beerId
       })
       return arr
+    case CHECKOUT:
+      return action.newCart
     default:
       return state
   }
