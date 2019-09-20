@@ -109,16 +109,16 @@ router.put('/:beerId', async (req, res, next) => {
 
 // 8080/api/beer/:beerId
 
-router.delete('/:beerId', async (req, res, next) => {
-  let beerId = req.params.beerId
+// router.delete('/:beerId', async (req, res, next) => {
+//   let beerId = req.params.beerId
 
-  try {
-    await Beer.destroy({
-      wehre: {
-        id: beerId
-      }
-    })
-  } catch (err) {
-    next(err)
-  }
-})
+//   try {
+//     await Beer.destroy({
+//       wehre: {
+//         id: beerId
+//       }
+//     })
+//   } catch (err) {
+//     next(err)
+//   }
+// })

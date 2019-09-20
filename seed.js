@@ -19,49 +19,64 @@ const seedUsers = [
     username: 'theo_truong',
     role: 'guest',
     email: 'theo@gmail.com',
-    password: '123theo'
+    password: '123theo',
+    imageUrl:
+      'https://datascopeanalytics.com/blog/introducing-the-duodesk/image04.png'
   },
   {
-    username: 'andrea_soloko',
+    username: 'sean_opry',
     role: 'user',
-    email: 'andrea@gmail.com',
-    password: '123andrea'
+    email: 'sean@gmail.com',
+    password: '123sean',
+    imageUrl: 'https://www.thefamouspeople.com/profiles/images/sean-opry-1.jpg'
   },
   {
     username: 'natalie_estrada',
     role: 'admin',
     email: 'natalie@gmail.com',
-    password: '123natalie'
+    password: '123natalie',
+    imageUrl:
+      'https://m.media-amazon.com/images/M/MV5BMzkyMTk2NzM2Ml5BMl5BanBnXkFtZTcwNDQ4MjYzMg@@._V1_UY1200_CR109,0,630,1200_AL_.jpg'
   },
   {
     username: 'pinzhi_zhang',
     role: 'guest',
     email: 'pinzhi@gmail.com',
-    password: '123pinzhi'
+    password: '123pinzhi',
+    imageUrl:
+      'http://www.pzinvest.com/uploadfiles/2018/05/20180514160258258.jpg'
   },
   {
     username: 'lea_seydoux',
     role: 'user',
     email: 'lea@gmail.com',
-    password: '123lea'
+    password: '123lea',
+    imageUrl:
+      'https://pixel.nymag.com/imgs/fashion/daily/2017/10/11/11-Lea-Seydoux.w700.h700.jpg'
   },
   {
     username: 'jim_harbough',
     role: 'admin',
     email: 'jim@gmail.com',
-    password: '123jim'
+    password: '123jim',
+    imageUrl:
+      'https://www.washingtonpost.com/resizer/sXyV2KKy0s6FZpBDcIM7Verehjo=/1484x0/arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/I6THIWVYAUI6RLSPFQKDTSLNPE.jpg'
   },
   {
     username: 'ariana_grande',
     role: 'user',
     email: 'ariana@gmail.com',
-    password: '123ariana'
+    password: '123ariana',
+    imageUrl:
+      'https://www.thenews.com.pk//assets/uploads/updates/2019-09-19/528919_2617863_ariana_updates.jpg'
   },
   {
-    username: 'steve_green',
-    role: 'guest',
-    email: 'steve@gmail.com',
-    password: '123steve'
+    username: 'andrea_soloko',
+    role: 'user',
+    email: 'andrea@gmail.com',
+    password: '123andrea',
+    imageUrl:
+      'https://a4-images.myspacecdn.com/images01/13/ad413c0e542abb26ae8c72267d28a23d/full.jpg'
   }
 ]
 
