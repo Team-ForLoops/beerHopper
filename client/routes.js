@@ -2,7 +2,14 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, SingleBeer, UpdateBeer} from './components'
+import {
+  Login,
+  Signup,
+  UserHome,
+  SingleBeer,
+  UpdateBeer,
+  AllOrders
+} from './components'
 import {me} from './store'
 import {fetchCart} from './store/cart'
 
@@ -12,6 +19,7 @@ import AllBeers from './components/AllBeers'
 import Cart from './components/Cart'
 import {getBeers} from './store/allBeers'
 import {getCategories} from './store/categories'
+import {getOrders} from './store/allOrders'
 
 /**
  * COMPONENT
@@ -20,6 +28,7 @@ class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
     this.props.fetchInitialBeers()
+    this.props.fetchInitialOrders()
     this.props.fetchCart()
     this.props.fetchCategories()
   }
@@ -45,7 +54,9 @@ class Routes extends Component {
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
             {/* Create Admin section and move there later ... testing here for now */}
-            <Route path="/admin/edit/:beerId" component={UpdateBeer} />
+            {/* <Route path="/admin/edit/:beerId" component={UpdateBeer} /> */}
+            <Route path="/admin/edit/beer/:beerId" component={UpdateBeer} />
+            <Route path="/admin/edit/orders" component={AllOrders} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
@@ -72,6 +83,7 @@ const mapDispatch = dispatch => {
       dispatch(me())
     },
     fetchInitialBeers: () => dispatch(getBeers()),
+    fetchInitialOrders: () => dispatch(getOrders()),
     fetchCart: () => dispatch(fetchCart()),
     fetchCategories: () => dispatch(getCategories())
   }
