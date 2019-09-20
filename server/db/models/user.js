@@ -7,9 +7,8 @@ const User = db.define('user', {
     type: Sequelize.STRING,
     allowNull: true
   },
-  role: {
-    type: Sequelize.ENUM('guest', 'user', 'admin'),
-    defaultValue: 'guest'
+  isAdmin: {
+    type: Sequelize.BOOLEAN
   },
   email: {
     type: Sequelize.STRING,

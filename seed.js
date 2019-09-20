@@ -17,7 +17,7 @@ let randomIndex = array => {
 const seedUsers = [
   {
     username: 'theo_truong',
-    role: 'guest',
+    isAdmin: false,
     email: 'theo@gmail.com',
     password: '123theo',
     imageUrl:
@@ -25,14 +25,14 @@ const seedUsers = [
   },
   {
     username: 'sean_opry',
-    role: 'user',
+    isAdmin: false,
     email: 'sean@gmail.com',
     password: '123sean',
     imageUrl: 'https://www.thefamouspeople.com/profiles/images/sean-opry-1.jpg'
   },
   {
     username: 'natalie_estrada',
-    role: 'admin',
+    isAdmin: true,
     email: 'natalie@gmail.com',
     password: '123natalie',
     imageUrl:
@@ -40,7 +40,7 @@ const seedUsers = [
   },
   {
     username: 'pinzhi_zhang',
-    role: 'guest',
+    isAdmin: true,
     email: 'pinzhi@gmail.com',
     password: '123pinzhi',
     imageUrl:
@@ -48,7 +48,7 @@ const seedUsers = [
   },
   {
     username: 'lea_seydoux',
-    role: 'user',
+    isAdmin: false,
     email: 'lea@gmail.com',
     password: '123lea',
     imageUrl:
@@ -56,7 +56,7 @@ const seedUsers = [
   },
   {
     username: 'jim_harbough',
-    role: 'admin',
+    isAdmin: true,
     email: 'jim@gmail.com',
     password: '123jim',
     imageUrl:
@@ -64,7 +64,7 @@ const seedUsers = [
   },
   {
     username: 'ariana_grande',
-    role: 'user',
+    isAdmin: false,
     email: 'ariana@gmail.com',
     password: '123ariana',
     imageUrl:
@@ -72,7 +72,7 @@ const seedUsers = [
   },
   {
     username: 'andrea_soloko',
-    role: 'user',
+    isAdmin: false,
     email: 'andrea@gmail.com',
     password: '123andrea',
     imageUrl:
