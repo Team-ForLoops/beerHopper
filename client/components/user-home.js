@@ -10,7 +10,14 @@ export const UserHome = props => {
 
   return (
     <div>
-      <h3>Welcome, {email}</h3>
+      <h3>
+        Welcome,{' '}
+        {email.slice(0, 1).toUpperCase() +
+          email.slice(1, email.indexOf('@')) +
+          '!'}
+      </h3>
+      <h4>Beer Hopper... inspired by Rear Admiral Grace M. Hopper</h4>
+      <img src="/images/grace-hopper1.png" className="logo" />
     </div>
   )
 }
