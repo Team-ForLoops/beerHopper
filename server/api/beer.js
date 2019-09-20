@@ -16,11 +16,11 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-// 8080/api/beer/filter
+// 8080/api/beer/filter/:types types = array joined with +
 router.get('/filter/:types', async (req, res, next) => {
   try {
     const types = req.params.types.split('+')
-    // console.log('body type:  ', req.body.types)
+    // all beer within given all categories
     const categories = await Category.findAll({
       where: {
         type: {
@@ -31,17 +31,17 @@ router.get('/filter/:types', async (req, res, next) => {
       returning: true
     })
     let beerArray = []
+    let beerIds = []
     for (let i = 0; i < types.length; i++) {
       let category = categories[i]
-      console.log(`\n\n\n\n${category.beers}\n\n\n\n`)
-      beerArray.concat(category.beers)
+      let beers = category.beers
+      beers.forEach(beer => {
+        if (!beerIds.includes(beer.id)) {
+          beerIds.push(beer.id)
+          beerArray.push(beer)
+        }
+      })
     }
-
-    // console.log('\n\n\n\n\n\n\n\n\n',a.map(b => b.name))
-    // const justBeers = await categories.map(async function (category){
-    //   const beers = await category.getBeers()
-    //   return beers
-    // })
 
     res.json(beerArray)
   } catch (err) {

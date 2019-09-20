@@ -29,21 +29,27 @@ export class AllBeers extends React.Component {
           </select>
           <BeerFilter beers={this.props.beers} />
         </div>
-        <ul>
-          {beers.map(beer => (
-            <Link to={`/beer/${beer.id}`} key={beer.id}>
-              <li>
-                <div className="highlight">
-                  <img src={beer.imageUrl} />
-                </div>
-                <div className="details">
-                  <h3>{beer.name}</h3>
-                  <div>{toDollars(beer.price)}</div>
-                </div>
-              </li>
-            </Link>
-          ))}
-        </ul>
+        {this.props.beers.length ? (
+          <ul>
+            {beers.map(beer => (
+              <Link to={`/beer/${beer.id}`} key={beer.id}>
+                <li>
+                  <div className="highlight">
+                    <img src={beer.imageUrl} />
+                  </div>
+                  <div className="details">
+                    <h3>{beer.name}</h3>
+                    <div>{toDollars(beer.price)}</div>
+                  </div>
+                </li>
+              </Link>
+            ))}
+          </ul>
+        ) : (
+          <button type="submit" onClick={this.props.fetchBeers}>
+            How embarassing... no more beers like that. Take me to your leader!
+          </button>
+        )}
       </div>
     )
   }
@@ -57,7 +63,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getSortedBeers: (sortBy, beers) => dispatch(sortBeers(sortBy, beers))
+    getSortedBeers: (sortBy, beers) => dispatch(sortBeers(sortBy, beers)),
+    fetchBeers: () => dispatch(getBeers())
   }
 }
 

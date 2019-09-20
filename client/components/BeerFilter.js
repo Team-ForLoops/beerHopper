@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {filterBeers} from '../store/allBeers'
+import {filterBeers, getBeers} from '../store/allBeers'
 
 export class BeerFilter extends React.Component {
   constructor() {
@@ -18,12 +18,14 @@ export class BeerFilter extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    // call our thunk
-    // pass array of type strings and beers
     let types = Object.keys(this.state)
     const typesObj = this.state
     types = types.filter(type => typesObj[type])
-    this.props.getFilteredBeers(types, this.props.beers)
+    if (!types.length) {
+      this.props.fetchBeers()
+    } else {
+      this.props.getFilteredBeers(types)
+    }
   }
 
   render() {
@@ -64,7 +66,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getFilteredBeers: (types, beers) => dispatch(filterBeers(types, beers))
+    getFilteredBeers: types => dispatch(filterBeers(types)),
+    fetchBeers: () => dispatch(getBeers())
   }
 }
 
