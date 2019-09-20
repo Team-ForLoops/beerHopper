@@ -12,4 +12,8 @@ const BeerOrder = db.define('beer-orders', {
   }
 })
 
+BeerOrder.prototype.updateQuantity = function(newQuantity) {
+  this.quantity = newQuantity
+}
+
 module.exports = BeerOrder
