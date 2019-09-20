@@ -63,3 +63,10 @@ img {
 .dropdown:hover .dropdown-content {
   display: block;
 } */
+
+.orders-list {
+  grid-gap: 100px;
+  max-width: 1800px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}

@@ -24,6 +24,11 @@ const User = db.define('user', {
       return () => this.getDataValue('password')
     }
   },
+  imageUrl: {
+    type: Sequelize.STRING,
+    defaultValue:
+      'https://s3media.247sports.com/Uploads/Assets/255/457/6_7457255.jpg'
+  },
   salt: {
     type: Sequelize.STRING,
     // Making `.salt` act like a function hides it when serializing to JSON.
