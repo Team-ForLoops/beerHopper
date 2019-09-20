@@ -1,5 +1,6 @@
 import React from 'react'
 import {updateBeerThunk, fetchSingleBeer} from '../store/singleBeer'
+import {getBeers} from '../store/allBeers'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 
@@ -82,6 +83,7 @@ class UpdateBeer extends React.Component {
     }
 
     await this.props.updateBeerThunk(updatedBeer)
+    this.props.fetchInitialBeers()
   }
 
   render() {
@@ -245,7 +247,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   loadSingleBeer: id => dispatch(fetchSingleBeer(id)),
-  updateBeerThunk: updatedBeer => dispatch(updateBeerThunk(updatedBeer))
+  updateBeerThunk: updatedBeer => dispatch(updateBeerThunk(updatedBeer)),
+  fetchInitialBeers: () => dispatch(getBeers())
 })
 
 export default withRouter(
