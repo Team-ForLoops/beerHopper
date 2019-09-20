@@ -67,7 +67,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getSortedBeers: (sortBy, beers) => dispatch(sortBeers(sortBy, beers))
+    getSortedBeers: (sortBy, beers) => dispatch(sortBeers(sortBy, beers)),
+    fetchInitialBeers: () => dispatch(getBeers())
   }
 }
 

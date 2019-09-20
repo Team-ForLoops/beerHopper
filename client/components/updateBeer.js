@@ -35,6 +35,7 @@ class UpdateBeer extends React.Component {
   }
 
   handleChange(event) {
+    console.log('event.target', event.target)
     this.setState({
       [event.target.name]: event.target.value
     })
@@ -49,14 +50,35 @@ class UpdateBeer extends React.Component {
 
     const updatedBeer = {
       id: this.props.beer.id,
-      name: this.state.name,
+      name:
+        typeof this.state.name === 'string'
+          ? this.state.name
+          : this.props.beer.name,
       type: this.state.type,
-      ibu: Number(this.state.ibu),
-      color: this.state.color,
-      description: this.state.description,
-      imageUrl: this.state.imageUrl,
-      quantityInv: Number(this.state.quantityInv),
-      price: Number(this.state.price)
+      ibu:
+        typeof this.state.ibu === 'string'
+          ? Number(this.state.ibu)
+          : Number(this.props.beer.ibu),
+      color:
+        typeof this.state.color === 'string'
+          ? this.state.color
+          : this.props.beer.color,
+      description:
+        typeof this.state.description === 'string'
+          ? this.state.description
+          : this.props.beer.description,
+      imageUrl:
+        typeof this.state.imageUrl === 'string'
+          ? this.state.imageUrl
+          : this.props.beer.imageUrl,
+      quantityInv:
+        typeof this.state.quantityInv === 'string'
+          ? Number(this.state.quantityInv)
+          : Number(this.props.beer.quantityInv),
+      price:
+        typeof this.state.price === 'string'
+          ? Number(this.state.price)
+          : Number(this.props.beer.price)
     }
 
     await this.props.updateBeerThunk(updatedBeer)
@@ -110,7 +132,6 @@ class UpdateBeer extends React.Component {
               <input
                 type="text"
                 name="name"
-                defaultValue={this.props.beer.name}
                 value={
                   //this.state.name
                   typeof this.state.name === 'string'
@@ -126,7 +147,6 @@ class UpdateBeer extends React.Component {
               <input
                 id="hello"
                 type="number"
-                defaultValue={this.props.beer.ibu}
                 name="ibu"
                 min="0"
                 max="100"
@@ -144,7 +164,6 @@ class UpdateBeer extends React.Component {
               <p>Beer Color</p>
               <select
                 name="color"
-                defaultValue={this.props.beer.color}
                 value={
                   typeof this.state.color === 'string'
                     ? this.state.color
@@ -165,7 +184,6 @@ class UpdateBeer extends React.Component {
               <input
                 type="text"
                 name="description"
-                defaultValue={this.props.beer.description}
                 value={
                   typeof this.state.description === 'string'
                     ? this.state.description
@@ -179,7 +197,6 @@ class UpdateBeer extends React.Component {
               <p>Beer Image</p>
               <select
                 name="imageUrl"
-                defaultValue={this.props.beer.imageUrl}
                 value={
                   typeof this.state.imageUrl === 'string'
                     ? this.state.imageUrl
@@ -207,7 +224,6 @@ class UpdateBeer extends React.Component {
                 type="number"
                 // limit min of number selection
                 name="quantityInv"
-                defaultValue={this.props.beer.quantityInv}
                 value={
                   typeof this.state.quantityInv === 'string'
                     ? this.state.quantityInv
@@ -222,7 +238,6 @@ class UpdateBeer extends React.Component {
               <input
                 type="number"
                 name="price"
-                defaultValue={this.props.beer.price}
                 value={
                   typeof this.state.price === 'string'
                     ? this.state.price
