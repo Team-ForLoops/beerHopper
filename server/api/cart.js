@@ -6,7 +6,9 @@ module.exports = router
 router.get('/', async (req, res, next) => {
   //create session data
   const userInfo = {
-    sessionId: req.session.id
+    sessionId: req.session.id,
+    orderId: '',
+    userId: ''
   }
   let cart = []
   try {
@@ -22,6 +24,8 @@ router.get('/', async (req, res, next) => {
           model: Beer
         }
       })
+      if (!req.session.userInfo) req.session.userInfo = userInfo
+      req.session.userInfo.orderId = result[0].dataValues.id
       let order = result[0]
       cart = order.beers
     } else {
@@ -36,20 +40,17 @@ router.get('/', async (req, res, next) => {
           }
         })
         req.session.userInfo.orderId = +order.dataValues.id
-        console.log('created order', order)
+      } else {
+        order = await Order.findOne({
+          where: {
+            id: req.session.userInfo.orderId
+          },
+          include: {
+            model: Beer
+          }
+        })
       }
-      //else {
-      //   order = await Order.findOne({
-      //     where: {
-      //       id: req.session.userInfo.orderId
-      //     },
-      //     include: {
-      //       model: Beer
-      //     }
-      //   })
-      console.log('found order', order)
-      //}
-      // cart = order[0].beers
+      cart = order.beers
     }
     res.json(cart)
   } catch (error) {
@@ -59,7 +60,6 @@ router.get('/', async (req, res, next) => {
 
 router.put('/:beerId', async (req, res, next) => {
   let beerId = +req.params.beerId
-  console.log(req.session)
   try {
     //get orderId from session.cart and get order that way
 
@@ -78,7 +78,6 @@ router.put('/:beerId', async (req, res, next) => {
         model: Beer
       }
     })
-    console.log('hello', newOrder.dataValues.beers)
     res.status(201).send(newOrder.dataValues.beers)
   } catch (error) {
     next(error)
@@ -86,19 +85,14 @@ router.put('/:beerId', async (req, res, next) => {
 })
 router.delete('/:beerId', async (req, res, next) => {
   try {
-    let cart = req.session.cart
-    console.log(cart)
+    console.log('in delete route', req.session)
     await BeerOrder.destroy({
       where: {
-        orderId: cart.orderId,
+        orderId: req.session.userInfo.orderId,
         beerId: req.params.beerId
       }
     })
-    req.session.cart.items.filter(item => {
-      return item.id !== req.params.beerId
-    })
-    console.log(req.session.cart)
-    res.status(204).send(req.session.cart)
+    res.sendStatus(204)
   } catch (error) {
     next(error)
   }
