@@ -68,9 +68,7 @@ const cart = (state = initalState, action) => {
     case ADD_ITEM:
       return action.newCart
     case DELETE_ITEM:
-      console.log('state', state)
-      console.log('action', action)
-      let arr = state.items.filter(beer => {
+      let arr = state.filter(beer => {
         return beer.id !== action.beerId
       })
       return arr

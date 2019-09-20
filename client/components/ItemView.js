@@ -7,6 +7,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import {deleteItemThunk} from '../store/cart'
+import Table from 'react-bootstrap/Table'
 
 class ItemView extends Component {
   constructor() {
@@ -21,25 +22,42 @@ class ItemView extends Component {
     const beer = this.props.item
 
     return (
-      <Card>
-        <Card.Header>
-          <span>{beer.name}</span>
-        </Card.Header>
-        <Card.Body>
-          <img src={beer.imageUrl} />
-          <Card.Text>
-            {beer.price}
-            <Button
-              type="button"
-              variant="danger"
-              size="sm"
-              onClick={() => this.deleteItemHandler(beer.id)}
-            >
-              remove item
+      <tr className="my-2">
+        <td>
+          <span>
+            <img src={beer.imageUrl} />
+            <strong>{beer.name}</strong>
+          </span>
+        </td>
+        <td>
+          <div className="mx-3">
+            Price: ${Math.floor(beer.price / 100).toFixed(2)}
+          </div>
+        </td>
+        <td>
+          <p>Quantity : 1</p>
+          <span>
+            <Button type="button" variant="primary" size="sm">
+              {' '}
+              -
             </Button>
-          </Card.Text>
-        </Card.Body>
-      </Card>
+            <Button type="button" variant="primary" size="sm">
+              {' '}
+              +
+            </Button>
+          </span>
+        </td>
+        <div>
+          <Button
+            type="button"
+            variant="outline-dark"
+            size="sm"
+            onClick={() => this.deleteItemHandler(beer.id)}
+          >
+            remove
+          </Button>
+        </div>
+      </tr>
     )
   }
 }

@@ -4,6 +4,7 @@ import ItemView from './ItemView'
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
+import Table from 'react-bootstrap/Table'
 
 class Cart extends Component {
   render() {
@@ -11,16 +12,23 @@ class Cart extends Component {
     console.log(this.props)
 
     return (
-      <Container>
-        <Row>
+      <Table className="mx-5">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
           {cart !== []
             ? cart.map(item => <ItemView key={item.id} item={item} />)
             : 'There are no items in your cart!'}
-        </Row>
-        <Row>
+        </tbody>
+        <Container>
           <Button variant="success">Checkout</Button>
-        </Row>
-      </Container>
+        </Container>
+      </Table>
     )
   }
 }
