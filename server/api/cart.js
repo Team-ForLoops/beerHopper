@@ -98,8 +98,9 @@ router.get('/:beerId/quantity', async (req, res, next) => {
     next(err)
   }
 })
-router.put('/:beerId/updateQuantity', async (req, res, next) => {
+router.put('/updateQuantity/:beerId', async (req, res, next) => {
   const beerId = req.params.beerId
+  console.log(req.body)
   try {
     let beerOrder = await BeerOrder.findOne({
       where: {

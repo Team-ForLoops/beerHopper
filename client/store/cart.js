@@ -33,7 +33,6 @@ const checkout = newCart => {
     newCart
   }
 }
-
 //THUNK
 export const fetchCart = () => {
   return async dispatch => {

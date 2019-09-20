@@ -20,8 +20,27 @@ class ItemView extends Component {
   }
   async componentDidMount() {
     let {data} = await axios.get(`/api/cart/${this.props.item.id}/quantity`)
+    this.setState({quantity: data})
+  }
+  incrementQuantity = () => {
+    async function updateQ() {
+      await axios.put(
+        `/api/cart/updateQuantity/${this.props.item.id}`,
+        this.state
+      )
+    }
+    let newQuant = this.state.quantity
+    this.setState(
+      {
+        quantity: ++newQuant
+      },
+      updateQ
+    )
+  }
+  decreaseQuantity = async () => {
+    let newQuant = this.state.quantity
     this.setState({
-      quantity: data
+      quantity: --newQuant
     })
   }
 
@@ -31,7 +50,6 @@ class ItemView extends Component {
   }
   render() {
     const beer = this.props.item
-
     return (
       <tr className="my-2">
         <td>
@@ -48,11 +66,21 @@ class ItemView extends Component {
         <td>
           <p>Quantity : {this.state.quantity}</p>
           <span>
-            <Button type="button" variant="primary" size="sm">
+            <Button
+              type="button"
+              variant="primary"
+              size="sm"
+              onClick={this.decreaseQuantity}
+            >
               {' '}
               -
             </Button>
-            <Button type="button" variant="primary" size="sm">
+            <Button
+              type="button"
+              variant="primary"
+              size="sm"
+              onClick={this.incrementQuantity}
+            >
               {' '}
               +
             </Button>
