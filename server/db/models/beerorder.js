@@ -9,6 +9,13 @@ const BeerOrder = db.define('beer-orders', {
   itemPrice: {
     type: Sequelize.FLOAT,
     allowNull: true
+  },
+  subTotal: {
+    type: Sequelize.FLOAT,
+    set(value) {
+      value = this.quantity * this.itemPrice
+      this.setDataValue('subTotal', value)
+    }
   }
 })
 
