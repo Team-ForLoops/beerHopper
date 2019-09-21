@@ -8,6 +8,9 @@ import allBeers from './allBeers'
 import cart from './cart'
 import categories from './categories'
 import allOrders from './allOrders'
+import singleOrder from './singleOrder'
+import orders from './orders'
+import mySingleOrder from './mySingleOrder'
 
 const reducer = combineReducers({
   user,
@@ -15,7 +18,10 @@ const reducer = combineReducers({
   allBeers,
   cart,
   categories,
-  allOrders
+  allOrders,
+  orders,
+  singleOrder,
+  mySingleOrder
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))

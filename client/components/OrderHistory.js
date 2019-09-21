@@ -1,15 +1,33 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getBeers} from '../store/allBeers'
 import {Link} from 'react-router-dom'
-import {getMyOrder, getSingleOrder} from '../store/orders'
+import {getMyOrder} from '../store/myOrders'
+import SingleOrder from './SingleOrder'
 
-export class OrdersHistory extends React.Component {
-  constructor() {
-    super()
+export class OrderHistory extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      showForm: false
+    }
+    this.clickHandler = this.clickHandler.bind(this)
   }
-
+  componentDidMount() {
+    console.log('ORDER PROPS', this.props.orders)
+    this.props.fetchMyOrders()
+  }
+  formatDate(date) {
+    const newDate = new Date(date)
+    return newDate.toLocaleString()
+  }
+  clickHandler() {
+    let hidden = this.state.showForm
+    this.setState({
+      showForm: !hidden
+    })
+  }
   render() {
+    const orders = this.props.orders || []
     return (
       <div>
         <div>
@@ -26,17 +44,34 @@ export class OrdersHistory extends React.Component {
           </select>
           {/* <BeerFilter beers={this.props.beers} /> */}
         </div>
-        {this.props.orders.length
-          ? 'Your order history is empty'
-          : this.props.orders.map(order => {
+        {orders === undefined || orders.length === 0 ? (
+          'Your order history is empty'
+        ) : (
+          <ul>
+            {orders.map(order => {
               return (
                 <li key={order.id}>
-                  <Link to={`/orders/my/${order.id}`}>
-                    <button>Details</button>
-                  </Link>
+                  <div className="order-card">
+                    <p>Date: {this.formatDate(order.createdAt)}</p>
+                    <p>Order Status: {order.status}</p>
+                    <p>Total: </p>
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => {
+                        this.clickHandler()
+                      }}
+                      type="button"
+                    >
+                      Order Details
+                    </button>
+                    {this.state.showForm && <SingleOrder />}
+                  </div>
                 </li>
               )
             })}
+          </ul>
+        )}
       </div>
     )
   }
@@ -50,7 +85,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    fetchOrders: () => dispatch(getMyOrder()),
-    fetchSingleOrder: orderId => dispatch(getSingleOrder(orderId))
+    fetchMyOrders: () => dispatch(getMyOrder())
   }
 }
+export default connect(mapState, mapDispatch)(OrderHistory)

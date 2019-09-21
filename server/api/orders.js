@@ -4,7 +4,7 @@ const {isUser, isAdmin} = require('../checks')
 module.exports = router
 
 // 8080/api/orders/
-router.get('/', isAdmin, async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const orders = await Order.findAll({
       include: [{model: Beer}, {model: User}]
@@ -15,7 +15,8 @@ router.get('/', isAdmin, async (req, res, next) => {
   }
 })
 
-router.get('/:userId', isAdmin, async (req, res, next) => {
+//Need to change the route
+router.get('/:userId', async (req, res, next) => {
   try {
     const orders = await Order.findAll({
       where: {
@@ -30,10 +31,13 @@ router.get('/:userId', isAdmin, async (req, res, next) => {
 
 router.get('/my/allOrders', isUser, async (req, res, next) => {
   try {
-    const myOrders = await Order.findAll({
+    const orders = await Order.findAll({
       where: {
         userId: req.user.dataValues.id
       }
+    })
+    const myOrders = orders.filter(order => {
+      return order.status !== 'open'
     })
     res.json(myOrders)
   } catch (error) {
