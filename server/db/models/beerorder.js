@@ -9,18 +9,16 @@ const BeerOrder = db.define('beer-orders', {
   itemPrice: {
     type: Sequelize.FLOAT,
     allowNull: true
-  },
-  subTotal: {
-    type: Sequelize.FLOAT,
-    set(value) {
-      value = this.quantity * this.itemPrice
-      this.setDataValue('subTotal', value)
-    }
   }
 })
 
 BeerOrder.prototype.updateQuantity = function(newQuantity) {
   this.quantity = newQuantity
 }
-
+// subTotal: {
+//   type: Sequelize.FLOAT,
+//   set(value) {
+//     value = this.quantity * this.itemPrice
+//     this.setDataValue('subTotal', value)
+//   }
 module.exports = BeerOrder

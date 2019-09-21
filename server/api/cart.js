@@ -114,6 +114,25 @@ router.put('/updateQuantity/:beerId', async (req, res, next) => {
     next(err)
   }
 })
+//get item subtotal yo
+router.post('/subTotal/:beerId', async (req, res, next) => {
+  const beerId = +req.params.beerId
+  try {
+    const beerOrder = BeerOrder.findOne({
+      where: {
+        beerId: beerId
+      }
+    })
+    const beer = Beer.findOne({
+      where: {
+        id: beerId
+      }
+    })
+    let quantity = beerOrder.quantity
+  } catch (err) {
+    next(err)
+  }
+})
 //checkout route
 router.post('/checkout', async (req, res, next) => {
   try {

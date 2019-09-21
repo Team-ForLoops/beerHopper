@@ -11,10 +11,11 @@ import Table from 'react-bootstrap/Table'
 import axios from 'axios'
 
 class ItemView extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
-      quantity: 1
+      quantity: 1,
+      price: this.props.item.price
     }
     this.deleteItemHandler = this.deleteItemHandler.bind(this)
   }
@@ -30,9 +31,12 @@ class ItemView extends Component {
       )
     }
     let newQuant = this.state.quantity
+    newQuant++
+    let oldPrice = this.state.price
     this.setState(
       {
-        quantity: ++newQuant
+        quantity: newQuant,
+        price: oldPrice * newQuant
       },
       updateQ
     )
@@ -60,7 +64,7 @@ class ItemView extends Component {
         </td>
         <td>
           <div className="mx-3">
-            Price: ${Math.floor(beer.price / 100).toFixed(2)}
+            Price: ${(this.state.price / 100).toFixed(2)}
           </div>
         </td>
         <td>
