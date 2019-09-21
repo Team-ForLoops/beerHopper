@@ -1,28 +1,23 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {toDollars, getOrders} from '../store/allOrders' // sortOrders
-import BeerFilter from './BeerFilter'
+import {updateOrderThunk, fetchSingleOrder} from '../store/singleOrder'
+// Status Filter import BeerFilter from './BeerFilter'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import {UncontrolledCollapse, CardBody} from 'reactstrap'
-import UpdateOrderStatus from './UpdateOrderStatusComp'
-//import AddReviewForm from './addNewReview'
-// import UpdateBeer from './UpdateBeerComp'   delete
 
 export class AllOrders extends React.Component {
   constructor(props) {
     super(props)
-    //this.toggle = this.toggle.bind(this)
     this.state = {
       collapse: false,
-      showForm: false
+      showForm: false,
+      stat: ''
     }
     this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
-
-  // toggle() {
-  //   this.setState(state => ({collapse: !state.collapse}))
-  // }
 
   componentDidMount() {
     try {
@@ -32,23 +27,40 @@ export class AllOrders extends React.Component {
     }
   }
 
-  clickHandler() {
+  clickHandlerOne() {
     let hidden = this.state.showForm
     this.setState({
       showForm: !hidden
     })
   }
 
-  // handleChange(event) {
-  //   return this.props.getSortedBeers(event.target.value, this.props.beers)
-  // }
+  handleChange(event) {
+    //console.log('event.target', event.target)
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  async handleSubmit(orderId) {
+    event.preventDefault()
+
+    const updatedOrder = {
+      id: orderId,
+      status: this.state.stat
+    }
+
+    // console.log('UPDATE ORDER', updatedOrder)
+
+    await this.props.updateOrderThunk(updatedOrder)
+    this.props.fetchInitialOrders()
+  }
 
   render() {
     const orders = this.props.orders
-    console.log('PROPS', this.props)
-    console.log('ORDER BEERS', this.props.orders.beers)
+    // console.log('PROPS', this.props)
+    // console.log('ORDER BEERS', this.props.orders.beers)
 
-    const beers = orders.beers || []
+    // const beers = orders.beers || []
 
     return (
       <div>
@@ -103,21 +115,58 @@ export class AllOrders extends React.Component {
                           <Button
                             id={`status${order.id}`}
                             onClick={() => {
-                              this.clickHandler()
+                              this.clickHandlerOne()
                             }}
                             variant="danger"
                           >
                             Update Status Toggle
                           </Button>
                           <UncontrolledCollapse toggler={`#status${order.id}`}>
-                            {this.state.showForm && (
+                            {/* {this.state.showForm && (
                               <UpdateOrderStatus orderId={order.id} />
-                            )}
+                            )} */}
+                            <form onSubmit={() => this.handleSubmit(order.id)}>
+                              <div>
+                                <span>
+                                  <select
+                                    name="stat"
+                                    value={
+                                      typeof order.status === 'string'
+                                        ? this.state.stat
+                                        : order.status
+                                    }
+                                    onChange={this.handleChange}
+                                  >
+                                    <option value="">
+                                      select order status
+                                    </option>
+                                    <option value="open">open</option>
+                                    <option value="processing">
+                                      processing
+                                    </option>
+                                    <option value="cancelled">cancelled</option>
+                                  </select>
+                                </span>
+
+                                <p />
+                                <span>
+                                  <p>
+                                    {/* */}
+                                    <button type="submit">Edit</button>
+                                  </p>
+                                </span>
+
+                                {/* delete thunk
+                              <span>
+                                <p>
+                                  <button type="button">Delete</button>
+                                </p>
+                              </span>
+                              */}
+                              </div>
+                            </form>
                           </UncontrolledCollapse>
-                          <p>
-                            {' '}
-                            ---------------------------------------------------
-                          </p>
+                          <p> -----------------------------------------</p>
                           <Button
                             variant="primary"
                             id={`order${order.id}`}
@@ -135,6 +184,7 @@ export class AllOrders extends React.Component {
                                       : order.beers.map(beer => (
                                           <div key={beer.id}>
                                             <p> Beer Name: {beer.name} </p>
+                                            <img src={beer.imageUrl} />
                                             <p>
                                               {' '}
                                               Beer Description:{' '}
@@ -146,7 +196,7 @@ export class AllOrders extends React.Component {
                                               Beer Price:{' '}
                                               {toDollars(beer.price)}{' '}
                                             </p>
-                                            {/* pull name */}
+
                                             <p>
                                               {' '}
                                               --------------------------------
@@ -180,6 +230,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    loadSingleOrder: id => dispatch(fetchSingleOrder(id)),
+    updateOrderThunk: updatedOrder => dispatch(updateOrderThunk(updatedOrder)),
     //getSortedBeers: (sortBy, beers) => dispatch(sortBeers(sortBy, beers)),
     fetchInitialOrders: () => dispatch(getOrders())
   }
