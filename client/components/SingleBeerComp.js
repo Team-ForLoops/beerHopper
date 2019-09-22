@@ -4,7 +4,7 @@ import React from 'react'
 import {fetchSingleBeer} from '../store/singleBeer' // unassignProjectThunk
 import {connect} from 'react-redux'
 import {toDollars} from '../store/allBeers'
-import AddReviewForm from './addNewReview'
+import AddReviewForm from './AddReviewForm'
 import {addItemThunk} from '../store/cart'
 import {Link} from 'react-router-dom'
 

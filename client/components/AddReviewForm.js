@@ -7,7 +7,6 @@ class AddReviewForm extends Component {
   constructor() {
     super()
     this.state = {
-      // name: '',
       rating: '',
       description: ''
     }
@@ -18,13 +17,11 @@ class AddReviewForm extends Component {
     this.setState({
       [event.target.name]: event.target.value
     })
-    console.log('In handle change:', this.state)
   }
 
   handleSubmit = () => {
     //event.preventDefault()
     //clear inputs and make axios post to database, hence post in first part!!!!!
-    console.log('before post req')
 
     const newReview = {
       // name: this.state.name,
@@ -43,16 +40,6 @@ class AddReviewForm extends Component {
   render() {
     return (
       <form onSubmit={() => this.handleSubmit()}>
-        {/* <div className="form-group">
-          <label htmlFor="name">Reviewer Name:</label>
-          <input
-            className="form-control"
-            onChange={this.handleChange}
-            type="text"
-            name="name"
-            value={this.state.name}
-          />
-    </div> */}
         <div className="form-group">
           <label htmlFor="rating">Rating:</label>
           <input
