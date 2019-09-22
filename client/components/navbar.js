@@ -44,6 +44,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
         <div className="justify-content-end">
           <Link to="/cart"> Cart</Link>
         </div>
+        {isLoggedIn ? <Link to="/orders/myOrders">My Orders</Link> : ''}
       </NavBar>
       <hr />
     </Container>
@@ -54,6 +55,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
  * CONTAINER
  */
 const mapState = state => {
+  console.log('admin?', !!state.user.isAdmin)
   return {
     isLoggedIn: !!state.user.id
   }

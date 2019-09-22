@@ -2,6 +2,7 @@ const router = require('express').Router()
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const {Beer, Review, User, Category} = require('../db/models')
+const {isUser, isAdmin, isMeOrAdmin} = require('../checks')
 module.exports = router
 
 // 8080/api/beer/
@@ -63,7 +64,7 @@ router.get('/:beerId', async (req, res, next) => {
 })
 
 // 8080/api/beer/:id/review
-router.post('/:id/review', async (req, res, next) => {
+router.post('/:id/review', isUser, async (req, res, next) => {
   try {
     // console.log(
     //   'req.user #######################################################################',
@@ -91,7 +92,7 @@ router.post('/:id/review', async (req, res, next) => {
 
 // 8080/api/beer/:beerId
 
-router.put('/:beerId', async (req, res, next) => {
+router.put('/:beerId', isAdmin, async (req, res, next) => {
   let beerId = req.params.beerId
 
   try {

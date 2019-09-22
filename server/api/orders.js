@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const {Order, Beer, User, BeerOrder} = require('../db/models')
-const {isUser, isAdmin} = require('../checks')
+const {isUser, isAdmin, isMeOrAdmin} = require('../checks')
 module.exports = router
 
 // 8080/api/orders/
@@ -16,20 +16,20 @@ router.get('/', isAdmin, async (req, res, next) => {
 })
 
 //Need to change the route
-router.get('/:userId', async (req, res, next) => {
-  try {
-    const orders = await Order.findAll({
-      where: {
-        id: req.params.userId
-      }
-    })
-    res.json(orders)
-  } catch (error) {
-    next(error)
-  }
-})
+// router.get('/:userId', isAdmin, async (req, res, next) => {
+//   try {
+//     const orders = await Order.findAll({
+//       where: {
+//         id: req.params.userId
+//       }
+//     })
+//     res.json(orders)
+//   } catch (error) {
+//     next(error)
+//   }
+// })
 
-router.get('/my/allOrders', isUser, async (req, res, next) => {
+router.get('/my/allOrders', isMeOrAdmin, async (req, res, next) => {
   try {
     const orders = await Order.findAll({
       where: {
@@ -79,7 +79,7 @@ router.get('/:orderId', isAdmin, async (req, res, next) => {
 
 // 8080/api/orders/:orderId
 
-router.put('/:orderId', async (req, res, next) => {
+router.put('/:orderId', isAdmin, async (req, res, next) => {
   let orderId = req.params.orderId
 
   try {
