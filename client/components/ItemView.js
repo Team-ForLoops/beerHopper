@@ -32,12 +32,15 @@ class ItemView extends Component {
     await axios.put(`/api/cart/updateQuantity/${this.props.item.id}`, {
       quantity: this.state.quantity
     })
-    this.props.updateSubTotal(this.state.itemSubtotal)
+  }
+  updateCartST = difference => {
+    this.props.updateSubTotal(difference)
   }
   incrementQuantity = () => {
     let newQuant = this.state.quantity
     newQuant++
     let price = this.state.itemPrice
+    let oldSubtotal = this.state.itemSubtotal
     this.setState(
       {
         quantity: newQuant,
@@ -45,6 +48,7 @@ class ItemView extends Component {
       },
       this.updateBeerOrder
     )
+    this.updateCartST(this.state.itemPrice)
   }
   decreaseQuantity = () => {
     let newQuant = this.state.quantity
@@ -56,11 +60,12 @@ class ItemView extends Component {
       this.setState(
         {
           quantity: newQuant,
-          itemSubtotal: price / newQuant
+          itemSubtotal: price * newQuant
         },
         this.updateBeerOrder
       )
     }
+    this.updateCartST(-this.state.itemPrice)
   }
 
   deleteItemHandler = beerId => {

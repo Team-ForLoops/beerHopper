@@ -57,6 +57,16 @@ class SingleBeer extends React.Component {
 
     return (
       <Container className="mx-auto" id="single-beer">
+        {this.props.user.isAdmin ? (
+          <div>
+            <h2>Welcome Admin!</h2>{' '}
+            <Link to={`/admin/edit/beer/${beer.id}`}>
+              <Button>Edit Beer</Button>
+            </Link>
+          </div>
+        ) : (
+          ''
+        )}
         <img src={beer.imageUrl} className="mx-auto" />
         <Card.Body>
           <Card.Title>{beer.name}</Card.Title>
