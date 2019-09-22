@@ -6,6 +6,7 @@ import {connect} from 'react-redux'
 import {toDollars} from '../store/allBeers'
 import AddReviewForm from './addNewReview'
 import {addItemThunk} from '../store/cart'
+import {Link} from 'react-router-dom'
 
 import Button from 'react-bootstrap/Button'
 
@@ -67,18 +68,23 @@ class SingleBeer extends React.Component {
             </div>
           </ul>
         </div>
-        {/* setup conditional for if beer has no projects */}
-        <div>
-          <button
-            onClick={() => {
-              this.clickHandler()
-            }}
-            type="button"
-          >
-            Add Review
-          </button>
-          {this.state.showForm && <AddReviewForm />}
-        </div>
+        {this.props.user.id === undefined ? (
+          <span>
+            <div>Please login to add a review!</div>
+          </span>
+        ) : (
+          <div>
+            <button
+              onClick={() => {
+                this.clickHandler()
+              }}
+              type="button"
+            >
+              Add Review
+            </button>
+            {this.state.showForm && <AddReviewForm />}
+          </div>
+        )}
         <div id="single-beer-reviews" className="set-later">
           {reviews.length === 0
             ? `${beer.name} has no reviews!`
@@ -92,7 +98,6 @@ class SingleBeer extends React.Component {
                 </div>
               ))}
         </div>
-
         {/* <add beer to cart /> */}
         <Button variant="warning" onClick={() => this.addToCartHandler()}>
           Add To Cart
@@ -104,7 +109,8 @@ class SingleBeer extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    beer: state.singleBeer
+    beer: state.singleBeer,
+    user: state.user
   }
 }
 
