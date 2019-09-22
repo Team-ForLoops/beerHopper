@@ -5,6 +5,7 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import singleBeer from './singleBeer'
 import singleOrder from './singleOrder'
+import singleUser from './singleUser'
 import allBeers from './allBeers'
 import cart from './cart'
 import categories from './categories'
@@ -15,6 +16,7 @@ const reducer = combineReducers({
   user,
   singleBeer,
   singleOrder,
+  singleUser,
   allBeers,
   cart,
   categories,

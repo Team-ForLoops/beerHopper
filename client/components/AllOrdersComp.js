@@ -89,6 +89,14 @@ export class AllOrders extends React.Component {
                         <div className="details">
                           <p>User: {order.user.username}</p>
                           <p>Order Status: {order.status}</p>
+                          <p>
+                            Order Date:{' '}
+                            {new Intl.DateTimeFormat('en-GB', {
+                              month: 'short',
+                              day: '2-digit',
+                              year: 'numeric'
+                            }).format(new Date(order.createdAt))}
+                          </p>
                           <span>
                             {' '}
                             Total Quantity:
@@ -117,7 +125,7 @@ export class AllOrders extends React.Component {
                             onClick={() => {
                               this.clickHandlerOne()
                             }}
-                            variant="danger"
+                            variant="outline-primary"
                           >
                             Update Status Toggle
                           </Button>
@@ -165,7 +173,7 @@ export class AllOrders extends React.Component {
                           </UncontrolledCollapse>
                           <p> -----------------------------------------</p>
                           <Button
-                            variant="primary"
+                            variant="info"
                             id={`order${order.id}`}
                             style={{marginBottom: '1rem'}}
                           >

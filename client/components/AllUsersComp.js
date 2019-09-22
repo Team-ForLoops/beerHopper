@@ -1,18 +1,18 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {toDollars, getUsers} from '../store/allUsers' // toDate
-// import {updateUserThunk, fetchSingleUser} from '../store/singleUser'
+import {getUsers, deleteUserThunk} from '../store/allUsers'
+import {updateUserThunk, fetchSingleUser} from '../store/singleUser'
 // Status Filter import BeerFilter from './BeerFilter'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
-import {UncontrolledCollapse, CardBody} from 'reactstrap'
+import {UncontrolledCollapse} from 'reactstrap'
 
 export class AllUsers extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       showForm: false,
-      isAdmin: ''
+      stat: ''
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -21,6 +21,7 @@ export class AllUsers extends React.Component {
   componentDidMount() {
     try {
       this.props.fetchInitialUsers()
+      this.props.deleteUserThunk()
     } catch (error) {
       console.error(error)
     }
@@ -45,7 +46,7 @@ export class AllUsers extends React.Component {
 
     const updatedUser = {
       id: userId,
-      isAdmin: this.state.isAdmin
+      isAdmin: this.state.stat
     }
 
     // console.log('UPDATE USER', updatedUser)
@@ -75,6 +76,19 @@ export class AllUsers extends React.Component {
         <div className="flex-cards">
           {users.map(user => (
             <Card style={{width: '18rem'}} key={user.id}>
+              {/* delete thunk */}
+              <span>
+                <p>
+                  <Button
+                    id={`delete${user.id}`}
+                    variant="danger"
+                    onClick={() => deleteUserThunk(user.id)}
+                  >
+                    X
+                  </Button>
+                </p>
+              </span>
+
               <Card.Body>
                 <Card.Title>User Id: {user.id}</Card.Title>
                 <Card.Text>
@@ -87,15 +101,22 @@ export class AllUsers extends React.Component {
                         <div className="details">
                           <p>Username: {user.username}</p>
                           <p>User Email: {user.email}</p>
-                          <p>Admin Status: {user.isAdmin}</p>
-                          <p>Account Created Date: {user.createdAt}</p>
+                          <p>Admin Status: {user.isAdmin ? 'true' : 'false'}</p>
+                          <p>
+                            Created Date:{' '}
+                            {new Intl.DateTimeFormat('en-GB', {
+                              month: 'short',
+                              day: '2-digit',
+                              year: 'numeric'
+                            }).format(new Date(user.createdAt))}
+                          </p>
                           <p />
                           <Button
                             id={`user${user.id}`}
                             onClick={() => {
                               this.clickHandlerOne()
                             }}
-                            variant="danger"
+                            variant="outline-info"
                           >
                             Admin Status Toggle
                           </Button>
@@ -107,7 +128,7 @@ export class AllUsers extends React.Component {
                               <div>
                                 <span>
                                   <select
-                                    name="isAdmin"
+                                    name="stat"
                                     value={
                                       typeof user.isAdmin === 'string'
                                         ? this.state.isAdmin
@@ -127,14 +148,6 @@ export class AllUsers extends React.Component {
                                     <button type="submit">Submit</button>
                                   </p>
                                 </span>
-
-                                {/* delete thunk
-                                <span>
-                                  <p>
-                                    <button type="button">Delete</button>
-                                  </p>
-                                </span>
-                                */}
                               </div>
                             </form>
                           </UncontrolledCollapse>
@@ -163,7 +176,8 @@ const mapDispatchToProps = dispatch => {
     loadSingleUser: id => dispatch(fetchSingleUser(id)),
     updateUserThunk: updatedUser => dispatch(updateUserThunk(updatedUser)),
     //getSortedBeers: (sortBy, beers) => dispatch(sortBeers(sortBy, beers)),
-    fetchInitialUsers: () => dispatch(getUsers())
+    fetchInitialUsers: () => dispatch(getUsers()),
+    deleteUserThunk: userId => dispatch(deleteUserThunk(userId))
   }
 }
 

@@ -31,7 +31,7 @@ router.get('/:orderId', isAdmin, async (req, res, next) => {
 
 // 8080/api/orders/:orderId
 
-router.put('/:orderId', async (req, res, next) => {
+router.put('/:orderId', isAdmin, async (req, res, next) => {
   let orderId = req.params.orderId
 
   try {

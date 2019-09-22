@@ -3,12 +3,18 @@ import axios from 'axios'
 // ACTION TYPES
 
 const SET_USERS = 'SET_USERS'
+const DELETE_USER = 'DELETE_USER'
 
 // ACTION CREATORS
 
 export const setUsers = users => ({
   type: SET_USERS,
   users: users
+})
+
+export const deleteUser = delUserId => ({
+  type: DELETE_USER,
+  delUserId: delUserId
 })
 
 // DOLLAR HELPER FOR CENTS FIELD
@@ -24,6 +30,18 @@ export const getUsers = () => async dispatch => {
     const {data} = await axios.get('/api/users')
     dispatch(setUsers(data))
     console.log('getUsersThunk DATA ARRAY', data)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const deleteUserThunk = delUserId => async dispatch => {
+  try {
+    const response = await axios.delete(`/api/users/${delUserId}`)
+    const deleteUserId = response.data
+
+    dispatch(deleteUser(deleteUserId))
+    console.log('getUsersThunk DELETE', deleteUserId)
   } catch (err) {
     console.error(err)
   }
@@ -86,6 +104,10 @@ export default function(state = allUsers, action) {
   switch (action.type) {
     case SET_USERS:
       return action.users
+    case DELETE_USER: {
+      let userRemovalArray = state.filter(user => user.id !== action.delUserId)
+      return userRemovalArray
+    }
     default:
       return state
   }
