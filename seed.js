@@ -270,6 +270,194 @@ const seedBeers = [
     color: 'light',
     description: 'Its very much in your business!',
     price: 500
+  },
+  {
+    name: 'Hoppy Holidays',
+    price: 1099,
+    ibu: 47,
+    quantity: 2,
+    description: 'Evil artistry with essence of dirty baby diapers',
+    imageUrl: '/images/16.jpg'
+  },
+  {
+    name: 'OMG',
+    price: 2149,
+    ibu: 50,
+    quantity: 45,
+    description: 'Skunky bitter bile with notes of rancid butter',
+    imageUrl: '/images/17.jpg'
+  },
+  {
+    name: 'Yowee Wowee',
+    price: 6439,
+    ibu: 67,
+    quantity: 39,
+    description: 'God awful bitterness with confident tannins',
+    imageUrl: '/images/18.jpg'
+  },
+  {
+    name: 'Tammy Pies',
+    price: 5199,
+    ibu: 5,
+    quantity: 34,
+    description: 'Nutty tsunami that flows like a pastoral poem',
+    imageUrl: '/images/19.jpg'
+  },
+  {
+    name: 'Kerpy Doo',
+    price: 5749,
+    ibu: 42,
+    quantity: 30,
+    description:
+      'Satisfying goodness reminiscent of a wet old box in your grandmas basement',
+    imageUrl: '/images/20.jpg'
+  },
+  {
+    name: 'Rupen Swhugr',
+    price: 5999,
+    ibu: 75,
+    quantity: 34,
+    description: 'Infused nelson nectar with low hops',
+    imageUrl: '/images/21.jpg'
+  },
+  {
+    name: 'Paste Pound',
+    price: 6399,
+    ibu: 61,
+    quantity: 64,
+    description: 'Girthy booze fest with maple undertones',
+    imageUrl: '/images/22.jpg'
+  },
+  {
+    name: 'Gritty Toto',
+    price: 6000,
+    ibu: 7,
+    quantity: 4,
+    description: 'Sour mountains of bitterness but in a good way',
+    imageUrl: '/images/23.jpg'
+  },
+  {
+    name: 'Orpengsnag',
+    price: 6600,
+    ibu: 49,
+    quantity: 61,
+    description: 'Insanely refreshing sour-patch kid with a gym sock funk',
+    imageUrl: '/images/24.jpg'
+  },
+  {
+    name: 'Brutal Baby',
+    price: 666,
+    ibu: 100,
+    quantity: 8,
+    description: 'Burnt subtle wet blanket',
+    imageUrl: '/images/25.jpg'
+  },
+  {
+    name: 'What are you doing here',
+    price: 5899,
+    ibu: 8,
+    quantity: 24,
+    description: 'Bitter funk with brett earthiness',
+    imageUrl: '/images/26.jpg'
+  },
+  {
+    name: 'Pantry Snooper',
+    price: 7199,
+    ibu: 77,
+    quantity: 11,
+    description: 'Blonde lager with notes of leather-bound books',
+    imageUrl: '/images/27.jpg'
+  },
+  {
+    name: 'You mad',
+    price: 6719,
+    ibu: 97,
+    quantity: 42,
+    description: 'Belch-inducing think piece with notes of marshmallow',
+    imageUrl: '/images/28.jpg'
+  },
+  {
+    name: 'Julebrygg has a baby',
+    price: 62000,
+    ibu: 47,
+    quantity: 65,
+    description: 'Wine-like swill with an influence of wild yeast',
+    imageUrl: '/images/29.jpg'
+  },
+  {
+    name: 'Tomorrow is Today',
+    price: 899,
+    ibu: 73,
+    quantity: 63,
+    description: 'Tastes like bbq sauce but carbonated. real gross',
+    imageUrl: '/images/30.jpg'
+  },
+  {
+    name: 'Cake Town',
+    price: 6969,
+    ibu: 99,
+    quantity: 213,
+    description:
+      'Want to drink cake? like bad things? this is the one for you. No bottles ever sold. Will you be the first? Make history by purchasing this beer!',
+    imageUrl: '/images/31.jpg'
+  },
+  {
+    name: 'Bad Potato Daddy',
+    ibu: 25,
+    color: 'red',
+    description: 'Sweet potato ale. Comparable to pumpkin spice ales.',
+    imageUrl: '/images/32.jpg',
+    quantityInv: 20,
+    price: 1299
+  },
+  {
+    name: 'Dark and Stormy Daniels',
+    type: 'stout',
+    ibu: 69,
+    color: 'dark',
+    description:
+      'Stout with coconut added in secondary. Chocolatey, roasty, coconutty, delicious.',
+    imageUrl: '/images/dark-paradise.jpg',
+    quantityInv: 100,
+    price: 100
+  },
+  {
+    name: 'Rooty',
+    type: 'saison',
+    ibu: 40,
+    color: 'light',
+    description:
+      'Slightly tart, sessionable saison with a beautiful light pink color',
+    // imageUrl: '/images/hibiscus-saison.jpg',
+    quantityInv: 0,
+    price: 49999
+  },
+  {
+    name: 'March of the Legumes',
+    type: 'ale',
+    ibu: 25,
+    color: 'light',
+    description: 'American honey ale, brewed and fermented with honey',
+    // imageUrl: '/images/hi-honey.jpg',
+    quantityInv: 10,
+    price: 799
+  },
+  {
+    name: 'Divorce Saison',
+    type: 'saison',
+    ibu: 18,
+    color: 'light',
+    description: 'Lawyer fees included',
+    imageUrl: '/images/wedding-saison.jpg',
+    quantityInv: 2,
+    price: 10000000
+  },
+  {
+    name: 'Jalapeno Business Casual',
+    type: 'ale',
+    color: 'light',
+    price: 500,
+    quantity: 4
   }
 ]
 
