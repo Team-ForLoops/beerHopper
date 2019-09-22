@@ -268,6 +268,7 @@ const seedBeers = [
     name: 'Jalapeno Business',
     type: 'ale',
     color: 'light',
+    description: 'Its very much in your business!',
     price: 500
   }
 ]

@@ -26,7 +26,7 @@ const Beer = db.define('beer', {
   },
   quantityInv: {
     type: Sequelize.INTEGER,
-    defaultValue: 1
+    defaultValue: 15
   },
   price: {
     type: Sequelize.INTEGER,

@@ -6,6 +6,7 @@ import {connect} from 'react-redux'
 import {toDollars} from '../store/allBeers'
 import AddReviewForm from './addNewReview'
 import {addItemThunk} from '../store/cart'
+import {Link} from 'react-router-dom'
 
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
@@ -44,6 +45,7 @@ class SingleBeer extends React.Component {
     this.setState({showCart: true})
   }
 
+  // eslint-disable-next-line complexity
   render() {
     // single beer prop
     // reviews are properties on beer
@@ -54,64 +56,95 @@ class SingleBeer extends React.Component {
     const reviews = beer.reviews || []
 
     return (
-      <Container className="mx-5" id="single-beer">
-        <img src={beer.imageUrl} className="highlight text-center" />
+      <Container className="mx-auto" id="single-beer">
+        <img src={beer.imageUrl} className="mx-auto" />
         <Card.Body>
-          <Card.Title>Beer Name: {beer.name}</Card.Title>
+          <Card.Title>{beer.name}</Card.Title>
           <Card.Text>
             <div className="details">
               <ul>
                 <li>
-                  <p>Beer Type: {beer.type}</p>
-                  <p>Beer IBU: {beer.ibu}</p>
-                  <p>Beer Color: {beer.color}</p>
-                  <p>Beer Description: {beer.description}</p>
-                  {/* <p>Beer Inventory: {beer.quantityInv}</p> */}
-                  {/* maybe add a message about low quantity later */}
-                  <p>Beer Price: {toDollars(beer.price)}</p>
+                  <p>IBU: {beer.ibu}</p>
+                  <p>Color: {beer.color}</p>
+                  <p>Description: {beer.description}</p>
+                  <div>
+                    {beer.quantityInv > 0 ? (
+                      <span>IN STOCK </span>
+                    ) : (
+                      <span className="text-danger">OUT OF STOCK</span>
+                    )}
+                    {beer.quantityInv <= 10 && beer.quantityInv > 0 ? (
+                      <span className="text-danger">
+                        Only {beer.quantityInv} Left!
+                      </span>
+                    ) : (
+                      ''
+                    )}
+                    <span>| Price: {toDollars(beer.price)}</span>
+                  </div>
                 </li>
               </ul>
             </div>
           </Card.Text>
           {/* setup conditional for if beer has no projects */}
           <div>
-            <button
-              onClick={() => {
-                this.clickHandler()
-              }}
-              type="button"
-            >
-              Add Review
-            </button>
+            {this.props.user.id ? (
+              <Button
+                onClick={() => {
+                  this.clickHandler()
+                }}
+                type="button"
+                variant="light"
+              >
+                Add Review
+              </Button>
+            ) : (
+              <div className="">
+                <Link to="/signup">Sign Up to Leave a Review!</Link>
+              </div>
+            )}
             {this.state.showForm && <AddReviewForm />}
           </div>
-          <table id="single-beer-reviews" className="set-later">
+          <table id="single-beer-reviews" className="my-3">
             {reviews.length === 0
               ? `${beer.name} has no reviews!`
               : reviews.map(review => (
-                  <tr key={review.id}>
-                    <p> Review Rating: {review.rating} </p>
-                    <p> Review Description: {review.description} </p>
-                    <p> Reviewer Name: {review.user.username} </p>
+                  <tr
+                    key={review.id}
+                    className="border-top border-bottom border-dark"
+                  >
+                    <p> Rating: {review.rating} </p>
+                    <p> {review.description} </p>
+                    <p> Reviewer: {review.user.username} </p>
                     {/* pull name */}
                   </tr>
                 ))}
           </table>
 
-          {/* <add beer to cart /> */}
-          <Button
-            variant="warning"
-            className="sm"
-            onClick={() => this.addToCartHandler()}
-          >
-            Add To Cart
-          </Button>
-          {this.state.showCart && (
-            <div>
-              <span>This item was added to your cart!</span>
-              <Button variant="success">Go To Cart</Button>
-            </div>
+          {beer.quantityInv <= 0 ? (
+            <h3 className="text-danger">OUT OF STOCK!</h3>
+          ) : (
+            <Button
+              variant="warning"
+              className="sm"
+              onClick={() => this.addToCartHandler()}
+            >
+              Add To Cart
+            </Button>
           )}
+          {this.state.showCart && (
+            <span className="mx-5">
+              This item was added to your cart!
+              <Link to="/cart">
+                <Button variant="success" className="mx-3">
+                  Go To Cart
+                </Button>
+              </Link>
+            </span>
+          )}
+          <Link to="/beers">
+            <Button variant="dark">Continue Shopping</Button>
+          </Link>
         </Card.Body>
       </Container>
     )
@@ -120,7 +153,8 @@ class SingleBeer extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    beer: state.singleBeer
+    beer: state.singleBeer,
+    user: state.user
   }
 }
 

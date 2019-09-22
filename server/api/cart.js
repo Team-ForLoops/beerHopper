@@ -57,7 +57,25 @@ router.get('/', async (req, res, next) => {
     next(error)
   }
 })
-
+//get cart subTotal
+router.get('/subTotal', async (req, res, next) => {
+  let orderId = req.session.userInfo.orderId
+  try {
+    let beerOrders = await BeerOrder.findAll({
+      where: {
+        orderId: orderId
+      }
+    })
+    let subTotal = 0
+    for (let i = 0; i < beerOrders.length; i++) {
+      let itemSubtotal = await beerOrders[i].getItemSubTotal()
+      subTotal += itemSubtotal
+    }
+    res.json(subTotal)
+  } catch (err) {
+    next(err)
+  }
+})
 router.put('/:beerId', async (req, res, next) => {
   let beerId = +req.params.beerId
   try {
@@ -83,7 +101,7 @@ router.put('/:beerId', async (req, res, next) => {
     next(error)
   }
 })
-router.get('/:beerId/quantity', async (req, res, next) => {
+router.get('/:beerId/cartData', async (req, res, next) => {
   const beerId = req.params.beerId
   try {
     let beerOrder = await BeerOrder.findOne({
@@ -93,7 +111,11 @@ router.get('/:beerId/quantity', async (req, res, next) => {
       }
     })
     let quantity = beerOrder.quantity
-    res.json(quantity)
+    let itemSubTotal = await beerOrder.getItemSubTotal()
+    res.json({
+      quantity,
+      itemSubTotal
+    })
   } catch (err) {
     next(err)
   }
@@ -138,7 +160,17 @@ router.post('/checkout', async (req, res, next) => {
   //pass in subTotal in req.body as well later
   try {
     let currentOrder = await Order.findByPk(req.session.userInfo.orderId)
-    const result = await currentOrder.update({status: 'processing'})
+    const result = await currentOrder.update({
+      status: 'processing',
+      subTotal: req.body.subTotal
+    })
+    //update Quantity for beers on Order
+    let beerOrders = await BeerOrder.findAll({
+      where: {
+        orderId: req.session.userInfo.orderId
+      }
+    })
+    await Promise.all(beerOrders.map(beerOrder => beerOrder.updateInv()))
     //create new order for a logged in guest
     let newOrder = []
     if (req.session.passport) {

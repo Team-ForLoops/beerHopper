@@ -66,10 +66,10 @@ export const deleteItemThunk = beerId => {
   }
 }
 
-export const checkoutThunk = () => {
+export const checkoutThunk = subTotal => {
   return async dispatch => {
     try {
-      await axios.post('/api/cart/checkout')
+      await axios.post('/api/cart/checkout', {subTotal: subTotal})
       //put in new cart should be empty []?
       dispatch(checkout([]))
     } catch (err) {

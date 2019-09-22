@@ -7,6 +7,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import {deleteItemThunk} from '../store/cart'
+import {setSubTotalThunk, updateSubTotal} from '../store/subTotal'
 import Table from 'react-bootstrap/Table'
 import axios from 'axios'
 
@@ -15,28 +16,32 @@ class ItemView extends Component {
     super(props)
     this.state = {
       quantity: 1,
-      itemPrice: this.props.item.price
+      itemPrice: this.props.item.price,
+      itemSubtotal: this.props.item.price
     }
     this.deleteItemHandler = this.deleteItemHandler.bind(this)
   }
   async componentDidMount() {
-    let {data} = await axios.get(`/api/cart/${this.props.item.id}/quantity`)
-    this.setState({quantity: data})
+    let {data} = await axios.get(`/api/cart/${this.props.item.id}/cartData`)
+    this.setState({
+      quantity: data.quantity,
+      itemSubtotal: data.itemSubTotal
+    })
   }
   async updateBeerOrder() {
-    await axios.put(
-      `/api/cart/updateQuantity/${this.props.item.id}`,
-      this.state
-    )
+    await axios.put(`/api/cart/updateQuantity/${this.props.item.id}`, {
+      quantity: this.state.quantity
+    })
+    this.props.updateSubTotal(this.state.itemSubtotal)
   }
   incrementQuantity = () => {
     let newQuant = this.state.quantity
     newQuant++
-    let oldPrice = this.state.itemPrice
+    let price = this.state.itemPrice
     this.setState(
       {
         quantity: newQuant,
-        itemPrice: oldPrice * newQuant
+        itemSubtotal: price * newQuant
       },
       this.updateBeerOrder
     )
@@ -44,18 +49,21 @@ class ItemView extends Component {
   decreaseQuantity = () => {
     let newQuant = this.state.quantity
     newQuant--
-    let oldPrice = this.state.itemPrice
-    this.setState(
-      {
-        quantity: newQuant,
-        itemPrice: oldPrice / newQuant
-      },
-      this.updateBeerOrder
-    )
+    if (newQuant <= 0) {
+      this.props.deleteItem(this.props.item.id)
+    } else {
+      let price = this.state.itemPrice
+      this.setState(
+        {
+          quantity: newQuant,
+          itemSubtotal: price / newQuant
+        },
+        this.updateBeerOrder
+      )
+    }
   }
 
   deleteItemHandler = beerId => {
-    //console.log(beerId);
     this.props.deleteItem(beerId)
   }
   render() {
@@ -69,9 +77,9 @@ class ItemView extends Component {
           </span>
         </td>
         <td>
-          <div className="mx-3">
-            Price: ${(this.state.itemPrice / 100).toFixed(2)}
-          </div>
+          <span className="mx-3">
+            Price: ${(this.state.itemSubtotal / 100).toFixed(2)}
+          </span>
         </td>
         <td>
           <p>Quantity : {this.state.quantity}</p>
@@ -96,7 +104,7 @@ class ItemView extends Component {
             </Button>
           </span>
         </td>
-        <div>
+        <td>
           <Button
             type="button"
             variant="outline-dark"
@@ -105,7 +113,7 @@ class ItemView extends Component {
           >
             remove
           </Button>
-        </div>
+        </td>
       </tr>
     )
   }
@@ -119,7 +127,9 @@ const mapStateToProps = state => {
 
 const mapDispatchStateToProps = dispatch => {
   return {
-    deleteItem: beerId => dispatch(deleteItemThunk(beerId))
+    deleteItem: beerId => dispatch(deleteItemThunk(beerId)),
+    setSubTotal: () => dispatch(setSubTotalThunk()),
+    updateSubTotal: newSubTotal => dispatch(updateSubTotal(newSubTotal))
   }
 }
 export default connect(mapStateToProps, mapDispatchStateToProps)(ItemView)
