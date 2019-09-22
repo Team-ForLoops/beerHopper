@@ -15,7 +15,7 @@ class ItemView extends Component {
     super(props)
     this.state = {
       quantity: 1,
-      price: this.props.item.price
+      itemPrice: this.props.item.price
     }
     this.deleteItemHandler = this.deleteItemHandler.bind(this)
   }
@@ -23,29 +23,35 @@ class ItemView extends Component {
     let {data} = await axios.get(`/api/cart/${this.props.item.id}/quantity`)
     this.setState({quantity: data})
   }
+  async updateBeerOrder() {
+    await axios.put(
+      `/api/cart/updateQuantity/${this.props.item.id}`,
+      this.state
+    )
+  }
   incrementQuantity = () => {
-    async function updateQ() {
-      await axios.put(
-        `/api/cart/updateQuantity/${this.props.item.id}`,
-        this.state
-      )
-    }
     let newQuant = this.state.quantity
     newQuant++
-    let oldPrice = this.state.price
+    let oldPrice = this.state.itemPrice
     this.setState(
       {
         quantity: newQuant,
-        price: oldPrice * newQuant
+        itemPrice: oldPrice * newQuant
       },
-      updateQ
+      this.updateBeerOrder
     )
   }
-  decreaseQuantity = async () => {
+  decreaseQuantity = () => {
     let newQuant = this.state.quantity
-    this.setState({
-      quantity: --newQuant
-    })
+    newQuant--
+    let oldPrice = this.state.itemPrice
+    this.setState(
+      {
+        quantity: newQuant,
+        itemPrice: oldPrice / newQuant
+      },
+      this.updateBeerOrder
+    )
   }
 
   deleteItemHandler = beerId => {
@@ -64,7 +70,7 @@ class ItemView extends Component {
         </td>
         <td>
           <div className="mx-3">
-            Price: ${(this.state.price / 100).toFixed(2)}
+            Price: ${(this.state.itemPrice / 100).toFixed(2)}
           </div>
         </td>
         <td>

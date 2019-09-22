@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 import ItemView from './ItemView'
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
 import Table from 'react-bootstrap/Table'
 import {checkoutThunk} from '../store/cart'
 

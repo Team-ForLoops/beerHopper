@@ -135,6 +135,7 @@ router.post('/subTotal/:beerId', async (req, res, next) => {
 })
 //checkout route
 router.post('/checkout', async (req, res, next) => {
+  //pass in subTotal in req.body as well later
   try {
     let currentOrder = await Order.findByPk(req.session.userInfo.orderId)
     const result = await currentOrder.update({status: 'processing'})

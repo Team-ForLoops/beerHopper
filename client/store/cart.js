@@ -8,7 +8,6 @@ const ADD_ITEM = 'ADD_ITEM'
 const GET_PRODUCTS = 'GET_PRODUCTS'
 const DELETE_ITEM = 'DELETE_ITEM'
 const CHECKOUT = 'CHECKOUT'
-const GET_ITEM_SUBTOTAL = 'GET_ITEM_SUBTOTAL'
 //ACTION CREATOR
 const getCart = cart => {
   return {
@@ -32,12 +31,6 @@ const checkout = newCart => {
   return {
     type: CHECKOUT,
     newCart
-  }
-}
-const getItemSubtotal = subTotal => {
-  return {
-    type: GET_ITEM_SUBTOTAL,
-    subTotal
   }
 }
 //THUNK
@@ -85,9 +78,6 @@ export const checkoutThunk = () => {
   }
 }
 
-export const getItenSubTotalThunk = beerId => {
-  return async dispatch => {}
-}
 //REDUCER
 const cart = (state = initalState, action) => {
   switch (action.type) {
