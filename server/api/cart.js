@@ -122,7 +122,6 @@ router.get('/:beerId/cartData', async (req, res, next) => {
 })
 router.put('/updateQuantity/:beerId', async (req, res, next) => {
   const beerId = req.params.beerId
-  console.log(req.body)
   try {
     let beerOrder = await BeerOrder.findOne({
       where: {
@@ -157,7 +156,7 @@ router.post('/subTotal/:beerId', async (req, res, next) => {
 })
 //checkout route
 router.post('/checkout', async (req, res, next) => {
-  //pass in subTotal in req.body as well later
+  //subTotal is in req.body
   try {
     let currentOrder = await Order.findByPk(req.session.userInfo.orderId)
     const result = await currentOrder.update({
@@ -173,14 +172,14 @@ router.post('/checkout', async (req, res, next) => {
     await Promise.all(beerOrders.map(beerOrder => beerOrder.updateInv()))
     //create new order for a logged in guest
     let newOrder = []
+    console.log(req.user.id)
     if (req.session.passport) {
       newOrder = await Order.create({
         where: {
-          status: 'open',
-          userId: req.session.passport.user
+          status: 'open'
         }
       })
-      //update session orderId
+      newOrder.setUser(req.user) //this is the fix I don't know why?
       req.session.userInfo.orderId = newOrder.dataValues.id //might need to change this
     } else {
       //new cart for unauthenicated guest
