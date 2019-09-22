@@ -29,7 +29,7 @@ router.get('/', isAdmin, async (req, res, next) => {
 //   }
 // })
 
-router.get('/my/allOrders', isMeOrAdmin, async (req, res, next) => {
+router.get('/my/allOrders', isUser, async (req, res, next) => {
   try {
     const orders = await Order.findAll({
       where: {

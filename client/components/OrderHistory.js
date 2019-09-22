@@ -4,7 +4,7 @@ import {getMyOrders, sortMyOrders} from '../store/myOrders'
 import {toDollars} from '../store/allOrders'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
-import {UncontrolledCollapse, CardBody, CardText} from 'reactstrap'
+import {UncontrolledCollapse, CardBody, CardText, CardDeck} from 'reactstrap'
 
 export class OrderHistory extends React.Component {
   constructor(props) {
@@ -51,95 +51,102 @@ export class OrderHistory extends React.Component {
           </select>
         </div>
         <div>
-          {orders === undefined || orders.length === 0
-            ? 'Your order history is empty'
-            : orders.map(order => (
-                <Card style={{width: '18rem'}} key={order.id}>
-                  <Card.Body>
-                    {/* <Card.Title>Order Id: {order.id}</Card.Title> */}
-                    <CardText>
-                      <div>
-                        <ul>
-                          <li>
-                            <div className="details">
-                              <p>Date: {this.formatDate(order.createdAt)}</p>
-                              <p>Order Status: {order.status}</p>
-                              <div>
-                                {' '}
-                                Total Price:{' '}
-                                {toDollars(
-                                  order.beers.reduce(function(
-                                    totalPrice,
-                                    beer
-                                  ) {
-                                    return (
-                                      beer.price *
-                                        beer['beer-orders'].quantity +
-                                      totalPrice
-                                    )
-                                  },
-                                  0)
-                                )}
-                              </div>
-                              <p />
-                              <p>
-                                {' '}
-                                ---------------------------------------------
-                              </p>
-                              <Button
-                                variant="primary"
-                                id={`order${order.id}`}
-                                style={{marginBottom: '1rem'}}
-                              >
-                                Order Details Toggle
-                              </Button>
-                              <UncontrolledCollapse
-                                toggler={`#order${order.id}`}
-                              >
-                                <Card>
-                                  <CardBody>
-                                    <span>
-                                      <div>
-                                        {order.beers.length === 0
-                                          ? `${
-                                              order.user.username
-                                            } has no orders!`
-                                          : order.beers.map(beer => (
-                                              <div key={beer.id}>
-                                                <p> Beer Name: {beer.name} </p>
-                                                <img src={beer.imageUrl} />
-                                                <p>
-                                                  {' '}
-                                                  Beer Description:{' '}
-                                                  {beer.description}{' '}
-                                                </p>
-                                                <p> Beer IBU: {beer.ibu} </p>
-                                                <p>
-                                                  {' '}
-                                                  Beer Price:{' '}
-                                                  {toDollars(beer.price)}{' '}
-                                                </p>
+          <ul>
+            <CardDeck>
+              {orders === undefined || orders.length === 0
+                ? 'Your order history is empty'
+                : orders.map(order => (
+                    <Card style={{width: '18rem'}} key={order.id}>
+                      <Card.Body>
+                        <CardText>
+                          <div>
+                            <li>
+                              <div className="details">
+                                <p>Date: {this.formatDate(order.createdAt)}</p>
+                                <p>Order Status: {order.status}</p>
+                                <div>
+                                  {' '}
+                                  Total Price:{' '}
+                                  {toDollars(
+                                    order.beers.reduce(function(
+                                      totalPrice,
+                                      beer
+                                    ) {
+                                      return (
+                                        beer.price *
+                                          beer['beer-orders'].quantity +
+                                        totalPrice
+                                      )
+                                    },
+                                    0)
+                                  )}
+                                </div>
+                                <p />
+                                <p>
+                                  {' '}
+                                  ---------------------------------------------
+                                </p>
+                                <Button
+                                  variant="primary"
+                                  id={`order${order.id}`}
+                                  style={{marginBottom: '1rem'}}
+                                >
+                                  Order Details Toggle
+                                </Button>
+                                <UncontrolledCollapse
+                                  toggler={`#order${order.id}`}
+                                >
+                                  <Card>
+                                    <CardBody>
+                                      <span>
+                                        <div>
+                                          {order.beers.length === 0
+                                            ? `${
+                                                order.user.username
+                                              } has no orders!`
+                                            : order.beers.map(beer => (
+                                                <div key={beer.id}>
+                                                  <p>
+                                                    {' '}
+                                                    Beer Name: {beer.name}{' '}
+                                                  </p>
+                                                  <img src={beer.imageUrl} />
+                                                  <p>
+                                                    {' '}
+                                                    Beer Description:{' '}
+                                                    {beer.description}{' '}
+                                                  </p>
+                                                  <p> Beer IBU: {beer.ibu} </p>
+                                                  <p>
+                                                    {' '}
+                                                    Beer Price:{' '}
+                                                    {toDollars(beer.price)}{' '}
+                                                  </p>
 
-                                                <p>
-                                                  {' '}
-                                                  Quantity:{' '}
-                                                  {beer['beer-orders'].quantity}
-                                                </p>
-                                              </div>
-                                            ))}
-                                      </div>
-                                    </span>
-                                  </CardBody>
-                                </Card>
-                              </UncontrolledCollapse>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </CardText>
-                  </Card.Body>
-                </Card>
-              ))}
+                                                  <p>
+                                                    {' '}
+                                                    Quantity:{' '}
+                                                    {
+                                                      beer['beer-orders']
+                                                        .quantity
+                                                    }
+                                                  </p>
+                                                </div>
+                                              ))}
+                                        </div>
+                                      </span>
+                                    </CardBody>
+                                  </Card>
+                                </UncontrolledCollapse>
+                              </div>
+                            </li>
+                          </div>
+                        </CardText>
+                      </Card.Body>
+                    </Card>
+                  ))}
+            </CardDeck>
+          </ul>
         </div>
       </div>
     )
