@@ -17,6 +17,7 @@ BeerOrder.prototype.getItemSubTotal = async function() {
     const beer = await Beer.findByPk(this.beerId)
     let price = beer.price
     let subTotal = price * this.quantity
+    await this.update({itemPrice: subTotal})
     return subTotal
   } catch (err) {
     console.log(err)
