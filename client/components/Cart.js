@@ -18,7 +18,6 @@ class Cart extends Component {
   }
   render() {
     const cart = this.props.cart || []
-    console.log(cart)
     return (
       <React.Fragment>
         <Table className="mx-5">

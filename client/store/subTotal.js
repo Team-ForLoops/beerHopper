@@ -42,7 +42,7 @@ const subTotal = (state = initialState, action) => {
     case CLEAR_SUBTOTAL:
       return action.newSubTotal
     case UPDATE_SUBTOTAL:
-      return action.newSubTotal
+      return state + action.newSubTotal
     default:
       return state
   }
