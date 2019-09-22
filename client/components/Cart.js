@@ -4,7 +4,7 @@ import ItemView from './ItemView'
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Table from 'react-bootstrap/Table'
-import {checkoutThunk} from '../store/cart'
+import {checkoutThunk, fetchCart} from '../store/cart'
 import {setSubTotalThunk, clearSubTotal} from '../store/subTotal'
 import {Link} from 'react-router-dom'
 
@@ -68,7 +68,8 @@ const mapDispatchToProps = dispatch => {
   return {
     checkout: cartSubTotal => dispatch(checkoutThunk(cartSubTotal)),
     setSubTotal: () => dispatch(setSubTotalThunk()),
-    clearSubTotal: () => dispatch(clearSubTotal())
+    clearSubTotal: () => dispatch(clearSubTotal()),
+    fetchCart: () => dispatch(fetchCart())
   }
 }
 
