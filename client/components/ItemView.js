@@ -30,7 +30,8 @@ class ItemView extends Component {
   }
   async updateBeerOrder() {
     await axios.put(`/api/cart/updateQuantity/${this.props.item.id}`, {
-      quantity: this.state.quantity
+      quantity: this.state.quantity,
+      itemPrice: this.state.itemSubtotal
     })
   }
   updateCartST = difference => {
