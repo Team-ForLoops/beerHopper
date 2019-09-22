@@ -1,19 +1,22 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {getMyOrder} from '../store/myOrders'
-import SingleOrder from './SingleOrder'
+import {getMyOrders, sortMyOrders} from '../store/myOrders'
+import {toDollars} from '../store/allOrders'
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
+import {UncontrolledCollapse, CardBody, CardText} from 'reactstrap'
 
 export class OrderHistory extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showForm: false
+      showForm: false,
+      collapse: false
     }
     this.clickHandler = this.clickHandler.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
   componentDidMount() {
-    console.log('ORDER PROPS', this.props.orders)
     this.props.fetchMyOrders()
   }
   formatDate(date) {
@@ -25,6 +28,10 @@ export class OrderHistory extends React.Component {
     this.setState({
       showForm: !hidden
     })
+  }
+  handleChange(event) {
+    console.log('THIS PROPS', this.props, event.target)
+    return this.props.fetchSortedOrders(event.target.value, this.props.orders)
   }
   render() {
     const orders = this.props.orders || []
@@ -42,36 +49,98 @@ export class OrderHistory extends React.Component {
             <option value="dateOld">Date (oldest first)</option>
             <option value="dateNew">Date (newest first)</option>
           </select>
-          {/* <BeerFilter beers={this.props.beers} /> */}
         </div>
-        {orders === undefined || orders.length === 0 ? (
-          'Your order history is empty'
-        ) : (
-          <ul>
-            {orders.map(order => {
-              return (
-                <li key={order.id}>
-                  <div className="order-card">
-                    <p>Date: {this.formatDate(order.createdAt)}</p>
-                    <p>Order Status: {order.status}</p>
-                    <p>Total: </p>
-                  </div>
-                  <div>
-                    <button
-                      onClick={() => {
-                        this.clickHandler()
-                      }}
-                      type="button"
-                    >
-                      Order Details
-                    </button>
-                    {this.state.showForm && <SingleOrder />}
-                  </div>
-                </li>
-              )
-            })}
-          </ul>
-        )}
+        <div>
+          {orders === undefined || orders.length === 0
+            ? 'Your order history is empty'
+            : orders.map(order => (
+                <Card style={{width: '18rem'}} key={order.id}>
+                  <Card.Body>
+                    {/* <Card.Title>Order Id: {order.id}</Card.Title> */}
+                    <CardText>
+                      <div>
+                        <ul>
+                          <li>
+                            <div className="details">
+                              <p>Date: {this.formatDate(order.createdAt)}</p>
+                              <p>Order Status: {order.status}</p>
+                              <div>
+                                {' '}
+                                Total Price:{' '}
+                                {toDollars(
+                                  order.beers.reduce(function(
+                                    totalPrice,
+                                    beer
+                                  ) {
+                                    return (
+                                      beer.price *
+                                        beer['beer-orders'].quantity +
+                                      totalPrice
+                                    )
+                                  },
+                                  0)
+                                )}
+                              </div>
+                              <p />
+                              <p>
+                                {' '}
+                                ---------------------------------------------
+                              </p>
+                              <Button
+                                variant="primary"
+                                id={`order${order.id}`}
+                                style={{marginBottom: '1rem'}}
+                              >
+                                Order Details Toggle
+                              </Button>
+                              <UncontrolledCollapse
+                                toggler={`#order${order.id}`}
+                              >
+                                <Card>
+                                  <CardBody>
+                                    <span>
+                                      <div>
+                                        {order.beers.length === 0
+                                          ? `${
+                                              order.user.username
+                                            } has no orders!`
+                                          : order.beers.map(beer => (
+                                              <div key={beer.id}>
+                                                <p> Beer Name: {beer.name} </p>
+                                                <img src={beer.imageUrl} />
+                                                <p>
+                                                  {' '}
+                                                  Beer Description:{' '}
+                                                  {beer.description}{' '}
+                                                </p>
+                                                <p> Beer IBU: {beer.ibu} </p>
+                                                <p>
+                                                  {' '}
+                                                  Beer Price:{' '}
+                                                  {toDollars(beer.price)}{' '}
+                                                </p>
+
+                                                <p>
+                                                  {' '}
+                                                  Quantity:{' '}
+                                                  {beer['beer-orders'].quantity}
+                                                </p>
+                                              </div>
+                                            ))}
+                                      </div>
+                                    </span>
+                                  </CardBody>
+                                </Card>
+                              </UncontrolledCollapse>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </CardText>
+                  </Card.Body>
+                </Card>
+              ))}
+        </div>
       </div>
     )
   }
@@ -79,13 +148,15 @@ export class OrderHistory extends React.Component {
 
 const mapState = state => {
   return {
-    orders: state.orders
+    orders: state.myOrders
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    fetchMyOrders: () => dispatch(getMyOrder())
+    fetchMyOrders: () => dispatch(getMyOrders()),
+    fetchSortedOrders: (sortBy, myOrders) =>
+      dispatch(sortMyOrders(sortBy, myOrders))
   }
 }
 export default connect(mapState, mapDispatch)(OrderHistory)

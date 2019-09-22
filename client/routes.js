@@ -21,7 +21,7 @@ import OrderHistory from './components/OrderHistory'
 import {getBeers} from './store/allBeers'
 import {getCategories} from './store/categories'
 import {getOrders} from './store/allOrders'
-import {getMyOrder} from './store/orders'
+import {getMyOrders} from './store/myOrders'
 
 /**
  * COMPONENT
@@ -44,7 +44,6 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route exact path="/orders/myOrders" component={OrderHistory} />
         {/* <Route exact path="/beer/:beerId/edit" component={AdminDash} /> */}
         {/* Added placeholder */}
         <Route exact path="/beer/dashboard" component={AdminDash} />
@@ -60,8 +59,11 @@ class Routes extends Component {
             {/* <Route path="/admin/edit/:beerId" component={UpdateBeer} /> */}
             <Route path="/admin/edit/beer/:beerId" component={UpdateBeer} />
             <Route path="/admin/edit/orders" component={AllOrders} />
-            {/* 						<Route exact path="/orders/myOrders" component={OrderHistory} />
- */}{' '}
+            <Route
+              exact
+              path="/orders/myOrders"
+              component={OrderHistory}
+            />{' '}
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
@@ -91,7 +93,7 @@ const mapDispatch = dispatch => {
     fetchInitialOrders: () => dispatch(getOrders()),
     fetchCart: () => dispatch(fetchCart()),
     fetchCategories: () => dispatch(getCategories()),
-    fetchMyOrders: () => dispatch(getMyOrder())
+    fetchMyOrders: () => dispatch(getMyOrders())
   }
 }
 

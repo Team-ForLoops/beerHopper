@@ -6,7 +6,7 @@ const SET_MY_ORDER = 'SET_MY_ORDER'
 //ACTION CREATOR
 const setMyOrder = myOrder => {
   return {
-    type: SET_SINGLE_ORDER,
+    type: SET_MY_ORDER,
     myOrder
   }
 }
@@ -28,7 +28,7 @@ export const getMyOrder = orderId => {
 //REDUCER
 export default function(state = {}, action) {
   switch (action.type) {
-    case SET_SINGLE_ORDER:
+    case SET_MY_ORDER:
       return action.myOrder
     default:
       return state
