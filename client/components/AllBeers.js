@@ -3,7 +3,11 @@ import {connect} from 'react-redux'
 import {toDollars, getBeers, sortBeers} from '../store/allBeers'
 import {Link} from 'react-router-dom'
 import BeerFilter from './BeerFilter'
-// import InfiniteScroll from 'react-infinite-scroller'
+import Button from 'react-bootstrap/Button'
+import Container from 'react-bootstrap/Container'
+import Card from 'react-bootstrap/Card'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 // import Accordion from 'react-bootstrap/Accordion'
 
 export class AllBeers extends React.Component {
@@ -20,7 +24,7 @@ export class AllBeers extends React.Component {
     const beers = this.props.beers
 
     return (
-      <div className="container">
+      <Container>
         <div className="options">
           <select onChange={this.handleChange}>
             <option value="">Sort By...</option>
@@ -31,27 +35,31 @@ export class AllBeers extends React.Component {
           <BeerFilter beers={this.props.beers} />
         </div>
         {this.props.beers.length ? (
-          <ul>
-            {beers.map(beer => (
-              <Link to={`/beer/${beer.id}`} key={beer.id}>
-                <li>
-                  <div className="highlight">
-                    <img src={beer.imageUrl} />
-                  </div>
-                  <div className="details">
-                    <h3>{beer.name}</h3>
-                    <div>{toDollars(beer.price)}</div>
-                  </div>
-                </li>
-              </Link>
-            ))}
-          </ul>
+          <Row>
+            <ul>
+              {beers.map(beer => (
+                <Col key={beer.id} className="m-3">
+                  <Link to={`/beer/${beer.id}`}>
+                    <li>
+                      <div className="highlight">
+                        <img src={beer.imageUrl} />
+                      </div>
+                      <div className="details">
+                        <h3>{beer.name}</h3>
+                        <div>{toDollars(beer.price)}</div>
+                      </div>
+                    </li>
+                  </Link>
+                </Col>
+              ))}
+            </ul>
+          </Row>
         ) : (
           <button type="submit" onClick={this.props.fetchInitialBeers}>
             How embarassing... no more beers like that. Take me to your leader!
           </button>
         )}
-      </div>
+      </Container>
     )
   }
 }
