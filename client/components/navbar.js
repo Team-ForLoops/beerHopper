@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import SearchBar from './SearchBar'
 
 //react bootstrap components
 import Container from 'react-bootstrap/Container'
@@ -11,8 +12,6 @@ import Nav from 'react-bootstrap/Nav'
 import Row from 'react-bootstrap/Row'
 
 const Navbar = ({handleClick, isLoggedIn}) => {
-  function handleChange() {}
-  function handleSubmit() {}
   return (
     <Container>
       <Row className="justify-content-md-center">
@@ -20,8 +19,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
       </Row>
       <NavBar className="justify-content-md-center">
         <span>
-          🔎
-          <input placeholder="beer..." />
+          <SearchBar />
         </span>
         {isLoggedIn ? (
           <div>

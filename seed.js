@@ -269,6 +269,195 @@ const seedBeers = [
     type: 'ale',
     color: 'light',
     price: 500
+  },
+  {
+    name: 'Jingle Beer',
+    price: 6549,
+    ibu: 7,
+    quantity: 33,
+    description: 'Evil artistry with essence of dirty baby diapers',
+    imageUrl: '/images/1.jpg'
+  },
+  {
+    name: 'Santa Clausthaler',
+    price: 214,
+    ibu: 0,
+    quantity: 4,
+    description: 'Skunky bitter bile with notes of rancid butter',
+    imageUrl: '/images/2.jpg'
+  },
+  {
+    name: 'Cuvée de Nol',
+    price: 643,
+    ibu: 9,
+    quantity: 43,
+    description: 'God awful bitterness with confident tannins',
+    imageUrl: '/images/3.jpg'
+  },
+  {
+    name: 'Julebrygg',
+    price: 519,
+    ibu: 45,
+    quantity: 344,
+    description: 'Nutty tsunami that flows like a pastoral poem',
+    imageUrl: '/images/4.jpg'
+  },
+  {
+    name: 'Julebryg',
+    price: 574,
+    ibu: 72,
+    quantity: 3,
+    description:
+      'Satisfying goodness reminiscent of a wet old box in your grandmas basement',
+    imageUrl: '/images/5.jpg'
+  },
+  {
+    name: 'Lade Gaards Brygghus Julel',
+    price: 592,
+    ibu: 65,
+    quantity: 354,
+    description: 'Infused nelson nectar with low hops',
+    imageUrl: '/images/6.jpg'
+  },
+  {
+    name: 'Ekstra Vellagret Julebrygg',
+    price: 639,
+    ibu: 65,
+    quantity: 654,
+    description: 'Girthy booze fest with maple undertones',
+    imageUrl: '/images/7.jpg'
+  },
+  {
+    name: 'Nissefar',
+    price: 607,
+    ibu: 7,
+    quantity: 4,
+    description: 'Sour mountains of bitterness but in a good way',
+    imageUrl: '/images/8.jpg'
+  },
+  {
+    name: 'Nissegodt',
+    price: 6526,
+    ibu: 45,
+    quantity: 66,
+    description: 'Insanely refreshing sour-patch kid with a gym sock funk',
+    imageUrl: '/images/9.jpg'
+  },
+  {
+    name: 'Nissel',
+    price: 606,
+    ibu: 45,
+    quantity: 45,
+    description: 'Burnt subtle wet blanket',
+    imageUrl: '/images/10.jpg'
+  },
+  {
+    name: 'God Jul',
+    price: 589,
+    ibu: 85,
+    quantity: 24,
+    description: 'Bitter funk with brett earthiness',
+    imageUrl: '/images/11.jpg'
+  },
+  {
+    name: 'Julesnadder',
+    price: 719,
+    ibu: 45,
+    quantity: 11,
+    description: 'Blonde lager with notes of leather-bound books',
+    imageUrl: '/images/12.jpg'
+  },
+  {
+    name: 'Special Holiday Ale',
+    price: 671,
+    ibu: 9,
+    quantity: 42,
+    description: 'Belch-inducing think piece with notes of marshmallow',
+    imageUrl: '/images/13.jpg'
+  },
+  {
+    name: 'Julebrygg',
+    price: 6201,
+    ibu: 47,
+    quantity: 65,
+    description: 'Wine-like swill with an influence of wild yeast',
+    imageUrl: '/images/14.jpg'
+  },
+  {
+    name: 'BBQ Sauce',
+    price: 65201,
+    ibu: 7,
+    quantity: 6,
+    description: 'Tastes like bbq sauce but carbonated. real gross',
+    imageUrl: '/images/15.jpg'
+  },
+  {
+    name: 'Cake City',
+    price: 666,
+    ibu: 99,
+    quantity: 213,
+    description:
+      'Want to drink cake? like bad things? this is the one for you. No bottles ever sold. Will you be the first? Make history by purchasing this beer!',
+    imageUrl: '/images/16.jpg'
+  },
+  {
+    name: 'Bad Mama Yama',
+    type: 'ale',
+    ibu: 25,
+    color: 'red',
+    description: 'Sweet potato ale. Comparable to pumpkin spice ales.',
+    imageUrl: '/images/bad-mama-yama.jpg',
+    quantityInv: 20,
+    price: 1299
+  },
+  {
+    name: 'Dark Paradise',
+    type: 'stout',
+    ibu: 8,
+    color: 'dark',
+    description:
+      'Stout with coconut added in secondary. Chocolatey, roasty, coconutty, delicious.',
+    imageUrl: '/images/dark-paradise.jpg',
+    quantityInv: 10,
+    price: 1500
+  },
+  {
+    name: 'Hibiscus Saison',
+    type: 'saison',
+    ibu: 40,
+    color: 'light',
+    description:
+      'Slightly tart, sessionable saison with a beautiful light pink color',
+    imageUrl: '/images/hibiscus-saison.jpg',
+    quantityInv: 100,
+    price: 4999
+  },
+  {
+    name: 'Hi Honey',
+    type: 'ale',
+    ibu: 25,
+    color: 'light',
+    description: 'American honey ale, brewed and fermented with honey',
+    imageUrl: '/images/hi-honey.jpg',
+    quantityInv: 10,
+    price: 899
+  },
+  {
+    name: 'Wedding Saison',
+    type: 'saison',
+    ibu: 13,
+    color: 'light',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Morbi non arcu risus quis varius quam quisque id. Venenatis a condimentum vitae sapien pellentesque habitant. Cras adipiscing enim eu turpis. Enim facilisis gravida neque convallis a cras semper. Neque sodales ut etiam sit amet nisl purus in. Et netus et malesuada fames ac turpis egestas integer eget. Tempor orci eu lobortis elementum. Adipiscing diam donec adipiscing tristique risus nec. Imperdiet dui accumsan sit amet nulla facilisi morbi. Commodo nulla facilisi nullam vehicula ipsum. Rhoncus urna neque viverra justo nec ultrices dui sapien eget. Tellus pellentesque eu tincidunt tortor aliquam. Lacus luctus accumsan tortor posuere. Velit sed ullamcorper morbi tincidunt ornare massa. Faucibus pulvinar elementum integer enim neque volutpat. Nulla pharetra diam sit amet nisl. Facilisis gravida neque convallis a cras semper auctor. Ipsum dolor sit amet consectetur adipiscing.',
+    imageUrl: '/images/wedding-saison.jpg',
+    quantityInv: 2,
+    price: 599
+  },
+  {
+    name: 'Jalapeno Business',
+    type: 'ale',
+    color: 'light',
+    price: 500
   }
 ]
 

@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {toDollars, getBeers, sortBeers} from '../store/allBeers'
 import {Link} from 'react-router-dom'
 import BeerFilter from './BeerFilter'
+// import InfiniteScroll from 'react-infinite-scroller'
 // import Accordion from 'react-bootstrap/Accordion'
 
 export class AllBeers extends React.Component {
@@ -19,7 +20,7 @@ export class AllBeers extends React.Component {
     const beers = this.props.beers
 
     return (
-      <div>
+      <div className="container">
         <div className="options">
           <select onChange={this.handleChange}>
             <option value="">Sort By...</option>
