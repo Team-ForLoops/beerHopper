@@ -10,7 +10,6 @@ import cart from './cart'
 import categories from './categories'
 import allOrders from './allOrders'
 import myOrders from './myOrders'
-import mySingleOrder from './mySingleOrder'
 import subTotal from './subTotal'
 
 const reducer = combineReducers({
@@ -22,7 +21,6 @@ const reducer = combineReducers({
   categories,
   allOrders,
   myOrders,
-  mySingleOrder,
   subTotal
 })
 const middleware = composeWithDevTools(

@@ -30,7 +30,6 @@ export class OrderHistory extends React.Component {
     })
   }
   handleChange(event) {
-    console.log('THIS PROPS', this.props, event.target)
     return this.props.fetchSortedOrders(event.target.value, this.props.orders)
   }
   render() {
@@ -38,10 +37,10 @@ export class OrderHistory extends React.Component {
     return (
       <div>
         <div>
-          <h1>Order History</h1>
+          <h1 id="orderHistory">Order History</h1>
         </div>
 
-        <div className="options">
+        <div className="options" id="orderHistory">
           <select onChange={this.handleChange}>
             <option value="" selected="disabled">
               Sort By...
@@ -50,19 +49,25 @@ export class OrderHistory extends React.Component {
             <option value="dateNew">Date (newest first)</option>
           </select>
         </div>
+        <br />
+        <br />
+        <br />
         <div>
           <ul>
             <CardDeck>
               {orders === undefined || orders.length === 0
                 ? 'Your order history is empty'
                 : orders.map(order => (
-                    <Card style={{width: '18rem'}} key={order.id}>
+                    <Card
+                      style={{width: '18rem', borderColor: '#000FFF'}}
+                      key={order.id}
+                    >
                       <Card.Body>
                         <CardText>
                           <div>
                             <li>
                               <div className="details">
-                                <p>Date: {this.formatDate(order.createdAt)}</p>
+                                <p>Date: {this.formatDate(order.updatedAt)}</p>
                                 <p>Order Status: {order.status}</p>
                                 <div>
                                   {' '}
@@ -91,12 +96,12 @@ export class OrderHistory extends React.Component {
                                   id={`order${order.id}`}
                                   style={{marginBottom: '1rem'}}
                                 >
-                                  Order Details Toggle
+                                  Order Details
                                 </Button>
                                 <UncontrolledCollapse
                                   toggler={`#order${order.id}`}
                                 >
-                                  <Card>
+                                  <Card style={{borderColor: '#000099'}}>
                                     <CardBody>
                                       <span>
                                         <div>
@@ -116,7 +121,6 @@ export class OrderHistory extends React.Component {
                                                     Beer Description:{' '}
                                                     {beer.description}{' '}
                                                   </p>
-                                                  <p> Beer IBU: {beer.ibu} </p>
                                                   <p>
                                                     {' '}
                                                     Beer Price:{' '}
@@ -129,6 +133,11 @@ export class OrderHistory extends React.Component {
                                                     {
                                                       beer['beer-orders']
                                                         .quantity
+                                                    }
+                                                  </p>
+                                                  <p>
+                                                    {
+                                                      '-------------------------------------------'
                                                     }
                                                   </p>
                                                 </div>

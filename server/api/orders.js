@@ -48,21 +48,6 @@ router.get('/my/allOrders', isUser, async (req, res, next) => {
   }
 })
 
-router.get('/my/:orderId', isUser, async (req, res, next) => {
-  try {
-    const myOrder = await Order.findOne({
-      where: {
-        id: req.params.orderId
-      },
-      include: {
-        model: Beer
-      }
-    })
-    res.json(myOrder)
-  } catch (error) {
-    next(error)
-  }
-})
 // 8080/api/orders/:orderId
 
 router.get('/:orderId', isAdmin, async (req, res, next) => {

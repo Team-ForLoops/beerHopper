@@ -2,7 +2,6 @@ import axios from 'axios'
 
 //ACTION TYPES
 const SET_MY_ORDERS = 'SET_MY_ORDERS'
-const SORT_MY_ORDERS = 'SORT_MY_ORDERS'
 
 //ACTION CREATOR
 
@@ -44,7 +43,7 @@ export const sortMyOrders = (sortBy, myOrders) => dispatch => {
         dispatch(
           setMyOrders(
             myOrders.sort((a, b) => {
-              return b.createdAt - a.createdAt
+              return new Date(a.updatedAt) - new Date(b.updatedAt)
             })
           )
         )
@@ -53,7 +52,7 @@ export const sortMyOrders = (sortBy, myOrders) => dispatch => {
         dispatch(
           setMyOrders(
             myOrders.sort((a, b) => {
-              return a.createdAt - b.createdAt
+              return new Date(b.updatedAt) - new Date(a.updatedAt)
             })
           )
         )
@@ -72,7 +71,7 @@ const orders = []
 export default function(state = orders, action) {
   switch (action.type) {
     case SET_MY_ORDERS:
-      return action.myOrders
+      return [...action.myOrders]
     default:
       return state
   }
