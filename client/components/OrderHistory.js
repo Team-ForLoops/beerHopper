@@ -71,20 +71,7 @@ export class OrderHistory extends React.Component {
                                 <p>Order Status: {order.status}</p>
                                 <div>
                                   {' '}
-                                  Total Price:{' '}
-                                  {toDollars(
-                                    order.beers.reduce(function(
-                                      totalPrice,
-                                      beer
-                                    ) {
-                                      return (
-                                        beer.price *
-                                          beer['beer-orders'].quantity +
-                                        totalPrice
-                                      )
-                                    },
-                                    0)
-                                  )}
+                                  Total Price: {toDollars(order.subTotal)}
                                 </div>
                                 <p />
                                 <p>
@@ -124,7 +111,10 @@ export class OrderHistory extends React.Component {
                                                   <p>
                                                     {' '}
                                                     Beer Price:{' '}
-                                                    {toDollars(beer.price)}{' '}
+                                                    {toDollars(
+                                                      beer['beer-orders']
+                                                        .itemPrice
+                                                    )}{' '}
                                                   </p>
 
                                                   <p>
