@@ -8,7 +8,8 @@ import {
   UserHome,
   SingleBeer,
   UpdateBeer,
-  AllOrders
+  AllOrders,
+  AllUsers
 } from './components'
 import {me} from './store'
 import {fetchCart} from './store/cart'
@@ -20,6 +21,7 @@ import Cart from './components/Cart'
 import {getBeers} from './store/allBeers'
 import {getCategories} from './store/categories'
 import {getOrders} from './store/allOrders'
+import {getUsers} from './store/allUsers'
 
 /**
  * COMPONENT
@@ -57,6 +59,7 @@ class Routes extends Component {
             {/* <Route path="/admin/edit/:beerId" component={UpdateBeer} /> */}
             <Route path="/admin/edit/beer/:beerId" component={UpdateBeer} />
             <Route path="/admin/edit/orders" component={AllOrders} />
+            <Route path="/admin/edit/users" component={AllUsers} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
@@ -84,6 +87,7 @@ const mapDispatch = dispatch => {
     },
     fetchInitialBeers: () => dispatch(getBeers()),
     fetchInitialOrders: () => dispatch(getOrders()),
+    fetchInitialUsers: () => dispatch(getUsers()),
     fetchCart: () => dispatch(fetchCart()),
     fetchCategories: () => dispatch(getCategories())
   }

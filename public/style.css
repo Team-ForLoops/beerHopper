@@ -64,12 +64,19 @@ img {
   display: block;
 } */
 
-.orders-list {
+.flex-cards {
+  grid-gap: 50px;
+  max-width: 3000px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 100fr));
+}
+
+/* .flex-cards {
   grid-gap: 100px;
   max-width: 1800px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-}
+} */
 
 .tiny {
   height: 20px;

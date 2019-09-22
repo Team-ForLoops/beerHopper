@@ -11,7 +11,6 @@ export class AllOrders extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      collapse: false,
       showForm: false,
       stat: ''
     }
@@ -75,7 +74,7 @@ export class AllOrders extends React.Component {
           <BeerFilter />
     </div> */}
 
-        <div className="orders-list">
+        <div className="flex-cards">
           {orders.map(order => (
             <Card style={{width: '18rem'}} key={order.id}>
               <Card.Body>
@@ -90,7 +89,7 @@ export class AllOrders extends React.Component {
                         <div className="details">
                           <p>User: {order.user.username}</p>
                           <p>Order Status: {order.status}</p>
-                          <div>
+                          <span>
                             {' '}
                             Total Quantity:
                             {order.beers.reduce(function(totalQuantity, beer) {
@@ -98,8 +97,9 @@ export class AllOrders extends React.Component {
                                 beer['beer-orders'].quantity + totalQuantity
                               )
                             }, 0)}
-                          </div>
-                          <div>
+                          </span>
+                          <p />
+                          <span>
                             {' '}
                             Total Price:
                             {toDollars(
@@ -110,7 +110,7 @@ export class AllOrders extends React.Component {
                                 )
                               }, 0)
                             )}
-                          </div>
+                          </span>
                           <p />
                           <Button
                             id={`status${order.id}`}
@@ -137,9 +137,6 @@ export class AllOrders extends React.Component {
                                     }
                                     onChange={this.handleChange}
                                   >
-                                    <option value="">
-                                      select order status
-                                    </option>
                                     <option value="open">open</option>
                                     <option value="processing">
                                       processing
@@ -157,12 +154,12 @@ export class AllOrders extends React.Component {
                                 </span>
 
                                 {/* delete thunk
-                              <span>
-                                <p>
-                                  <button type="button">Delete</button>
-                                </p>
-                              </span>
-                              */}
+                                <span>
+                                  <p>
+                                    <button type="button">Delete</button>
+                                  </p>
+                                </span>
+                                */}
                               </div>
                             </form>
                           </UncontrolledCollapse>
