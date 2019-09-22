@@ -89,3 +89,7 @@ a:hover {
   max-height: 80vh;
   max-width: 500px;
 }
+
+.container {
+  width: 70vw;
+}
