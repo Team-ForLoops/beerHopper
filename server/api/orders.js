@@ -1,7 +1,7 @@
 const router = require('express').Router()
-const {Order, Beer, User} = require('../db/models')
+const {Order, Beer, User, BeerOrder} = require('../db/models')
+const {isUser, isAdmin, isMeOrAdmin} = require('../checks')
 module.exports = router
-const {isUser, isAdmin} = require('../checks')
 
 // 8080/api/orders/
 router.get('/', isAdmin, async (req, res, next) => {
@@ -12,6 +12,39 @@ router.get('/', isAdmin, async (req, res, next) => {
     res.json(orders)
   } catch (err) {
     next(err)
+  }
+})
+
+//Need to change the route
+// router.get('/:userId', isAdmin, async (req, res, next) => {
+//   try {
+//     const orders = await Order.findAll({
+//       where: {
+//         id: req.params.userId
+//       }
+//     })
+//     res.json(orders)
+//   } catch (error) {
+//     next(error)
+//   }
+// })
+
+router.get('/my/allOrders', isUser, async (req, res, next) => {
+  try {
+    const orders = await Order.findAll({
+      where: {
+        userId: req.user.dataValues.id
+      },
+      include: {
+        model: Beer
+      }
+    })
+    const myOrders = orders.filter(order => {
+      return order.status !== 'open'
+    })
+    res.json(myOrders)
+  } catch (error) {
+    next(error)
   }
 })
 
@@ -31,7 +64,7 @@ router.get('/:orderId', isAdmin, async (req, res, next) => {
 
 // 8080/api/orders/:orderId
 
-router.put('/:orderId', async (req, res, next) => {
+router.put('/:orderId', isAdmin, async (req, res, next) => {
   let orderId = req.params.orderId
 
   try {

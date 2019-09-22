@@ -42,6 +42,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
         <div className="justify-content-end">
           <Link to="/cart"> Cart</Link>
         </div>
+        {isLoggedIn ? <Link to="/orders/myOrders">My Orders</Link> : ''}
       </NavBar>
       <hr />
     </Container>
