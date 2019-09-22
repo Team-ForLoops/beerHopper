@@ -1,5 +1,5 @@
 import React from 'react'
-import {getBeers} from '../store/allBeers'
+import {setBeers, getBeers} from '../store/allBeers'
 import {connect} from 'react-redux'
 
 export class SearchBar extends React.Component {
@@ -16,8 +16,19 @@ export class SearchBar extends React.Component {
       [event.target.name]: event.target.value
     })
   }
-  handleSubmit() {
-    this.props.beers.filter()
+  async handleSubmit(event) {
+    event.preventDefault()
+    await this.props.fetchInitialBeers()
+    const search = this.state.searchValue.toUpperCase()
+    console.log(this.state.searchValue)
+    const filtered = this.props.beers.filter(beer => {
+      const beerName = beer.name.toUpperCase()
+      return beerName.includes(search)
+    })
+    this.props.setFilteredBeers(filtered)
+    this.setState({
+      searchValue: ''
+    })
   }
   render() {
     return (
@@ -42,7 +53,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setBeers: () => dispatch(getBeers())
+    setFilteredBeers: beers => dispatch(setBeers(beers)),
+    fetchInitialBeers: () => dispatch(getBeers())
   }
 }
 
