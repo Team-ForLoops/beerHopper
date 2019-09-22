@@ -6,7 +6,7 @@ const {
   BeerOrder,
   Category
 } = require('./server/db/models')
-
+const faker = require('faker')
 const db = require('./server/db/db')
 
 //random Index function
@@ -86,7 +86,7 @@ const seedBeers = [
     price: 6549,
     ibu: 7,
     quantity: 33,
-    description: 'Evil artistry with essence of dirty baby diapers',
+    description: 'Infused with the Christmas Sprirt!',
     imageUrl: '/images/1.jpg'
   },
   {
@@ -94,7 +94,7 @@ const seedBeers = [
     price: 214,
     ibu: 0,
     quantity: 4,
-    description: 'Skunky bitter bile with notes of rancid butter',
+    description: 'Santas favorite beer',
     imageUrl: '/images/2.jpg'
   },
   {
@@ -102,7 +102,7 @@ const seedBeers = [
     price: 643,
     ibu: 9,
     quantity: 43,
-    description: 'God awful bitterness with confident tannins',
+    description: 'Sour and Wonderful',
     imageUrl: '/images/3.jpg'
   },
   {
@@ -283,7 +283,7 @@ const seedReviews = [
     rating: 4
   },
   {
-    description: 'I did not even receive my order. Terrible.',
+    description: 'My favorite!',
     rating: 1
   },
   {
@@ -305,7 +305,7 @@ const seedReviews = [
     rating: 4
   },
   {
-    description: 'I have no idea',
+    description: "I can't drink beer'",
     rating: 1
   }
 ]
@@ -331,7 +331,15 @@ const seed = async () => {
 
     const beers = await Beer.bulkCreate(seedBeers, {returning: true})
     const users = await User.bulkCreate(seedUsers, {returning: true})
-    const reviews = await Review.bulkCreate(seedReviews, {returning: true})
+    //const reviews = await Review.bulkCreate(seedReviews, {returning: true})
+    for (let i = 0; i < 100; i++) {
+      await Review.create({
+        description: faker.lorem.sentences(),
+        rating: Math.floor(Math.random() * 5) + 1,
+        userId: randomIndex(users) + 1,
+        beerId: randomIndex(beers) + 1
+      })
+    }
     const orders = await Promise.all(
       seedOrders.map(order => Order.create(order))
     )
@@ -344,12 +352,6 @@ const seed = async () => {
     )
 
     //associations
-    await Promise.all(
-      reviews.map(review => review.setBeer(beers[randomIndex(beers)]))
-    )
-    await Promise.all(
-      reviews.map(review => review.setUser(users[randomIndex(users)]))
-    )
     await Promise.all(
       orders.map(order => order.setUser(users[randomIndex(users)]))
     )
