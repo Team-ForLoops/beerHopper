@@ -21,7 +21,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
       <NavBar className="justify-content-md-center">
         <span>
           🔎
-          <input placeholder="beer..." />
+          <input placeholder="search products..." />
         </span>
         {isLoggedIn ? (
           <div>
@@ -39,7 +39,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
           </div>
         )}
         <div>
-          <Link to="/beers">🍺 Beers 🍺</Link>
+          <Link to="/beers">🍺BEER </Link>
         </div>
         <div className="justify-content-end">
           <Link to="/cart"> Cart</Link>

@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
+const Beer = require('./beer')
 
 const BeerOrder = db.define('beer-orders', {
   quantity: {
@@ -11,9 +12,25 @@ const BeerOrder = db.define('beer-orders', {
     allowNull: true
   }
 })
+BeerOrder.prototype.getItemSubTotal = async function() {
+  try {
+    const beer = await Beer.findByPk(this.beerId)
+    let price = beer.price
+    let subTotal = price * this.quantity
+    return subTotal
+  } catch (err) {
+    console.log(err)
+  }
+}
 
-BeerOrder.prototype.updateQuantity = function(newQuantity) {
-  this.quantity = newQuantity
+BeerOrder.prototype.updateInv = async function() {
+  try {
+    const beer = await Beer.findByPk(this.beerId)
+    let newQuantity = beer.quantityInv - this.quantity
+    await beer.update({quantityInv: newQuantity})
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 module.exports = BeerOrder

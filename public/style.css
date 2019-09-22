@@ -52,6 +52,14 @@ img {
   max-width: 200px;
   max-height: 200px;
 }
+a {
+  text-decoration: none;
+  color: black;
+}
+a:hover {
+  text-decoration: none;
+  color: orange;
+}
 /* to add cart mini view, if time permits
 .dropdown-content {
   display: none;
