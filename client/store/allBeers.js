@@ -57,7 +57,7 @@ export const filterBeers = types => async dispatch => {
 
 export const searchBeers = name => async dispatch => {
   try {
-    const {data} = await axios.get(`/api/beer/search?name=${name.join('+')}`)
+    const {data} = await axios.get(`/api/beer/search?name=${name}`)
     dispatch(setBeers(data))
   } catch (err) {
     console.error(err)
