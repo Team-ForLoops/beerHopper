@@ -13,7 +13,10 @@ const db = require('./server/db/db')
 let randomIndex = array => {
   return Math.floor(Math.random() * array.length)
 }
-
+let images = []
+for (let i = 1; i <= 32; i++) {
+  images.push(`/images/${i}.jpg`)
+}
 const seedUsers = [
   {
     username: 'theo_truong',
@@ -517,9 +520,24 @@ const seed = async () => {
   try {
     await db.sync({force: true})
 
-    const beers = await Beer.bulkCreate(seedBeers, {returning: true})
+    let beers = await Beer.bulkCreate(seedBeers, {returning: true})
     const users = await User.bulkCreate(seedUsers, {returning: true})
     //const reviews = await Review.bulkCreate(seedReviews, {returning: true})
+
+    let beers2 = []
+    for (let i = 0; i < 100; i++) {
+      beers2.push(
+        await Beer.create({
+          name: faker.random.word(),
+          description: faker.lorem.sentences(),
+          ibu: Math.floor(Math.random() * 100),
+          price: faker.random.number(2000),
+          imageUrl: images[randomIndex(images)]
+        })
+      )
+    }
+    beers = [...beers, ...beers2]
+
     for (let i = 0; i < 100; i++) {
       await Review.create({
         description: faker.lorem.sentences(),

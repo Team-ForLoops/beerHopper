@@ -53,10 +53,25 @@ router.get('/filter/:types', async (req, res, next) => {
 // 8080/api/beer/:id
 router.get('/:beerId', async (req, res, next) => {
   let beerId = req.params.beerId
+
   try {
     const beer = await Beer.findByPk(beerId, {
       include: [{model: Review, include: {model: User}}]
     })
+
+    console.log('THE BEER', beer.dataValues.reviews)
+    let total = 0
+    if (
+      beer.dataValues.reviews === undefined ||
+      beer.dataValues.reviews.length === 0
+    ) {
+      beer.averageRating = 'No Ratings Yet!'
+    } else {
+      beer.reviews.forEach(review => {
+        total += review.rating
+      })
+      beer.averageRating = `${(total / reviews.length).toFixed(1)}/5`
+    }
     res.send(beer)
   } catch (err) {
     next(err)
@@ -66,15 +81,6 @@ router.get('/:beerId', async (req, res, next) => {
 // 8080/api/beer/:id/review
 router.post('/:id/review', isUser, async (req, res, next) => {
   try {
-    // console.log(
-    //   'req.user #######################################################################',
-    //   req.user
-    // )
-    // console.log(
-    //   'req.body #######################################################################',
-    //   req.body
-    // )
-
     const {id} = req.user
     const {rating, description} = req.body
 
@@ -83,8 +89,15 @@ router.post('/:id/review', isUser, async (req, res, next) => {
 
     const newReview = await Review.create({rating, description, userId: id})
     newReview.setBeer(beer)
-
-    res.json(newReview)
+    const review = await Review.findOne({
+      where: {
+        id: newReview.id
+      },
+      include: {
+        model: User
+      }
+    })
+    res.json(review)
   } catch (err) {
     next(err)
   }
