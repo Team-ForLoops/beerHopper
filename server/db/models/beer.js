@@ -34,21 +34,4 @@ const Beer = db.define('beer', {
   }
 })
 
-Beer.prototype.averageRating = async function(beerId) {
-  try {
-    const reviews = await Review.findAll({
-      where: {
-        beerId: beerId
-      }
-    })
-    const ratingTotal = reviews.reduce((avg = 0, review) => {
-      return avg + review.rating
-    })
-    const averageRating = (ratingTotal / reviews.length).toFixed(1)
-    return averageRating
-  } catch (err) {
-    console.log(err)
-  }
-}
-
 module.exports = Beer

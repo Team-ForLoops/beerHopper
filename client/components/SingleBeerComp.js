@@ -31,7 +31,7 @@ class SingleBeer extends React.Component {
       console.error(error)
     }
   }
-
+  yeah
   clickHandler() {
     let hidden = this.state.showForm
     this.setState({
@@ -43,6 +43,19 @@ class SingleBeer extends React.Component {
     this.props.addItem({id: beerId, quantity: 1})
     const message = this.state.showCart
     this.setState({showCart: true})
+  }
+
+  getAverageRating = reviews => {
+    console.log('REVIEWS', reviews)
+    let total = 0
+    if (reviews === undefined || reviews.length === 0) {
+      return 'No Ratings Yet!'
+    } else {
+      reviews.forEach(review => {
+        total += review.rating
+      })
+      return `${(total / reviews.length).toFixed(1)}/5`
+    }
   }
 
   // eslint-disable-next-line complexity
@@ -74,6 +87,7 @@ class SingleBeer extends React.Component {
             <div className="details">
               <ul>
                 <li>
+                  <p>Rating: {`${this.getAverageRating(beer.reviews)}`}</p>
                   <p>IBU: {beer.ibu}</p>
                   <p>Color: {beer.color}</p>
                   <p>Description: {beer.description}</p>
