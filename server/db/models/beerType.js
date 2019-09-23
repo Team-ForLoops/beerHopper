@@ -5,9 +5,10 @@ const Category = db.define('category', {
   type: {
     type: Sequelize.STRING,
     allowNull: false,
+    unique: true,
     validate: {
       len: [3, 10],
-      unique: true
+      isAlpha: true
     }
   }
 })

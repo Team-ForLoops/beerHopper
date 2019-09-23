@@ -47,7 +47,7 @@ const seedUsers = [
     email: 'pinzhi@gmail.com',
     password: '123pinzhi',
     imageUrl:
-      'http://www.pzinvest.com/uploadfiles/2018/05/20180514160258258.jpg'
+      'https://i0.wp.com/babeltechreviews.com/wp-content/uploads/2018/06/Lisa-Su.jpg'
   },
   {
     username: 'lea_seydoux',

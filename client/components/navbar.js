@@ -12,18 +12,24 @@ import Nav from 'react-bootstrap/Nav'
 import Row from 'react-bootstrap/Row'
 
 const Navbar = ({handleClick, isLoggedIn}) => {
+  function handleChange() {}
+  function handleSubmit() {}
+
   return (
     <Container>
       <Row className="justify-content-md-center">
         <h1>BEER HOPPER</h1>
       </Row>
+
       <NavBar className="justify-content-md-center">
         <span>
           <SearchBar />
         </span>
+
         {isLoggedIn ? (
           <div>
             {/* The navbar will show these links after you log in */}
+
             <Link to="/home">Home</Link>
             <a href="#" onClick={handleClick}>
               Logout
@@ -32,18 +38,29 @@ const Navbar = ({handleClick, isLoggedIn}) => {
         ) : (
           <div>
             {/* The navbar will show these links before you log in */}
+
             <Link to="/login">Login</Link>
             <Link to="/signup">Sign Up</Link>
           </div>
         )}
+
         <div>
           <Link to="/beers">🍺BEER </Link>
         </div>
+
         <div className="justify-content-end">
           <Link to="/cart"> Cart</Link>
         </div>
+
+        {/* placeholder: make links only available to admins */}
+
+        <div className="justify-content-end">
+          <Link to="/admin/dashboard"> Admin Dashboard </Link>
+        </div>
+
         {isLoggedIn ? <Link to="/orders/myOrders">My Orders</Link> : ''}
       </NavBar>
+
       <hr />
     </Container>
   )
@@ -55,6 +72,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.id
+    // placeholder isAdmin
   }
 }
 

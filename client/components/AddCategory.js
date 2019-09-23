@@ -16,16 +16,16 @@ class AddCategory extends Component {
   }
   handleSubmit = () => {
     event.preventDefault()
-
-    // if (!category.includes(' ')){
-    console.log(this.state)
     this.props.getWithNewCategory(this.state)
-    // }
     this.setState({
       type: ''
     })
   }
   render() {
+    function isAlpha(str) {
+      const regexp = /^[A-Za-z]+$/
+      if (regexp.test(str)) return true
+    }
     return (
       <form onSubmit={() => this.handleSubmit()}>
         <div className="form-group">
@@ -38,11 +38,14 @@ class AddCategory extends Component {
             maxLength="10"
             name="type"
             value={this.state.type}
+            required
+            pattern="[a-zA-Z]+"
           />
         </div>
         <button type="submit" className="btn btn-primary">
           Submit
         </button>
+        {isAlpha(this.state.type) ? null : <div>Only letters!</div>}
       </form>
     )
   }
