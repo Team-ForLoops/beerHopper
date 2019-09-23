@@ -54,6 +54,16 @@ class Cart extends Component {
             </span>
           </Container>
         )}
+        {this.props.user.id && (
+          <Container className="my-5">
+            Hello {this.props.user.username}! View or Edit Your Orders:
+            <Link to="/orders/myOrders">
+              <Button className="mx-2" variant="outline-dark">
+                My Orders
+              </Button>{' '}
+            </Link>
+          </Container>
+        )}
       </React.Fragment>
     )
   }
@@ -61,7 +71,8 @@ class Cart extends Component {
 const mapStateToProps = state => {
   return {
     cart: state.cart,
-    subTotal: state.subTotal
+    subTotal: state.subTotal,
+    user: state.user
   }
 }
 const mapDispatchToProps = dispatch => {
