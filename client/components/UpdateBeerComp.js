@@ -16,7 +16,8 @@ class UpdateBeer extends React.Component {
       description: this.props.beer.description,
       imageUrl: this.props.beer.imageUrl,
       quantityInv: this.props.beer.quantityInv,
-      price: this.props.beer.price
+      price: this.props.beer.price,
+      success: false
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -36,7 +37,8 @@ class UpdateBeer extends React.Component {
 
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
+      success: false
     })
   }
 
@@ -79,6 +81,9 @@ class UpdateBeer extends React.Component {
 
     await this.props.updateBeerThunk(updatedBeer)
     this.props.fetchInitialBeers()
+    this.setState({
+      success: true
+    })
   }
 
   render() {
@@ -243,8 +248,8 @@ class UpdateBeer extends React.Component {
 
             <span>
               <p>
-                {/* */}
                 <button type="submit">Edit</button>
+                {this.state.success && <div>Updated!</div>}
               </p>
             </span>
           </div>
