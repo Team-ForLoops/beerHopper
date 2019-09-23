@@ -13,9 +13,17 @@ import Col from 'react-bootstrap/Col'
 export class AllBeers extends React.Component {
   constructor() {
     super()
+    this.state = {
+      showFilter: false
+    }
     this.handleChange = this.handleChange.bind(this)
   }
-
+  handleFilter = () => {
+    let hidden = this.state.showFilter
+    this.setState({
+      showFilter: !hidden
+    })
+  }
   handleChange(event) {
     return this.props.getSortedBeers(event.target.value, this.props.beers)
   }
@@ -25,15 +33,26 @@ export class AllBeers extends React.Component {
 
     return (
       <Container>
-        <div className="options">
-          <select onChange={this.handleChange}>
-            <option value="">Sort By...</option>
-            <option value="priceHighToLow">Price (high to low)</option>
-            <option value="priceLowToHigh">Price (low to high)</option>
-            <option value="name">Name</option>
-          </select>
-          <BeerFilter beers={this.props.beers} />
-        </div>
+        <Row className="options justify-content-space-between">
+          <Col>
+            <Button
+              variant="outline-dark"
+              onClick={this.handleFilter}
+              className="mx-5 rounded-sm"
+            >
+              Filter Products
+            </Button>
+            {this.state.showFilter && <BeerFilter beers={this.props.beers} />}
+          </Col>
+          <Col className="justify-content-end ml-5 mr-0">
+            <select onChange={this.handleChange}>
+              <option value="">Sort By...</option>
+              <option value="priceHighToLow">Price (high to low)</option>
+              <option value="priceLowToHigh">Price (low to high)</option>
+              <option value="name">Name</option>
+            </select>
+          </Col>
+        </Row>
         {this.props.beers.length ? (
           <Row>
             <ul>
