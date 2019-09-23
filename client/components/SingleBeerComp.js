@@ -85,6 +85,7 @@ class SingleBeer extends React.Component {
                     <p>IBU: {beer.ibu}</p>
                     <p>Color: {beer.color}</p>
                     <p>Description: {beer.description}</p>
+                    <p>Total Inventory: {beer.quantityInv} beers</p>
                     <div>
                       {beer.quantityInv > 0 ? (
                         <span>IN STOCK </span>

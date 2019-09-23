@@ -5,6 +5,7 @@ import {toDollars} from '../store/allOrders'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import {UncontrolledCollapse, CardBody, CardText, CardDeck} from 'reactstrap'
+import {cancelOrderThunk} from '../store/myOrders'
 
 export class OrderHistory extends React.Component {
   constructor(props) {
@@ -22,6 +23,9 @@ export class OrderHistory extends React.Component {
   formatDate(date) {
     const newDate = new Date(date)
     return newDate.toLocaleString()
+  }
+  cancelHandler = orderId => {
+    this.props.cancelOrder(orderId)
   }
   clickHandler() {
     let hidden = this.state.showForm
@@ -85,6 +89,17 @@ export class OrderHistory extends React.Component {
                                 >
                                   Order Details
                                 </Button>
+                                {order.status !== 'cancelled' && (
+                                  <Button
+                                    className="btn-warning"
+                                    onClick={() => {
+                                      this.cancelHandler(order.id)
+                                    }}
+                                    style={{marginBottom: '1rem'}}
+                                  >
+                                    Cancel Order
+                                  </Button>
+                                )}
                                 <UncontrolledCollapse
                                   toggler={`#order${order.id}`}
                                 >
@@ -162,7 +177,8 @@ const mapDispatch = dispatch => {
   return {
     fetchMyOrders: () => dispatch(getMyOrders()),
     fetchSortedOrders: (sortBy, myOrders) =>
-      dispatch(sortMyOrders(sortBy, myOrders))
+      dispatch(sortMyOrders(sortBy, myOrders)),
+    cancelOrder: orderId => dispatch(cancelOrderThunk(orderId))
   }
 }
 export default connect(mapState, mapDispatch)(OrderHistory)

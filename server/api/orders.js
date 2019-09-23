@@ -69,11 +69,25 @@ router.put('/:orderId', isAdmin, async (req, res, next) => {
 
   try {
     const order = await Order.findByPk(orderId)
-    console.log(
-      'req.body ##################################################',
-      req.body
-    )
     order.update(req.body)
+    res.send(order)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.post('/cancel/:orderId', async (req, res, next) => {
+  let orderId = req.params.orderId
+  try {
+    let order = await Order.findOne({
+      where: {
+        id: orderId
+      },
+      include: {
+        model: Beer
+      }
+    })
+    await order.update({status: 'cancelled'})
     res.send(order)
   } catch (err) {
     next(err)
