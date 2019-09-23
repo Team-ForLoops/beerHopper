@@ -8,8 +8,8 @@ import Button from 'react-bootstrap/Button'
 import {UncontrolledCollapse} from 'reactstrap'
 
 export class AllUsers extends React.Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.state = {
       showForm: false,
       stat: ''
@@ -17,14 +17,11 @@ export class AllUsers extends React.Component {
     this.clickHandlerOne = this.clickHandlerOne.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
   }
 
   componentDidMount() {
-    try {
-      this.props.fetchInitialUsers()
-    } catch (error) {
-      console.error(error)
-    }
+    this.props.fetchInitialUsers()
   }
 
   clickHandlerOne() {
@@ -41,7 +38,7 @@ export class AllUsers extends React.Component {
     })
   }
 
-  async handleSubmit(userId) {
+  handleSubmit(userId) {
     event.preventDefault()
 
     const updatedUser = {
@@ -51,8 +48,14 @@ export class AllUsers extends React.Component {
 
     // console.log('UPDATE USER', updatedUser)
 
-    await this.props.updateUserThunk(updatedUser)
+    this.props.updateUserThunk(updatedUser)
     this.props.fetchInitialUsers()
+  }
+
+  handleDelete(userId) {
+    event.preventDefault()
+
+    this.props.deleteUserThunk(userId)
   }
 
   render() {
@@ -81,7 +84,7 @@ export class AllUsers extends React.Component {
                 <Button
                   id={`delete${user.id}`}
                   variant="danger"
-                  onClick={() => this.props.deleteUserThunk(user.id)}
+                  onClick={() => this.handleDelete(user.id)}
                 >
                   X
                 </Button>
@@ -156,7 +159,8 @@ export class AllUsers extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    users: state.allUsers
+    users: state.allUsers,
+    singleUser: state.singleUser
   }
 }
 

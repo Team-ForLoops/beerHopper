@@ -513,7 +513,8 @@ const seedOrders = [
   }
 ]
 //beer categories
-const beerCats = ['ale', 'lager', 'stout', 'sour', 'saison', 'pickle', 'sfdfk']
+const beerCats = ['ale', 'lager', 'stout', 'sour', 'saison', 'pickle']
+const beerColors = ['light', 'dark', 'red', 'brown', 'blonde', 'amber']
 
 // seed function
 const seed = async () => {
@@ -532,7 +533,8 @@ const seed = async () => {
           description: faker.lorem.sentences(),
           ibu: Math.floor(Math.random() * 100),
           price: faker.random.number(2000),
-          imageUrl: images[randomIndex(images)]
+          imageUrl: images[randomIndex(images)],
+          color: beerColors[randomIndex(beerColors)]
         })
       )
     }
