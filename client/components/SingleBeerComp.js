@@ -75,6 +75,12 @@ class SingleBeer extends React.Component {
     return reviewed
   }
 
+  deleteReview = async reviewId => {
+    await this.props.deleteReview(reviewId)
+    this.props.loadSingleBeer(this.props.beer.id)
+    await this.props.fetchReviews(this.props.beer.id)
+  }
+
   getEditReview = reviews => {
     const userId = this.props.user.id
     let editReview
@@ -159,9 +165,7 @@ class SingleBeer extends React.Component {
                   </Button>
                   <Button
                     onClick={() =>
-                      this.props.deleteReview(
-                        this.getEditReview(beer.reviews).id
-                      )
+                      this.deleteReview(this.getEditReview(beer.reviews).id)
                     }
                   >
                     Remove Review

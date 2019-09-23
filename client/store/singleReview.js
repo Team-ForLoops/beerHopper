@@ -21,6 +21,7 @@ export const updateReview = review => ({
 })
 
 export const deleteReview = reviewId => {
+  console.log('IN HERE', reviewId)
   return {
     type: DELETE_REVIEW,
     reviewId
@@ -70,7 +71,6 @@ export default function(state = initialState, action) {
     case UPDATE_REVIEW:
       return action.review
     case DELETE_REVIEW:
-      console.log('DELETING REVIEW', action)
       return state.filter(review => {
         return review.id !== action.reviewId
       })

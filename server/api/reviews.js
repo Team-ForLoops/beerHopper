@@ -58,7 +58,7 @@ router.delete('/:reviewId', async (req, res, next) => {
         id: req.params.reviewId
       }
     })
-    res.sendStatus(204)
+    res.sendStatus(204).send(req.params.reviewId)
   } catch (error) {
     next(error)
   }
