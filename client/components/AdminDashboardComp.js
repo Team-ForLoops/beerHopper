@@ -19,34 +19,6 @@ class AdminDash extends React.Component {
 
     return (
       <div>
-        {/* <div>
-          <h2>Product Dashboard</h2>
-          <ul>
-            {beers === undefined || beers.length === 0
-              ? 'No beer in inventory'
-              : beers.map(beer => {
-                  return (
-                    <li key={beer.id}>
-                      <img className="image" src={beer.imageUrl} />
-                      <p>Name: {beer.name}</p>
-                      <p>Price: {beer.price}</p>
-                      <p>Amount in stock: {beer.quantity}</p>
-                      <Link to={`/beer/${beer.id}/edit}`}>
-                        <button
-                          type="button"
-                          className="edit"
-                          onClick={() => editBeer(beer.id)}
-                        >
-                          Edit
-                        </button>
-                      </Link>
-                    </li>
-                  )
-                })}
-          </ul>
-        </div>
-              */}
-
         <ButtonToolbar aria-label="Toolbar with button groups">
           <ButtonGroup className="mr-2" aria-label="First group">
             <Link to="/admin/dashboard">
@@ -77,34 +49,10 @@ class AdminDash extends React.Component {
               <Button variant="outline-info">Edit Existing Product</Button>
             </Link>
           </ButtonGroup>
-
-          <ButtonGroup className="mr-2" aria-label="Second group">
-            <Link to="/admin/category">
-              <Button variant="outline-info">New Category</Button>
-            </Link>
-          </ButtonGroup>
-
-          <ButtonGroup aria-label="Third group">
-            <DropdownButton
-              variant="outline-info"
-              as={ButtonGroup}
-              title="Admin Product Management"
-              id="bg-nested-dropdown"
-            >
-              <Link to="/admin/post/beer">
-                <Dropdown.Item eventKey="1">Create New Product</Dropdown.Item>
-              </Link>
-
-              <Link to="/admin/edit/beer/3">
-                <Dropdown.Item eventKey="2">
-                  Update Existing Product
-                </Dropdown.Item>
-              </Link>
-            </DropdownButton>
-          </ButtonGroup>
         </ButtonToolbar>
         <br />
-        <img
+
+        {/* <img
           id="dash-image-mock"
           src="https://res.cloudinary.com/dejiqayjc/image/upload/v1569248053/fundus_pics/admindash_part1_kkgphi.png"
         />
@@ -114,9 +62,26 @@ class AdminDash extends React.Component {
         <img
           id="dash-image-mock"
           src="https://res.cloudinary.com/dejiqayjc/image/upload/v1569248058/fundus_pics/admindash_part2_ikbsxd.png"
-          // height="1000px"
-          // width="1000px"
-        />
+        /> */}
+
+        <html lang="en">
+          <head>
+            <meta charset="UTF-8" />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1.0"
+            />
+            <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
+            <title>Document</title>
+          </head>
+          <body>
+            <img src="https://res.cloudinary.com/dejiqayjc/image/upload/v1569248053/fundus_pics/admindash_part1_kkgphi.png" />
+            <br />
+            <br />
+            <br />
+            <img src="https://res.cloudinary.com/dejiqayjc/image/upload/v1569248058/fundus_pics/admindash_part2_ikbsxd.png" />
+          </body>
+        </html>
       </div>
     )
   }

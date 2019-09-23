@@ -11,7 +11,8 @@ import {
   AllOrders,
   AllUsers,
   AddBeer,
-  AdminDash
+  AdminDash,
+  SimpleForm
 } from './components'
 import {me} from './store'
 import {fetchCart} from './store/cart'
