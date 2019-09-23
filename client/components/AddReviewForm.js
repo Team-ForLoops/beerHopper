@@ -1,41 +1,25 @@
 import React, {Component} from 'react'
-import axios from 'axios'
 import {connect} from 'react-redux'
-import {postReviewThunk, fetchSingleBeer} from '../store/singleBeer'
+import {postReviewThunk} from '../store/reviews'
 
 class AddReviewForm extends Component {
   constructor() {
     super()
     this.state = {
-      // name: '',
       rating: '',
       description: ''
     }
   }
-
   handleChange = event => {
     //update the state with input fields
     this.setState({
       [event.target.name]: event.target.value
     })
-    console.log('In handle change:', this.state)
   }
-
   handleSubmit = () => {
-    //event.preventDefault()
-    //clear inputs and make axios post to database, hence post in first part!!!!!
-    console.log('before post req')
-
-    const newReview = {
-      // name: this.state.name,
-      rating: this.state.rating,
-      description: this.state.description
-    }
-
-    this.props.postReviewThunk(this.props.beer.id, newReview)
-
+    event.preventDefault()
+    this.props.postReviewThunk(this.props.beer.id, this.state)
     this.setState({
-      // name: '',
       rating: '',
       description: ''
     })
@@ -43,16 +27,6 @@ class AddReviewForm extends Component {
   render() {
     return (
       <form onSubmit={() => this.handleSubmit()}>
-        {/* <div className="form-group">
-          <label htmlFor="name">Reviewer Name:</label>
-          <input
-            className="form-control"
-            onChange={this.handleChange}
-            type="text"
-            name="name"
-            value={this.state.name}
-          />
-    </div> */}
         <div className="form-group">
           <label htmlFor="rating">Rating:</label>
           <input
@@ -92,11 +66,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     postReviewThunk: (beerId, Review) =>
-      dispatch(postReviewThunk(beerId, Review)),
-    loadSingleBeer: id => dispatch(fetchSingleBeer(id))
+      dispatch(postReviewThunk(beerId, Review))
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddReviewForm)
-
-// export default AddReviewForm

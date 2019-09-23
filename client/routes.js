@@ -18,10 +18,12 @@ import {fetchCart} from './store/cart'
 
 import AllBeers from './components/AllBeers'
 import Cart from './components/Cart'
+import OrderHistory from './components/OrderHistory'
 import {getBeers} from './store/allBeers'
 import {getCategories} from './store/categories'
 import {getOrders} from './store/allOrders'
 import {getUsers} from './store/allUsers'
+import {getMyOrders} from './store/myOrders'
 
 /**
  * COMPONENT
@@ -33,6 +35,7 @@ class Routes extends Component {
     this.props.fetchInitialOrders()
     this.props.fetchCart()
     this.props.fetchCategories()
+    this.props.fetchMyOrders()
   }
 
   render() {
@@ -43,7 +46,6 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-
         <Route path="/beers" component={AllBeers} />
         <Route path="/beer/:beerId" component={SingleBeer} />
         <Route path="/cart" component={Cart} />
@@ -57,6 +59,11 @@ class Routes extends Component {
             <Route path="/admin/edit/users" component={AllUsers} />
             <Route path="/admin/post/beer" component={AddBeer} />
             <Route path="/admin/edit/beer/:beerId" component={UpdateBeer} />
+            <Route
+              exact
+              path="/orders/myOrders"
+              component={OrderHistory}
+            />{' '}
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
@@ -86,7 +93,8 @@ const mapDispatch = dispatch => {
     fetchInitialOrders: () => dispatch(getOrders()),
     fetchInitialUsers: () => dispatch(getUsers()),
     fetchCart: () => dispatch(fetchCart()),
-    fetchCategories: () => dispatch(getCategories())
+    fetchCategories: () => dispatch(getCategories()),
+    fetchMyOrders: () => dispatch(getMyOrders())
   }
 }
 

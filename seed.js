@@ -6,14 +6,17 @@ const {
   BeerOrder,
   Category
 } = require('./server/db/models')
-
+const faker = require('faker')
 const db = require('./server/db/db')
 
 //random Index function
 let randomIndex = array => {
   return Math.floor(Math.random() * array.length)
 }
-
+let images = []
+for (let i = 1; i <= 32; i++) {
+  images.push(`/images/${i}.jpg`)
+}
 const seedUsers = [
   {
     username: 'theo_truong',
@@ -86,7 +89,7 @@ const seedBeers = [
     price: 6549,
     ibu: 7,
     quantity: 33,
-    description: 'Evil artistry with essence of dirty baby diapers',
+    description: 'Infused with the Christmas Sprirt!',
     imageUrl: '/images/1.jpg'
   },
   {
@@ -94,7 +97,7 @@ const seedBeers = [
     price: 214,
     ibu: 0,
     quantity: 4,
-    description: 'Skunky bitter bile with notes of rancid butter',
+    description: 'Santas favorite beer',
     imageUrl: '/images/2.jpg'
   },
   {
@@ -102,7 +105,7 @@ const seedBeers = [
     price: 643,
     ibu: 9,
     quantity: 43,
-    description: 'God awful bitterness with confident tannins',
+    description: 'Sour and Wonderful',
     imageUrl: '/images/3.jpg'
   },
   {
@@ -268,7 +271,196 @@ const seedBeers = [
     name: 'Jalapeno Business',
     type: 'ale',
     color: 'light',
+    description: 'Its very much in your business!',
     price: 500
+  },
+  {
+    name: 'Hoppy Holidays',
+    price: 1099,
+    ibu: 47,
+    quantity: 2,
+    description: 'Evil artistry with essence of dirty baby diapers',
+    imageUrl: '/images/16.jpg'
+  },
+  {
+    name: 'OMG',
+    price: 2149,
+    ibu: 50,
+    quantity: 45,
+    description: 'Skunky bitter bile with notes of rancid butter',
+    imageUrl: '/images/17.jpg'
+  },
+  {
+    name: 'Yowee Wowee',
+    price: 6439,
+    ibu: 67,
+    quantity: 39,
+    description: 'God awful bitterness with confident tannins',
+    imageUrl: '/images/18.jpg'
+  },
+  {
+    name: 'Tammy Pies',
+    price: 5199,
+    ibu: 5,
+    quantity: 34,
+    description: 'Nutty tsunami that flows like a pastoral poem',
+    imageUrl: '/images/19.jpg'
+  },
+  {
+    name: 'Kerpy Doo',
+    price: 5749,
+    ibu: 42,
+    quantity: 30,
+    description:
+      'Satisfying goodness reminiscent of a wet old box in your grandmas basement',
+    imageUrl: '/images/20.jpg'
+  },
+  {
+    name: 'Rupen Swhugr',
+    price: 5999,
+    ibu: 75,
+    quantity: 34,
+    description: 'Infused nelson nectar with low hops',
+    imageUrl: '/images/21.jpg'
+  },
+  {
+    name: 'Paste Pound',
+    price: 6399,
+    ibu: 61,
+    quantity: 64,
+    description: 'Girthy booze fest with maple undertones',
+    imageUrl: '/images/22.jpg'
+  },
+  {
+    name: 'Gritty Toto',
+    price: 6000,
+    ibu: 7,
+    quantity: 4,
+    description: 'Sour mountains of bitterness but in a good way',
+    imageUrl: '/images/23.jpg'
+  },
+  {
+    name: 'Orpengsnag',
+    price: 6600,
+    ibu: 49,
+    quantity: 61,
+    description: 'Insanely refreshing sour-patch kid with a gym sock funk',
+    imageUrl: '/images/24.jpg'
+  },
+  {
+    name: 'Brutal Baby',
+    price: 666,
+    ibu: 100,
+    quantity: 8,
+    description: 'Burnt subtle wet blanket',
+    imageUrl: '/images/25.jpg'
+  },
+  {
+    name: 'What are you doing here',
+    price: 5899,
+    ibu: 8,
+    quantity: 24,
+    description: 'Bitter funk with brett earthiness',
+    imageUrl: '/images/26.jpg'
+  },
+  {
+    name: 'Pantry Snooper',
+    price: 7199,
+    ibu: 77,
+    quantity: 11,
+    description: 'Blonde lager with notes of leather-bound books',
+    imageUrl: '/images/27.jpg'
+  },
+  {
+    name: 'You mad',
+    price: 6719,
+    ibu: 97,
+    quantity: 42,
+    description: 'Belch-inducing think piece with notes of marshmallow',
+    imageUrl: '/images/28.jpg'
+  },
+  {
+    name: 'Julebrygg has a baby',
+    price: 62000,
+    ibu: 47,
+    quantity: 65,
+    description: 'Wine-like swill with an influence of wild yeast',
+    imageUrl: '/images/29.jpg'
+  },
+  {
+    name: 'Tomorrow is Today',
+    price: 899,
+    ibu: 73,
+    quantity: 63,
+    description: 'Tastes like bbq sauce but carbonated. real gross',
+    imageUrl: '/images/30.jpg'
+  },
+  {
+    name: 'Cake Town',
+    price: 6969,
+    ibu: 99,
+    quantity: 213,
+    description:
+      'Want to drink cake? like bad things? this is the one for you. No bottles ever sold. Will you be the first? Make history by purchasing this beer!',
+    imageUrl: '/images/31.jpg'
+  },
+  {
+    name: 'Bad Potato Daddy',
+    ibu: 25,
+    color: 'red',
+    description: 'Sweet potato ale. Comparable to pumpkin spice ales.',
+    imageUrl: '/images/32.jpg',
+    quantityInv: 20,
+    price: 1299
+  },
+  {
+    name: 'Dark and Stormy Daniels',
+    type: 'stout',
+    ibu: 69,
+    color: 'dark',
+    description:
+      'Stout with coconut added in secondary. Chocolatey, roasty, coconutty, delicious.',
+    imageUrl: '/images/dark-paradise.jpg',
+    quantityInv: 100,
+    price: 100
+  },
+  {
+    name: 'Rooty',
+    type: 'saison',
+    ibu: 40,
+    color: 'light',
+    description:
+      'Slightly tart, sessionable saison with a beautiful light pink color',
+    // imageUrl: '/images/hibiscus-saison.jpg',
+    quantityInv: 0,
+    price: 49999
+  },
+  {
+    name: 'March of the Legumes',
+    type: 'ale',
+    ibu: 25,
+    color: 'light',
+    description: 'American honey ale, brewed and fermented with honey',
+    // imageUrl: '/images/hi-honey.jpg',
+    quantityInv: 10,
+    price: 799
+  },
+  {
+    name: 'Divorce Saison',
+    type: 'saison',
+    ibu: 18,
+    color: 'light',
+    description: 'Lawyer fees included',
+    imageUrl: '/images/wedding-saison.jpg',
+    quantityInv: 2,
+    price: 10000000
+  },
+  {
+    name: 'Jalapeno Business Casual',
+    type: 'ale',
+    color: 'light',
+    price: 500,
+    quantity: 4
   }
 ]
 
@@ -282,7 +474,7 @@ const seedReviews = [
     rating: 4
   },
   {
-    description: 'I did not even receive my order. Terrible.',
+    description: 'My favorite!',
     rating: 1
   },
   {
@@ -304,7 +496,7 @@ const seedReviews = [
     rating: 4
   },
   {
-    description: 'I have no idea',
+    description: "I can't drink beer'",
     rating: 1
   }
 ]
@@ -328,9 +520,32 @@ const seed = async () => {
   try {
     await db.sync({force: true})
 
-    const beers = await Beer.bulkCreate(seedBeers, {returning: true})
+    let beers = await Beer.bulkCreate(seedBeers, {returning: true})
     const users = await User.bulkCreate(seedUsers, {returning: true})
-    const reviews = await Review.bulkCreate(seedReviews, {returning: true})
+    //const reviews = await Review.bulkCreate(seedReviews, {returning: true})
+
+    let beers2 = []
+    for (let i = 0; i < 100; i++) {
+      beers2.push(
+        await Beer.create({
+          name: faker.random.word(),
+          description: faker.lorem.sentences(),
+          ibu: Math.floor(Math.random() * 100),
+          price: faker.random.number(2000),
+          imageUrl: images[randomIndex(images)]
+        })
+      )
+    }
+    beers = [...beers, ...beers2]
+
+    for (let i = 0; i < 100; i++) {
+      await Review.create({
+        description: faker.lorem.sentences(),
+        rating: Math.floor(Math.random() * 5) + 1,
+        userId: randomIndex(users) + 1,
+        beerId: randomIndex(beers) + 1
+      })
+    }
     const orders = await Promise.all(
       seedOrders.map(order => Order.create(order))
     )
@@ -343,12 +558,6 @@ const seed = async () => {
     )
 
     //associations
-    await Promise.all(
-      reviews.map(review => review.setBeer(beers[randomIndex(beers)]))
-    )
-    await Promise.all(
-      reviews.map(review => review.setUser(users[randomIndex(users)]))
-    )
     await Promise.all(
       orders.map(order => order.setUser(users[randomIndex(users)]))
     )

@@ -57,7 +57,25 @@ router.get('/', async (req, res, next) => {
     next(error)
   }
 })
-
+//get cart subTotal
+router.get('/subTotal', async (req, res, next) => {
+  let orderId = req.session.userInfo.orderId
+  try {
+    let beerOrders = await BeerOrder.findAll({
+      where: {
+        orderId: orderId
+      }
+    })
+    let subTotal = 0
+    for (let i = 0; i < beerOrders.length; i++) {
+      let itemSubtotal = await beerOrders[i].getItemSubTotal()
+      subTotal += itemSubtotal
+    }
+    res.json(subTotal)
+  } catch (err) {
+    next(err)
+  }
+})
 router.put('/:beerId', async (req, res, next) => {
   let beerId = +req.params.beerId
   try {
@@ -83,7 +101,7 @@ router.put('/:beerId', async (req, res, next) => {
     next(error)
   }
 })
-router.get('/:beerId/quantity', async (req, res, next) => {
+router.get('/:beerId/cartData', async (req, res, next) => {
   const beerId = req.params.beerId
   try {
     let beerOrder = await BeerOrder.findOne({
@@ -93,12 +111,16 @@ router.get('/:beerId/quantity', async (req, res, next) => {
       }
     })
     let quantity = beerOrder.quantity
-    res.json(quantity)
+    let itemSubTotal = await beerOrder.getItemSubTotal()
+    res.json({
+      quantity,
+      itemSubTotal
+    })
   } catch (err) {
     next(err)
   }
 })
-router.put('/:beerId/updateQuantity', async (req, res, next) => {
+router.put('/updateQuantity/:beerId', async (req, res, next) => {
   const beerId = req.params.beerId
   try {
     let beerOrder = await BeerOrder.findOne({
@@ -113,6 +135,67 @@ router.put('/:beerId/updateQuantity', async (req, res, next) => {
     next(err)
   }
 })
+//get item subtotal yo
+router.post('/subTotal/:beerId', async (req, res, next) => {
+  const beerId = +req.params.beerId
+  try {
+    const beerOrder = BeerOrder.findOne({
+      where: {
+        beerId: beerId
+      }
+    })
+    const beer = Beer.findOne({
+      where: {
+        id: beerId
+      }
+    })
+    let quantity = beerOrder.quantity
+  } catch (err) {
+    next(err)
+  }
+})
+//checkout route
+router.post('/checkout', async (req, res, next) => {
+  //subTotal is in req.body
+  try {
+    let currentOrder = await Order.findByPk(req.session.userInfo.orderId)
+    const result = await currentOrder.update({
+      status: 'processing',
+      subTotal: req.body.subTotal
+    })
+    //update Quantity for beers on Order
+    let beerOrders = await BeerOrder.findAll({
+      where: {
+        orderId: req.session.userInfo.orderId
+      }
+    })
+    await Promise.all(beerOrders.map(beerOrder => beerOrder.updateInv()))
+    //create new order for a logged in guest
+    let newOrder = []
+    console.log(req.user.id)
+    if (req.session.passport) {
+      newOrder = await Order.create({
+        where: {
+          status: 'open'
+        }
+      })
+      newOrder.setUser(req.user) //this is the fix I don't know why?
+      req.session.userInfo.orderId = newOrder.dataValues.id //might need to change this
+    } else {
+      //new cart for unauthenicated guest
+      newOrder = await Order.create({
+        where: {
+          status: 'open'
+        }
+      })
+      req.session.userInfo.orderId = newOrder.dataValues.id //might need to change this
+    }
+    res.json(result)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.delete('/:beerId', async (req, res, next) => {
   try {
     console.log('in delete route', req.session)

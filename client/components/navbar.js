@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import SearchBar from './SearchBar'
 
 //react bootstrap components
 import Container from 'react-bootstrap/Container'
@@ -22,8 +23,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
 
       <NavBar className="justify-content-md-center">
         <span>
-          🔎
-          <input placeholder="beer..." />
+          <SearchBar />
         </span>
 
         {isLoggedIn ? (
@@ -45,7 +45,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
         )}
 
         <div>
-          <Link to="/beers">🍺 Beers 🍺</Link>
+          <Link to="/beers">🍺BEER </Link>
         </div>
 
         <div className="justify-content-end">
@@ -58,23 +58,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
           <Link to="/admin/dashboard"> Admin Dashboard </Link>
         </div>
 
-        {/* <div className="justify-content-end">
-          <Link to="/admin/edit/orders"> Admin Orders </Link>
-        </div>
-
-        <div className="justify-content-end">
-          <Link to="/admin/edit/users"> Admin Users </Link>
-        </div>
-
-        <div className="justify-content-end">
-          <Link to="/admin/post/beer"> Admin Create </Link>
-        </div>
-
-        <div className="justify-content-end">
-          <Link to="/admin/edit/beer/:beerId"> Admin Edit (Fix) </Link>
-        </div>
-
-        */}
+        {isLoggedIn ? <Link to="/orders/myOrders">My Orders</Link> : ''}
       </NavBar>
 
       <hr />

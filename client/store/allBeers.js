@@ -14,7 +14,7 @@ const allBeers = []
 /**
  * ACTION CREATORS
  */
-const setBeers = beers => ({
+export const setBeers = beers => ({
   type: SET_BEERS,
   beers
 })

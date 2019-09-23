@@ -25,7 +25,6 @@ class UpdateBeer extends React.Component {
 
   componentDidMount() {
     try {
-      console.log('this.props.match.params', this.props)
       this.props.loadSingleBeer(this.props.match.params.beerId).then(res => {
         console.log('res', res)
       })
@@ -36,7 +35,6 @@ class UpdateBeer extends React.Component {
   }
 
   handleChange(event) {
-    console.log('event.target', event.target)
     this.setState({
       [event.target.name]: event.target.value
     })
@@ -44,9 +42,6 @@ class UpdateBeer extends React.Component {
 
   async handleSubmit(event) {
     event.preventDefault()
-
-    // fetch updated robot
-    console.log('STATE', this.state)
     this.state.id = this.props.beer.id
 
     const updatedBeer = {
@@ -87,11 +82,6 @@ class UpdateBeer extends React.Component {
   }
 
   render() {
-    // pull form variables from state -- check this
-
-    console.log('PROPS', this.props)
-    console.log('STATE', this.state)
-
     return (
       <div>
         <h1>Edit Beer Details</h1>
