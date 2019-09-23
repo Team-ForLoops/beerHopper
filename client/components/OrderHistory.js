@@ -5,6 +5,7 @@ import {toDollars} from '../store/allOrders'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import {UncontrolledCollapse, CardBody, CardText, CardDeck} from 'reactstrap'
+import {Link} from 'react-router-dom'
 
 export class OrderHistory extends React.Component {
   constructor(props) {
@@ -100,10 +101,14 @@ export class OrderHistory extends React.Component {
                                               } has no orders!`
                                             : order.beers.map(beer => (
                                                 <div key={beer.id}>
-                                                  <p>
-                                                    {' '}
-                                                    Beer Name: {beer.name}{' '}
-                                                  </p>
+                                                  <Link to={`/beer/${beer.id}`}>
+                                                    <p>
+                                                      {' '}
+                                                      Beer Name: {
+                                                        beer.name
+                                                      }{' '}
+                                                    </p>
+                                                  </Link>
                                                   <img src={beer.imageUrl} />
                                                   <p>
                                                     {' '}
