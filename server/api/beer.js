@@ -45,15 +45,17 @@ router.get('/filter/:types', async (req, res, next) => {
     })
     let beerArray = []
     let beerIds = []
-    for (let i = 0; i < types.length; i++) {
-      let category = categories[i]
-      let beers = category.beers
-      beers.forEach(beer => {
-        if (!beerIds.includes(beer.id)) {
-          beerIds.push(beer.id)
-          beerArray.push(beer)
-        }
-      })
+    if (categories.length) {
+      for (let i = 0; i < types.length; i++) {
+        let category = categories[i]
+        let beers = category.beers
+        beers.forEach(beer => {
+          if (!beerIds.includes(beer.id)) {
+            beerIds.push(beer.id)
+            beerArray.push(beer)
+          }
+        })
+      }
     }
 
     res.json(beerArray)
