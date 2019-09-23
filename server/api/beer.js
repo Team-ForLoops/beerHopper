@@ -9,6 +9,11 @@ module.exports = router
 router.get('/', async (req, res, next) => {
   try {
     const beers = await Beer.findAll({
+      where: {
+        quantityInv: {
+          [Op.not]: 0
+        }
+      },
       include: Category
     })
     res.json(beers)
@@ -28,7 +33,14 @@ router.get('/filter/:types', async (req, res, next) => {
           [Op.or]: types
         }
       },
-      include: Beer,
+      include: {
+        model: Beer,
+        where: {
+          quantityInv: {
+            [Op.not]: 0
+          }
+        }
+      },
       returning: true
     })
     let beerArray = []
@@ -44,6 +56,24 @@ router.get('/filter/:types', async (req, res, next) => {
       })
     }
 
+    res.json(beerArray)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/search', async (req, res, next) => {
+  try {
+    const beerArray = await Beer.findAll({
+      where: {
+        name: {
+          [Op.iLike]: '%' + req.query.name + '%'
+        },
+        quantityInv: {
+          [Op.not]: 0
+        }
+      }
+    })
     res.json(beerArray)
   } catch (err) {
     next(err)
