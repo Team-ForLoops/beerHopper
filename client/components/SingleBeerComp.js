@@ -5,6 +5,7 @@ import {fetchSingleBeer} from '../store/singleBeer' // unassignProjectThunk
 import {connect} from 'react-redux'
 import {toDollars} from '../store/allBeers'
 import AddReviewForm from './AddReviewForm'
+import EditReviewForm from './EditReviewForm'
 import {addItemThunk} from '../store/cart'
 import {Link} from 'react-router-dom'
 import {fetchReviews} from '../store/reviews'
@@ -22,23 +23,34 @@ class SingleBeer extends React.Component {
 
     this.state = {
       showForm: false,
-      showCart: false
+      showCart: false,
+      showEditForm: false
     }
+    this.clickHandler = this.clickHandler.bind(this)
+    this.clickEditHandler = this.clickEditHandler.bind(this)
   }
 
   componentDidMount() {
     try {
-      this.props.loadSingleBeer(this.props.match.params.beerId)
       this.props.fetchReviews(this.props.match.params.beerId)
+      this.props.loadSingleBeer(this.props.match.params.beerId)
     } catch (error) {
       console.error(error)
     }
   }
-  yeah
   clickHandler() {
     let hidden = this.state.showForm
     this.setState({
       showForm: !hidden
+    })
+  }
+
+  clickEditHandler() {
+    let editHidden = this.state.showEditForm
+
+    this.setState({
+      showEditForm: !editHidden,
+      showForm: false
     })
   }
   addToCartHandler = () => {
@@ -48,20 +60,19 @@ class SingleBeer extends React.Component {
     this.setState({showCart: true})
   }
 
-  // getAverageRating = (reviews) => {
-  // 	console.log('REVIEWS', reviews);
-  // 	let total = 0;
-  // 	if (reviews === undefined || reviews.length === 0) {
-  // 		return 'No Ratings Yet!';
-  // 	} else {
-  // 		reviews.forEach((review) => {
-  // 			total += review.rating;
-  // 		});
-  // 		return `${(total / reviews.length).toFixed(1)}/5`;
-  // 	}
-  // };
+  hasUserReviewed = reviews => {
+    const userId = this.props.user.id
 
-  // eslint-disable-next-line complexity
+    let reviewed = false
+
+    reviews.map(review => {
+      if (review.user.id === userId) {
+        reviewed = true
+      }
+    })
+    return reviewed
+  }
+
   render() {
     // single beer prop
     // reviews are properties on beer
@@ -122,22 +133,41 @@ class SingleBeer extends React.Component {
           {/* setup conditional for if beer has no projects */}
           <Row>
             {this.props.user.id ? (
-              <Button
-                onClick={() => {
-                  this.clickHandler()
-                }}
-                type="button"
-                variant="light"
-              >
-                Add Review
-              </Button>
+              this.hasUserReviewed(reviews) ? (
+                <Row>
+                  <Button
+                    onClick={() => {
+                      this.clickEditHandler()
+                    }}
+                    type="button"
+                    variant="light"
+                  >
+                    Edit Review
+                  </Button>
+                  <Button>Remove Review</Button>
+                </Row>
+              ) : (
+                <Button
+                  onClick={() => {
+                    this.clickHandler()
+                  }}
+                  type="button"
+                  variant="light"
+                >
+                  Add Review
+                </Button>
+              )
             ) : (
               <div className="">
                 <Link to="/signup">Sign Up to Leave a Review!</Link>
               </div>
             )}
-            {this.state.showForm && <AddReviewForm />}
+            {this.state.showForm && (
+              <AddReviewForm clickHandler={this.clickHandler} />
+            )}
+            {this.state.showEditForm && <EditReviewForm />}
           </Row>
+
           <table id="single-beer-reviews" className="my-3">
             {reviews.length === 0
               ? `${beer.name} has no reviews!`

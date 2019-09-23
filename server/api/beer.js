@@ -59,18 +59,16 @@ router.get('/:beerId', async (req, res, next) => {
       include: [{model: Review, include: {model: User}}]
     })
 
-    console.log('THE BEER', beer.dataValues.reviews)
     let total = 0
-    if (
-      beer.dataValues.reviews === undefined ||
-      beer.dataValues.reviews.length === 0
-    ) {
-      beer.averageRating = 'No Ratings Yet!'
+    if (beer.reviews === undefined || beer.reviews.length === 0) {
+      beer.dataValues.averageRating = 'No Ratings Yet!'
     } else {
       beer.reviews.forEach(review => {
         total += review.rating
       })
-      beer.averageRating = `${(total / reviews.length).toFixed(1)}/5`
+      beer.dataValues.averageRating = `${(total / beer.reviews.length).toFixed(
+        1
+      )}/5`
     }
     res.send(beer)
   } catch (err) {

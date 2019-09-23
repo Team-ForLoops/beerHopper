@@ -67,7 +67,9 @@ export class OrderHistory extends React.Component {
                           <div>
                             <li>
                               <div className="details">
-                                <p>Date: {this.formatDate(order.updatedAt)}</p>
+                                <p>
+                                  Ordered On: {this.formatDate(order.updatedAt)}
+                                </p>
                                 <p>Order Status: {order.status}</p>
                                 <div>
                                   {' '}
@@ -103,11 +105,6 @@ export class OrderHistory extends React.Component {
                                                     Beer Name: {beer.name}{' '}
                                                   </p>
                                                   <img src={beer.imageUrl} />
-                                                  <p>
-                                                    {' '}
-                                                    Beer Description:{' '}
-                                                    {beer.description}{' '}
-                                                  </p>
                                                   <p>
                                                     {' '}
                                                     Beer Price:{' '}
