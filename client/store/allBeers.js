@@ -4,6 +4,7 @@ import axios from 'axios'
  * ACTION TYPES
  */
 const SET_BEERS = 'SET_BEERS'
+const ADD_BEER = 'ADD_BEER'
 
 /**
  * INITIAL STATE
@@ -16,6 +17,11 @@ const allBeers = []
 const setBeers = beers => ({
   type: SET_BEERS,
   beers
+})
+
+const addBeer = beer => ({
+  type: ADD_BEER,
+  beer: beer
 })
 
 /**
@@ -96,6 +102,17 @@ export const sortBeers = (sortBy, beers) => dispatch => {
   }
 }
 
+export const postBeerThunk = newBeer => async dispatch => {
+  try {
+    const response = await axios.post('/api/beer', newBeer)
+    const createdBeer = response.data
+
+    dispatch(addBeer(createdBeer))
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 /**
  * REDUCER
  */
@@ -103,6 +120,9 @@ export default function(state = allBeers, action) {
   switch (action.type) {
     case SET_BEERS:
       return action.beers
+    case ADD_BEER: {
+      return [...state, action.beer]
+    }
     default:
       return state
   }

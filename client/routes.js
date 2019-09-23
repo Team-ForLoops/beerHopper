@@ -9,7 +9,8 @@ import {
   SingleBeer,
   UpdateBeer,
   AllOrders,
-  AllUsers
+  AllUsers,
+  AddBeer
 } from './components'
 import {me} from './store'
 import {fetchCart} from './store/cart'
@@ -60,6 +61,7 @@ class Routes extends Component {
             <Route path="/admin/edit/beer/:beerId" component={UpdateBeer} />
             <Route path="/admin/edit/orders" component={AllOrders} />
             <Route path="/admin/edit/users" component={AllUsers} />
+            <Route path="/admin/post/beer" component={AddBeer} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

@@ -62,6 +62,17 @@ router.get('/:beerId', async (req, res, next) => {
   }
 })
 
+// 8080/api/beer/
+
+router.post('/', async (req, res, next) => {
+  try {
+    const newBeer = await Beer.create(req.body)
+    res.json(newBeer)
+  } catch (err) {
+    next(err)
+  }
+})
+
 // 8080/api/beer/:id/review
 router.post('/:id/review', async (req, res, next) => {
   try {

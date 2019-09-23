@@ -1,10 +1,9 @@
 import React from 'react'
-import {updateBeerThunk, fetchSingleBeer} from '../store/singleBeer'
-import {getBeers} from '../store/allBeers'
+import {postBeerThunk} from '../store/allBeers'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 
-class UpdateBeer extends React.Component {
+class AddBeer extends React.Component {
   constructor(props) {
     super(props)
 
@@ -21,18 +20,6 @@ class UpdateBeer extends React.Component {
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-  componentDidMount() {
-    try {
-      console.log('this.props.match.params', this.props)
-      this.props.loadSingleBeer(this.props.match.params.beerId).then(res => {
-        console.log('res', res)
-      })
-      //console.log('test', test)
-    } catch (error) {
-      console.error(error)
-    }
   }
 
   handleChange(event) {
@@ -82,8 +69,7 @@ class UpdateBeer extends React.Component {
           : Number(this.props.beer.price)
     }
 
-    await this.props.updateBeerThunk(updatedBeer)
-    this.props.fetchInitialBeers()
+    await this.props.postBeerThunk(updatedBeer)
   }
 
   render() {
@@ -94,17 +80,19 @@ class UpdateBeer extends React.Component {
 
     return (
       <div>
-        <h1>Edit Beer Details</h1>
-        <img src={this.props.beer.imageUrl} className="highlight" />
+        <h1>Create New Beer</h1>
+        <img
+          src="https://png.pngtree.com/png-vector/20190417/ourlarge/pngtree-beer-mug-logo-vector-design-illustration-png-image_948978.jpg"
+          className="highlight"
+        />
         <form onSubmit={this.handleSubmit}>
           <div>
             <span>
-              <p>Beer Name</p>
+              <p>Beer Name (required field)</p>
               <input
                 type="text"
                 name="name"
                 value={
-                  //this.state.name
                   typeof this.state.name === 'string'
                     ? this.state.name
                     : this.props.beer.name
@@ -118,13 +106,11 @@ class UpdateBeer extends React.Component {
             <span>
               <p>IBU</p>
               <input
-                id="hello"
                 type="number"
                 name="ibu"
                 min="0"
                 max="100"
                 value={
-                  //this.state.ibu
                   typeof this.state.ibu === 'string'
                     ? this.state.ibu
                     : this.props.beer.ibu
@@ -203,7 +189,7 @@ class UpdateBeer extends React.Component {
               <p>Beer Quantity Inventory</p>
               <input
                 type="number"
-                // limit min of number selection
+                min="0"
                 name="quantityInv"
                 value={
                   typeof this.state.quantityInv === 'string'
@@ -217,10 +203,11 @@ class UpdateBeer extends React.Component {
             <br />
 
             <span>
-              <p>Beer Price</p>
+              <p>Beer Price (required field)</p>
               <input
                 type="number"
                 name="price"
+                min="0"
                 value={
                   typeof this.state.price === 'string'
                     ? this.state.price
@@ -235,7 +222,7 @@ class UpdateBeer extends React.Component {
             <span>
               <p>
                 {/* */}
-                <button type="submit">Edit</button>
+                <button type="submit">Add Beer</button>
               </p>
             </span>
           </div>
@@ -252,11 +239,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  loadSingleBeer: id => dispatch(fetchSingleBeer(id)),
-  updateBeerThunk: updatedBeer => dispatch(updateBeerThunk(updatedBeer)),
-  fetchInitialBeers: () => dispatch(getBeers())
+  postBeerThunk: newBeer => dispatch(postBeerThunk(newBeer))
 })
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(UpdateBeer)
-)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddBeer))

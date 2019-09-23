@@ -5,20 +5,25 @@ const Review = require('./review')
 const Beer = db.define('beer', {
   name: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    defaultValue: 'Blue Moon Belgian'
   },
   ibu: {
     type: Sequelize.INTEGER,
     validate: {
       min: 0,
       max: 100
-    }
+    },
+    defaultValue: 50
   },
   color: {
-    type: Sequelize.ENUM('light', 'dark', 'red', 'brown')
+    type: Sequelize.ENUM('light', 'dark', 'red', 'brown'),
+    defaultValue: 'dark'
   },
   description: {
-    type: Sequelize.TEXT
+    type: Sequelize.TEXT,
+    defaultValue:
+      'A wheat beer brewed with Valencia orange peel for a subtle sweetness and bright, citrus aroma'
   },
   imageUrl: {
     type: Sequelize.STRING,
@@ -26,11 +31,20 @@ const Beer = db.define('beer', {
   },
   quantityInv: {
     type: Sequelize.INTEGER,
+    validate: {
+      min: 0,
+      max: 1147483647
+    },
     defaultValue: 1
   },
   price: {
     type: Sequelize.INTEGER,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      min: 0,
+      max: 1147483647
+    },
+    defaultValue: 5000
   }
 })
 

@@ -14,6 +14,7 @@ export class AllUsers extends React.Component {
       showForm: false,
       stat: ''
     }
+    this.clickHandlerOne = this.clickHandlerOne.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -21,7 +22,6 @@ export class AllUsers extends React.Component {
   componentDidMount() {
     try {
       this.props.fetchInitialUsers()
-      this.props.deleteUserThunk()
     } catch (error) {
       console.error(error)
     }
@@ -77,17 +77,15 @@ export class AllUsers extends React.Component {
           {users.map(user => (
             <Card style={{width: '18rem'}} key={user.id}>
               {/* delete thunk */}
-              <span>
-                <p>
-                  <Button
-                    id={`delete${user.id}`}
-                    variant="danger"
-                    onClick={() => deleteUserThunk(user.id)}
-                  >
-                    X
-                  </Button>
-                </p>
-              </span>
+              <div>
+                <Button
+                  id={`delete${user.id}`}
+                  variant="danger"
+                  onClick={() => this.props.deleteUserThunk(user.id)}
+                >
+                  X
+                </Button>
+              </div>
 
               <Card.Body>
                 <Card.Title>User Id: {user.id}</Card.Title>
@@ -121,33 +119,24 @@ export class AllUsers extends React.Component {
                             Admin Status Toggle
                           </Button>
                           <UncontrolledCollapse toggler={`#user${user.id}`}>
-                            {/* {this.state.showForm && (
-                              <UpdateUserStatus userId={user.id} />
-                            )} */}
                             <form onSubmit={() => this.handleSubmit(user.id)}>
                               <div>
                                 <span>
                                   <select
                                     name="stat"
-                                    value={
-                                      typeof user.isAdmin === 'string'
-                                        ? this.state.isAdmin
-                                        : user.isAdmin
-                                    }
+                                    value={this.state.isAdmin}
                                     onChange={this.handleChange}
                                   >
+                                    <option value="">user isAdmin?</option>
                                     <option value="true">true</option>
                                     <option value="false">false</option>
                                   </select>
                                 </span>
 
-                                <p />
-                                <span>
-                                  <p>
-                                    {/* */}
-                                    <button type="submit">Submit</button>
-                                  </p>
-                                </span>
+                                <div>
+                                  {/* */}
+                                  <button type="submit">Submit</button>
+                                </div>
                               </div>
                             </form>
                           </UncontrolledCollapse>
