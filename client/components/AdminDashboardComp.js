@@ -97,6 +97,20 @@ class AdminDash extends React.Component {
             </DropdownButton>
           </ButtonGroup>
         </ButtonToolbar>
+        <br />
+        <img
+          id="dash-image-mock"
+          src="https://res.cloudinary.com/dejiqayjc/image/upload/v1569248053/fundus_pics/admindash_part1_kkgphi.png"
+        />
+
+        <br />
+
+        <img
+          id="dash-image-mock"
+          src="https://res.cloudinary.com/dejiqayjc/image/upload/v1569248058/fundus_pics/admindash_part2_ikbsxd.png"
+          // height="1000px"
+          // width="1000px"
+        />
       </div>
     )
   }
