@@ -17,14 +17,21 @@ export class SearchBar extends React.Component {
     })
   }
   async handleSubmit(event) {
+    // move to backend
     event.preventDefault()
     await this.props.fetchInitialBeers()
     const search = this.state.searchValue.toUpperCase()
     console.log(this.state.searchValue)
-    const filtered = this.props.beers.filter(beer => {
+    let filtered = this.props.beers.filter(beer => {
       const beerName = beer.name.toUpperCase()
-      return beerName.includes(search)
+      return beerName.startsWith(search)
     })
+    if (!filtered.length) {
+      filtered = this.props.beers.filter(beer => {
+        const beerName = beer.name.toUpperCase()
+        return beerName.includes(search)
+      })
+    }
     this.props.setFilteredBeers(filtered)
     this.setState({
       searchValue: ''

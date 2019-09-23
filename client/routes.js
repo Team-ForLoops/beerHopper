@@ -18,6 +18,7 @@ import {me} from './store'
 import {fetchCart} from './store/cart'
 
 import AllBeers from './components/AllBeers'
+import AddCategory from './components/AddCategory'
 import Cart from './components/Cart'
 import OrderHistory from './components/OrderHistory'
 import {getBeers} from './store/allBeers'
@@ -57,6 +58,7 @@ class Routes extends Component {
             {/* Create Admin section and move there later ... testing here for now */}
             <Route path="/admin/dashboard" component={AdminDash} />
             <Route path="/admin/edit/orders" component={AllOrders} />
+            <Route path="/admin/category" component={AddCategory} />
             <Route path="/admin/edit/users" component={AllUsers} />
             <Route path="/admin/post/beer" component={AddBeer} />
             <Route path="/admin/edit/beer/:beerId" component={UpdateBeer} />

@@ -31,7 +31,6 @@ export class BeerFilter extends React.Component {
   render() {
     return (
       <div>
-        Filter:
         <form onSubmit={this.handleSubmit}>
           <fieldset>
             {/* should map over types to make checkboxes */}
