@@ -11,10 +11,10 @@ export class AllOrders extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      collapse: false,
       showForm: false,
       stat: ''
     }
+    this.clickHandlerOne = this.clickHandlerOne.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -58,7 +58,7 @@ export class AllOrders extends React.Component {
   render() {
     const orders = this.props.orders
     // console.log('PROPS', this.props)
-    // console.log('ORDER BEERS', this.props.orders.beers)
+    console.log('ORDERS', this.props.orders)
 
     // const beers = orders.beers || []
 
@@ -73,9 +73,11 @@ export class AllOrders extends React.Component {
           </select>
 
           <BeerFilter />
-    </div> */}
+        </div> */}
 
-        <div className="orders-list">
+        <div id="filter" />
+
+        <div className="flex-cards">
           {orders.map(order => (
             <Card style={{width: '18rem'}} key={order.id}>
               <Card.Body>
@@ -90,6 +92,14 @@ export class AllOrders extends React.Component {
                         <div className="details">
                           <p>User: {order.user.username}</p>
                           <p>Order Status: {order.status}</p>
+                          <p>
+                            Order Date:{' '}
+                            {new Intl.DateTimeFormat('en-GB', {
+                              month: 'short',
+                              day: '2-digit',
+                              year: 'numeric'
+                            }).format(new Date(order.createdAt))}
+                          </p>
                           <div>
                             {' '}
                             Total Quantity:
@@ -99,6 +109,7 @@ export class AllOrders extends React.Component {
                               )
                             }, 0)}
                           </div>
+                          {/* */}
                           <div>
                             {' '}
                             Total Price:
@@ -111,20 +122,20 @@ export class AllOrders extends React.Component {
                               }, 0)
                             )}
                           </div>
-                          <p />
+                          {/* */}
+
+                          <br />
+
                           <Button
                             id={`status${order.id}`}
                             onClick={() => {
                               this.clickHandlerOne()
                             }}
-                            variant="danger"
+                            variant="outline-primary"
                           >
                             Update Status Toggle
                           </Button>
                           <UncontrolledCollapse toggler={`#status${order.id}`}>
-                            {/* {this.state.showForm && (
-                              <UpdateOrderStatus orderId={order.id} />
-                            )} */}
                             <form onSubmit={() => this.handleSubmit(order.id)}>
                               <div>
                                 <span>
@@ -148,27 +159,24 @@ export class AllOrders extends React.Component {
                                   </select>
                                 </span>
 
-                                <p />
+                                <div>
+                                  {/* */}
+                                  <button type="submit">Edit</button>
+                                </div>
+                              </div>
+
+                              {/* delete thunk
                                 <span>
                                   <p>
-                                    {/* */}
-                                    <button type="submit">Edit</button>
+                                    <button type="button">Delete</button>
                                   </p>
                                 </span>
-
-                                {/* delete thunk
-                              <span>
-                                <p>
-                                  <button type="button">Delete</button>
-                                </p>
-                              </span>
-                              */}
-                              </div>
+                                */}
                             </form>
                           </UncontrolledCollapse>
-                          <p> -----------------------------------------</p>
+                          <div> -----------------------------------------</div>
                           <Button
-                            variant="primary"
+                            variant="info"
                             id={`order${order.id}`}
                             style={{marginBottom: '1rem'}}
                           >
@@ -197,10 +205,10 @@ export class AllOrders extends React.Component {
                                               {toDollars(beer.price)}{' '}
                                             </p>
 
-                                            <p>
+                                            <div>
                                               {' '}
                                               --------------------------------
-                                            </p>
+                                            </div>
                                           </div>
                                         ))}
                                   </div>
