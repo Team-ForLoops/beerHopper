@@ -28,8 +28,15 @@
 		}
 	},
 	"lint-staged": {
-		"*.{js,jsx}": [ "prettier --write", "npm run lint-fix", "git add" ],
-		"*.{css,scss,json,md}": [ "prettier --write", "git add" ]
+		"*.{js,jsx}": [
+			"prettier --write",
+			"npm run lint-fix",
+			"git add"
+		],
+		"*.{css,scss,json,md}": [
+			"prettier --write",
+			"git add"
+		]
 	},
 	"author": "Fullstack Academy of Code",
 	"license": "MIT",
@@ -42,6 +49,7 @@
 		"express-session": "^1.15.1",
 		"faker": "^4.1.0",
 		"history": "^4.9.0",
+		"material-ui": "^0.20.2",
 		"morgan": "^1.9.1",
 		"passport": "^0.4.0",
 		"passport-google-oauth": "^2.0.0",
@@ -56,6 +64,8 @@
 		"react-router-dom": "^5.0.0",
 		"reactstrap": "^8.0.1",
 		"redux": "^4.0.1",
+		"redux-form": "^8.2.6",
+		"redux-form-material-ui": "^4.3.4",
 		"redux-logger": "^3.0.6",
 		"redux-thunk": "^2.3.0",
 		"save": "^2.4.0",
