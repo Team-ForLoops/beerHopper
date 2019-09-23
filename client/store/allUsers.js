@@ -40,7 +40,7 @@ export const deleteUserThunk = delUserId => async dispatch => {
     const response = await axios.delete(`/api/users/${delUserId}`)
     const deleteUserId = response.data
 
-    dispatch(deleteUser(deleteUserId))
+    dispatch(deleteUser(delUserId)) // deleteUserId
     console.log('getUsersThunk DELETE', deleteUserId)
   } catch (err) {
     console.error(err)

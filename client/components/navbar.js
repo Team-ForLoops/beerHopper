@@ -13,19 +13,23 @@ import Row from 'react-bootstrap/Row'
 const Navbar = ({handleClick, isLoggedIn}) => {
   function handleChange() {}
   function handleSubmit() {}
+
   return (
     <Container>
       <Row className="justify-content-md-center">
         <h1>BEER HOPPER</h1>
       </Row>
+
       <NavBar className="justify-content-md-center">
         <span>
           🔎
           <input placeholder="beer..." />
         </span>
+
         {isLoggedIn ? (
           <div>
             {/* The navbar will show these links after you log in */}
+
             <Link to="/home">Home</Link>
             <a href="#" onClick={handleClick}>
               Logout
@@ -34,17 +38,45 @@ const Navbar = ({handleClick, isLoggedIn}) => {
         ) : (
           <div>
             {/* The navbar will show these links before you log in */}
+
             <Link to="/login">Login</Link>
             <Link to="/signup">Sign Up</Link>
           </div>
         )}
+
         <div>
           <Link to="/beers">🍺 Beers 🍺</Link>
         </div>
+
         <div className="justify-content-end">
           <Link to="/cart"> Cart</Link>
         </div>
+
+        {/* placeholder: make links only available to admins */}
+
+        <div className="justify-content-end">
+          <Link to="/admin/dashboard"> Admin Dashboard </Link>
+        </div>
+
+        {/* <div className="justify-content-end">
+          <Link to="/admin/edit/orders"> Admin Orders </Link>
+        </div>
+
+        <div className="justify-content-end">
+          <Link to="/admin/edit/users"> Admin Users </Link>
+        </div>
+
+        <div className="justify-content-end">
+          <Link to="/admin/post/beer"> Admin Create </Link>
+        </div>
+
+        <div className="justify-content-end">
+          <Link to="/admin/edit/beer/:beerId"> Admin Edit (Fix) </Link>
+        </div>
+
+        */}
       </NavBar>
+
       <hr />
     </Container>
   )
@@ -56,6 +88,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.id
+    // placeholder isAdmin
   }
 }
 

@@ -73,7 +73,9 @@ export class AllOrders extends React.Component {
           </select>
 
           <BeerFilter />
-    </div> */}
+        </div> */}
+
+        <div id="filter" />
 
         <div className="flex-cards">
           {orders.map(order => (
@@ -121,6 +123,9 @@ export class AllOrders extends React.Component {
                             )}
                           </div>
                           {/* */}
+
+                          <br />
+
                           <Button
                             id={`status${order.id}`}
                             onClick={() => {
