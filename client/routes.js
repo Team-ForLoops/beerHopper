@@ -16,6 +16,7 @@ import {fetchCart} from './store/cart'
 import AdminDash from './components/adminDashboard'
 
 import AllBeers from './components/AllBeers'
+import AddCategory from './components/AddCategory'
 import Cart from './components/Cart'
 import OrderHistory from './components/OrderHistory'
 import {getBeers} from './store/allBeers'
@@ -59,6 +60,7 @@ class Routes extends Component {
             {/* <Route path="/admin/edit/:beerId" component={UpdateBeer} /> */}
             <Route path="/admin/edit/beer/:beerId" component={UpdateBeer} />
             <Route path="/admin/edit/orders" component={AllOrders} />
+            <Route path="/admin/category" component={AddCategory} />
             <Route
               exact
               path="/orders/myOrders"

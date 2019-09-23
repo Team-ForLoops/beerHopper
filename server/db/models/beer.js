@@ -15,7 +15,7 @@ const Beer = db.define('beer', {
     }
   },
   color: {
-    type: Sequelize.ENUM('light', 'dark', 'red', 'brown'),
+    type: Sequelize.ENUM('light', 'dark', 'red', 'brown', 'blonde', 'amber'),
     defaultValue: 'light'
   },
   description: {
