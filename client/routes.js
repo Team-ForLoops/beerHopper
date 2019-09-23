@@ -8,12 +8,13 @@ import {
   UserHome,
   SingleBeer,
   UpdateBeer,
-  AllOrders
+  AllOrders,
+  AllUsers,
+  AddBeer,
+  AdminDash
 } from './components'
 import {me} from './store'
 import {fetchCart} from './store/cart'
-
-import AdminDash from './components/adminDashboard'
 
 import AllBeers from './components/AllBeers'
 import Cart from './components/Cart'
@@ -21,6 +22,7 @@ import OrderHistory from './components/OrderHistory'
 import {getBeers} from './store/allBeers'
 import {getCategories} from './store/categories'
 import {getOrders} from './store/allOrders'
+import {getUsers} from './store/allUsers'
 import {getMyOrders} from './store/myOrders'
 
 /**
@@ -44,10 +46,6 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        {/* <Route exact path="/beer/:beerId/edit" component={AdminDash} /> */}
-        {/* Added placeholder */}
-        <Route exact path="/beer/dashboard" component={AdminDash} />
-
         <Route path="/beers" component={AllBeers} />
         <Route path="/beer/:beerId" component={SingleBeer} />
         <Route path="/cart" component={Cart} />
@@ -56,9 +54,11 @@ class Routes extends Component {
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
             {/* Create Admin section and move there later ... testing here for now */}
-            {/* <Route path="/admin/edit/:beerId" component={UpdateBeer} /> */}
-            <Route path="/admin/edit/beer/:beerId" component={UpdateBeer} />
+            <Route path="/admin/dashboard" component={AdminDash} />
             <Route path="/admin/edit/orders" component={AllOrders} />
+            <Route path="/admin/edit/users" component={AllUsers} />
+            <Route path="/admin/post/beer" component={AddBeer} />
+            <Route path="/admin/edit/beer/:beerId" component={UpdateBeer} />
             <Route
               exact
               path="/orders/myOrders"
@@ -91,6 +91,7 @@ const mapDispatch = dispatch => {
     },
     fetchInitialBeers: () => dispatch(getBeers()),
     fetchInitialOrders: () => dispatch(getOrders()),
+    fetchInitialUsers: () => dispatch(getUsers()),
     fetchCart: () => dispatch(fetchCart()),
     fetchCategories: () => dispatch(getCategories()),
     fetchMyOrders: () => dispatch(getMyOrders())
