@@ -11,6 +11,7 @@ import {Link} from 'react-router-dom'
 class Cart extends Component {
   componentDidMount() {
     this.props.setSubTotal()
+    this.props.fetchCart()
   }
   checkoutHandler = () => {
     this.props.checkout(this.props.subTotal)

@@ -55,6 +55,10 @@ h1 {
   max-width: 200px;
   max-height: 200px;
 }
+.single-beer img {
+  max-width: 200px;
+  max-height: 250px;
+}
 a {
   text-decoration: none;
   color: black;

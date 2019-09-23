@@ -15,7 +15,8 @@ router.get('/', async (req, res, next) => {
     //if user is logged in
     if (req.session.passport) {
       let userId = req.session.passport.user
-      let result = await Order.findOrCreate({
+      //get user cart
+      let userOrder = await Order.findOrCreate({
         where: {
           userId: userId,
           status: 'open'
@@ -24,9 +25,26 @@ router.get('/', async (req, res, next) => {
           model: Beer
         }
       })
+      //merging carts
+      if (req.session.userInfo) {
+        //we have to merge a cart
+        let orderToMerge = await Order.findOne({
+          where: {
+            id: req.session.userInfo.orderId
+          },
+          include: {
+            model: Beer
+          }
+        })
+        console.log(Order.prototype)
+        let beersToMerge = await Promise.all(
+          orderToMerge.beers.map(beer => Beer.findByPk(beer.id))
+        )
+        await userOrder[0].addBeers(beersToMerge)
+      }
       if (!req.session.userInfo) req.session.userInfo = userInfo
-      req.session.userInfo.orderId = result[0].dataValues.id
-      let order = result[0]
+      req.session.userInfo.orderId = userOrder[0].dataValues.id
+      let order = userOrder[0]
       cart = order.beers
     } else {
       //unauthenicated user
