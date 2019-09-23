@@ -10,7 +10,7 @@ class UpdateBeer extends React.Component {
 
     this.state = {
       name: this.props.beer.name,
-      type: this.props.beer.type,
+      type: this.props.beer.categories,
       ibu: this.props.beer.ibu,
       color: this.props.beer.color,
       description: this.props.beer.description,
@@ -102,6 +102,25 @@ class UpdateBeer extends React.Component {
                 onChange={this.handleChange}
               />
             </span>
+            {/* <span>
+              <fieldset>
+                {this.props.categories.map(category => (
+                  <div key={category.id}>
+                    <input
+                      type="checkbox"
+                      name="filter"
+                      value={category.type}
+                      onChange={this.handleChecked}
+                      checked='off'
+                    />
+                    <label htmlFor={category.type}>
+                      {category.type[0].toUpperCase() + category.type.slice(1)}
+                    </label>
+                  </div>
+                ))}
+              </fieldset>
+              <AddCategory />
+            </span> */}
 
             <br />
 
@@ -237,7 +256,8 @@ class UpdateBeer extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    beer: state.singleBeer
+    beer: state.singleBeer,
+    categories: state.categories
   }
 }
 

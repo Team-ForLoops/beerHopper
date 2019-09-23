@@ -55,7 +55,7 @@ router.get('/:beerId', async (req, res, next) => {
   let beerId = req.params.beerId
   try {
     const beer = await Beer.findByPk(beerId, {
-      include: [{model: Review, include: {model: User}}]
+      include: [{model: Review, include: {model: User}}, {model: Category}]
     })
     res.send(beer)
   } catch (err) {

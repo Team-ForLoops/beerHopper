@@ -12,10 +12,13 @@ export const setUsers = users => ({
   users: users
 })
 
-export const deleteUser = delUserId => ({
-  type: DELETE_USER,
-  delUserId: delUserId
-})
+export const deleteUser = delUserId => {
+  console.log('IN ACTION CREATOr', delUserId)
+  return {
+    type: DELETE_USER,
+    delUserId: delUserId
+  }
+}
 
 // DOLLAR HELPER FOR CENTS FIELD
 
@@ -37,11 +40,9 @@ export const getUsers = () => async dispatch => {
 
 export const deleteUserThunk = delUserId => async dispatch => {
   try {
-    const response = await axios.delete(`/api/users/${delUserId}`)
-    const deleteUserId = response.data
-
+    await axios.delete(`/api/users/${delUserId}`)
+    console.log('delUSERID', delUserId)
     dispatch(deleteUser(delUserId)) // deleteUserId
-    console.log('getUsersThunk DELETE', deleteUserId)
   } catch (err) {
     console.error(err)
   }
@@ -105,8 +106,10 @@ export default function(state = allUsers, action) {
     case SET_USERS:
       return action.users
     case DELETE_USER: {
-      let userRemovalArray = state.filter(user => user.id !== action.delUserId)
-      return userRemovalArray
+      console.log('IN REDUCER')
+      return state.filter(user => {
+        return user.id !== action.delUserId
+      })
     }
     default:
       return state
