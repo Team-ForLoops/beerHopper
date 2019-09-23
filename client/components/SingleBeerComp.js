@@ -7,6 +7,7 @@ import {toDollars} from '../store/allBeers'
 import AddReviewForm from './AddReviewForm'
 import {addItemThunk} from '../store/cart'
 import {Link} from 'react-router-dom'
+import {fetchReviews} from '../store/reviews'
 
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
@@ -27,6 +28,7 @@ class SingleBeer extends React.Component {
   componentDidMount() {
     try {
       this.props.loadSingleBeer(this.props.match.params.beerId)
+      this.props.fetchReviews(this.props.match.params.beerId)
     } catch (error) {
       console.error(error)
     }
@@ -53,12 +55,12 @@ class SingleBeer extends React.Component {
     const beer = this.props.beer || {}
     // reviews array inside beer prop
 
-    const reviews = beer.reviews || []
+    const reviews = this.props.reviews || []
 
     return (
       <Container className="mx-auto" id="single-beer">
         {this.props.user.isAdmin ? (
-          <div>
+          <div className="my-3">
             <h2>Welcome Admin!</h2>{' '}
             <Link to={`/admin/edit/beer/${beer.id}`}>
               <Button>Edit Beer</Button>
@@ -70,32 +72,30 @@ class SingleBeer extends React.Component {
         <img src={beer.imageUrl} className="mx-auto" />
         <Card.Body>
           <Card.Title>{beer.name}</Card.Title>
-          <Card.Text>
-            <div className="details">
-              <ul>
-                <li>
-                  <p>IBU: {beer.ibu}</p>
-                  <p>Color: {beer.color}</p>
-                  <p>Description: {beer.description}</p>
-                  <div>
-                    {beer.quantityInv > 0 ? (
-                      <span>IN STOCK </span>
-                    ) : (
-                      <span className="text-danger">OUT OF STOCK</span>
-                    )}
-                    {beer.quantityInv <= 10 && beer.quantityInv > 0 ? (
-                      <span className="text-danger">
-                        Only {beer.quantityInv} Left!
-                      </span>
-                    ) : (
-                      ''
-                    )}
-                    <span>| Price: {toDollars(beer.price)}</span>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </Card.Text>
+          <div className="details">
+            <ul>
+              <li>
+                <p>IBU: {beer.ibu}</p>
+                <p>Color: {beer.color}</p>
+                <p>Description: {beer.description}</p>
+                <div>
+                  {beer.quantityInv > 0 ? (
+                    <span>IN STOCK </span>
+                  ) : (
+                    <span className="text-danger">OUT OF STOCK</span>
+                  )}
+                  {beer.quantityInv <= 10 && beer.quantityInv > 0 ? (
+                    <span className="text-danger">
+                      Only {beer.quantityInv} Left!
+                    </span>
+                  ) : (
+                    ''
+                  )}
+                  <span>| Price: {toDollars(beer.price)}</span>
+                </div>
+              </li>
+            </ul>
+          </div>
           {/* setup conditional for if beer has no projects */}
           <div>
             {this.props.user.id ? (
@@ -164,14 +164,16 @@ class SingleBeer extends React.Component {
 const mapStateToProps = state => {
   return {
     beer: state.singleBeer,
-    user: state.user
+    user: state.user,
+    reviews: state.reviews
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     loadSingleBeer: id => dispatch(fetchSingleBeer(id)),
-    addItem: itemDetail => dispatch(addItemThunk(itemDetail))
+    addItem: itemDetail => dispatch(addItemThunk(itemDetail)),
+    fetchReviews: beerId => dispatch(fetchReviews(beerId))
   }
 }
 

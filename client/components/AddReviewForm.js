@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
-import axios from 'axios'
 import {connect} from 'react-redux'
-import {postReviewThunk, fetchSingleBeer} from '../store/singleBeer'
+import {postReviewThunk} from '../store/reviews'
 
 class AddReviewForm extends Component {
   constructor() {
@@ -11,28 +10,16 @@ class AddReviewForm extends Component {
       description: ''
     }
   }
-
   handleChange = event => {
     //update the state with input fields
     this.setState({
       [event.target.name]: event.target.value
     })
   }
-
   handleSubmit = () => {
-    //event.preventDefault()
-    //clear inputs and make axios post to database, hence post in first part!!!!!
-
-    const newReview = {
-      // name: this.state.name,
-      rating: this.state.rating,
-      description: this.state.description
-    }
-
-    this.props.postReviewThunk(this.props.beer.id, newReview)
-
+    event.preventDefault()
+    this.props.postReviewThunk(this.props.beer.id, this.state)
     this.setState({
-      // name: '',
       rating: '',
       description: ''
     })
@@ -79,11 +66,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     postReviewThunk: (beerId, Review) =>
-      dispatch(postReviewThunk(beerId, Review)),
-    loadSingleBeer: id => dispatch(fetchSingleBeer(id))
+      dispatch(postReviewThunk(beerId, Review))
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddReviewForm)
-
-// export default AddReviewForm

@@ -66,15 +66,6 @@ router.get('/:beerId', async (req, res, next) => {
 // 8080/api/beer/:id/review
 router.post('/:id/review', isUser, async (req, res, next) => {
   try {
-    // console.log(
-    //   'req.user #######################################################################',
-    //   req.user
-    // )
-    // console.log(
-    //   'req.body #######################################################################',
-    //   req.body
-    // )
-
     const {id} = req.user
     const {rating, description} = req.body
 
@@ -83,8 +74,15 @@ router.post('/:id/review', isUser, async (req, res, next) => {
 
     const newReview = await Review.create({rating, description, userId: id})
     newReview.setBeer(beer)
-
-    res.json(newReview)
+    const review = await Review.findOne({
+      where: {
+        id: newReview.id
+      },
+      include: {
+        model: User
+      }
+    })
+    res.json(review)
   } catch (err) {
     next(err)
   }
