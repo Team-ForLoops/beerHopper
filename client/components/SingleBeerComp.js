@@ -13,6 +13,7 @@ import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 
 class SingleBeer extends React.Component {
@@ -69,35 +70,43 @@ class SingleBeer extends React.Component {
         ) : (
           ''
         )}
-        <img src={beer.imageUrl} className="mx-auto" />
-        <Card.Body>
-          <Card.Title>{beer.name}</Card.Title>
-          <div className="details">
-            <ul>
-              <li>
-                <p>IBU: {beer.ibu}</p>
-                <p>Color: {beer.color}</p>
-                <p>Description: {beer.description}</p>
-                <div>
-                  {beer.quantityInv > 0 ? (
-                    <span>IN STOCK </span>
-                  ) : (
-                    <span className="text-danger">OUT OF STOCK</span>
-                  )}
-                  {beer.quantityInv <= 10 && beer.quantityInv > 0 ? (
-                    <span className="text-danger">
-                      Only {beer.quantityInv} Left!
-                    </span>
-                  ) : (
-                    ''
-                  )}
-                  <span>| Price: {toDollars(beer.price)}</span>
-                </div>
-              </li>
-            </ul>
-          </div>
+        <Container>
+          <Row className="justify-content-sm-center">
+            <Col className="px-0">
+              <img src={beer.imageUrl} />
+            </Col>
+            <Col xs={8} className="flex-grow-1 bd-highlight">
+              <Row className="font-weight-bold text-uppercase justify-content-center my-3">
+                {beer.name}
+              </Row>
+              <Row>
+                <ul>
+                  <li>
+                    <p>IBU: {beer.ibu}</p>
+                    <p>Color: {beer.color}</p>
+                    <p>Description: {beer.description}</p>
+                    <div>
+                      {beer.quantityInv > 0 ? (
+                        <span>IN STOCK </span>
+                      ) : (
+                        <span className="text-danger">OUT OF STOCK</span>
+                      )}
+                      {beer.quantityInv <= 10 && beer.quantityInv > 0 ? (
+                        <span className="text-danger">
+                          Only {beer.quantityInv} Left!
+                        </span>
+                      ) : (
+                        ''
+                      )}
+                      <span>| Price: {toDollars(beer.price)}</span>
+                    </div>
+                  </li>
+                </ul>
+              </Row>
+            </Col>
+          </Row>
           {/* setup conditional for if beer has no projects */}
-          <div>
+          <Row>
             {this.props.user.id ? (
               <Button
                 onClick={() => {
@@ -114,7 +123,7 @@ class SingleBeer extends React.Component {
               </div>
             )}
             {this.state.showForm && <AddReviewForm />}
-          </div>
+          </Row>
           <table id="single-beer-reviews" className="my-3">
             {reviews.length === 0
               ? `${beer.name} has no reviews!`
@@ -155,7 +164,7 @@ class SingleBeer extends React.Component {
           <Link to="/beers">
             <Button variant="dark">Continue Shopping</Button>
           </Link>
-        </Card.Body>
+        </Container>
       </Container>
     )
   }
