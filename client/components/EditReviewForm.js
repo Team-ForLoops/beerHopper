@@ -1,21 +1,22 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {postReviewThunk} from '../store/reviews'
+import {fetchSingleReview, updateReviewThunk} from '../store/singleReview'
 import {fetchSingleBeer} from '../store/singleBeer'
+import {fetchReviews} from '../store/reviews'
 
 class EditReviewForm extends Component {
   constructor(props) {
     super(props)
-    console.log('review', this.props)
     this.state = {
       rating: this.props.review.rating,
       description: this.props.review.description
     }
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
   componentDidMount() {
-    console.log('review', this.props.review)
     try {
-      this.props.getBeer(this.props.match.params.beerId)
+      this.props.getBeer(this.props.beer.id)
     } catch (error) {
       console.error(error)
     }
@@ -27,26 +28,33 @@ class EditReviewForm extends Component {
     })
   }
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     event.preventDefault()
 
-    const updatedReview = {
-      id: this.props.review.id,
-      rating:
-        typeof this.state.rating === 'string'
-          ? this.state.rating
-          : this.props.review.rating,
-      description:
-        typeof this.state.description === 'string'
-          ? this.state.description
-          : this.props.review.description
-    }
+    try {
+      const updatedReview = {
+        id: this.props.review.id,
+        rating:
+          typeof this.state.rating === 'string'
+            ? this.state.rating
+            : this.props.review.rating,
+        description:
+          typeof this.state.description === 'string'
+            ? this.state.description
+            : this.props.review.description
+      }
 
-    this.props.updateReview(updatedReview)
-    this.setState({
-      rating: '',
-      description: ''
-    })
+      await this.props.updateReview(updatedReview)
+      this.setState({
+        rating: '',
+        description: ''
+      })
+      await this.props.getBeer(this.props.beer.id)
+      await this.props.fetchReviews(this.props.beer.id)
+    } catch (error) {
+      console.error(error)
+    }
+    this.props.clickEditHandler()
   }
   render() {
     return (
@@ -61,7 +69,7 @@ class EditReviewForm extends Component {
             max="5"
             name="rating"
             value={
-              typeof this.state.name === 'string'
+              typeof this.state.rating === 'string'
                 ? this.state.rating
                 : this.props.review.rating
             }
@@ -75,7 +83,7 @@ class EditReviewForm extends Component {
             type="text"
             name="description"
             value={
-              this.state.description === 'string'
+              typeof this.state.description === 'string'
                 ? this.state.description
                 : this.props.review.description
             }
@@ -91,7 +99,7 @@ class EditReviewForm extends Component {
 
 const mapStateToProps = state => {
   return {
-    review: state.singleReview
+    beer: state.singleBeer
   }
 }
 
@@ -99,7 +107,8 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchSingleReview: reviewId => dispatch(fetchSingleReview(reviewId)),
     updateReview: reviewUpdate => dispatch(updateReviewThunk(reviewUpdate)),
-    getBeer: beerId => dispatch(fetchSingleBeer(beerId))
+    getBeer: beerId => dispatch(fetchSingleBeer(beerId)),
+    fetchReviews: beerId => dispatch(fetchReviews(beerId))
   }
 }
 

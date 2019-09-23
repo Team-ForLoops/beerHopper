@@ -30,8 +30,6 @@ class AddReviewForm extends Component {
     } catch (error) {
       console.error(error)
     }
-    //this.props.getBeer(this.props.beer.id);
-
     this.props.clickHandler()
   }
   render() {

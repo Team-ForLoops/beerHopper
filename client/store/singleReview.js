@@ -6,6 +6,7 @@ import axios from 'axios'
 
 const SET_SINGLE_REVIEW = 'SET_SINGLE_REVIEW'
 const UPDATE_REVIEW = 'UPDATE_REVIEW'
+const DELETE_REVIEW = 'DELETE_REVIEW'
 
 // action creators
 
@@ -19,11 +20,18 @@ export const updateReview = review => ({
   review
 })
 
+export const deleteReview = reviewId => {
+  return {
+    type: DELETE_REVIEW,
+    reviewId
+  }
+}
+
 // thunks
 
 export const fetchSingleReview = reviewId => async dispatch => {
   try {
-    const {data} = await axios.get(`/api/reviews/beer/${reviewId}`)
+    const {data} = await axios.get(`/api/reviews/${reviewId}`)
     dispatch(setSingleReview(data))
   } catch (err) {
     console.log(err)
@@ -33,12 +41,21 @@ export const fetchSingleReview = reviewId => async dispatch => {
 export const updateReviewThunk = reviewUpdate => async dispatch => {
   try {
     const {data} = await axios.put(
-      `/api/reviews/${beerUpdate.id}`,
+      `/api/reviews/${reviewUpdate.id}`,
       reviewUpdate
     )
     dispatch(updateReview(data))
   } catch (err) {
     console.log(err)
+  }
+}
+
+export const removeReview = reviewId => async dispatch => {
+  try {
+    await axios.delete(`/api/reviews/${reviewId}`)
+    dispatch(deleteReview(reviewId))
+  } catch (error) {
+    console.error(error)
   }
 }
 
@@ -50,8 +67,13 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case SET_SINGLE_REVIEW:
       return action.review
-    case UPDATE_BEER:
+    case UPDATE_REVIEW:
       return action.review
+    case DELETE_REVIEW:
+      console.log('DELETING REVIEW', action)
+      return state.filter(review => {
+        return review.id !== action.reviewId
+      })
     default:
       return state
   }

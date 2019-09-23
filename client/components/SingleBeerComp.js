@@ -9,6 +9,7 @@ import EditReviewForm from './EditReviewForm'
 import {addItemThunk} from '../store/cart'
 import {Link} from 'react-router-dom'
 import {fetchReviews} from '../store/reviews'
+import {removeReview} from '../store/singleReview'
 
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
@@ -53,6 +54,7 @@ class SingleBeer extends React.Component {
       showForm: false
     })
   }
+
   addToCartHandler = () => {
     const beerId = this.props.beer.id
     this.props.addItem({id: beerId, quantity: 1})
@@ -71,6 +73,17 @@ class SingleBeer extends React.Component {
       }
     })
     return reviewed
+  }
+
+  getEditReview = reviews => {
+    const userId = this.props.user.id
+    let editReview
+    reviews.map(review => {
+      if (review.user.id === userId) {
+        editReview = review
+      }
+    })
+    return editReview
   }
 
   render() {
@@ -144,7 +157,15 @@ class SingleBeer extends React.Component {
                   >
                     Edit Review
                   </Button>
-                  <Button>Remove Review</Button>
+                  <Button
+                    onClick={() =>
+                      this.props.deleteReview(
+                        this.getEditReview(beer.reviews).id
+                      )
+                    }
+                  >
+                    Remove Review
+                  </Button>
                 </Row>
               ) : (
                 <Button
@@ -165,7 +186,12 @@ class SingleBeer extends React.Component {
             {this.state.showForm && (
               <AddReviewForm clickHandler={this.clickHandler} />
             )}
-            {this.state.showEditForm && <EditReviewForm />}
+            {this.state.showEditForm && (
+              <EditReviewForm
+                review={this.getEditReview(beer.reviews)}
+                clickEditHandler={this.clickEditHandler}
+              />
+            )}
           </Row>
 
           <table id="single-beer-reviews" className="my-3">
@@ -226,7 +252,8 @@ const mapDispatchToProps = dispatch => {
   return {
     loadSingleBeer: id => dispatch(fetchSingleBeer(id)),
     addItem: itemDetail => dispatch(addItemThunk(itemDetail)),
-    fetchReviews: beerId => dispatch(fetchReviews(beerId))
+    fetchReviews: beerId => dispatch(fetchReviews(beerId)),
+    deleteReview: reviewId => dispatch(removeReview(reviewId))
   }
 }
 
