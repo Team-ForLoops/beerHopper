@@ -52,7 +52,7 @@ export class AllOrders extends React.Component {
     // console.log('UPDATE ORDER', updatedOrder)
 
     await this.props.updateOrderThunk(updatedOrder)
-    this.props.fetchInitialOrders()
+    await this.props.fetchInitialOrders()
   }
 
   render() {
