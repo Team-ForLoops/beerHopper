@@ -71,9 +71,7 @@ export default function(state = initialState, action) {
     case UPDATE_REVIEW:
       return action.review
     case DELETE_REVIEW:
-      return state.filter(review => {
-        return review.id !== action.reviewId
-      })
+      return state
     default:
       return state
   }
