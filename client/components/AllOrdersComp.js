@@ -41,6 +41,10 @@ export class AllOrders extends React.Component {
     })
   }
 
+  async update(order) {
+    await this.props.updateOrderThunk(order)
+  }
+
   async handleSubmit(orderId) {
     event.preventDefault()
 
@@ -51,7 +55,7 @@ export class AllOrders extends React.Component {
 
     // console.log('UPDATE ORDER', updatedOrder)
 
-    await this.props.updateOrderThunk(updatedOrder)
+    await this.update(updatedOrder)
     await this.props.fetchInitialOrders()
   }
 

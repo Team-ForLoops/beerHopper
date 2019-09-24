@@ -5,7 +5,6 @@ const Review = require('./review')
 const Beer = db.define('beer', {
   name: {
     type: Sequelize.STRING,
-    allowNull: false,
     defaultValue: 'Blue Moon Belgian'
   },
   ibu: {
@@ -39,7 +38,6 @@ const Beer = db.define('beer', {
   },
   price: {
     type: Sequelize.INTEGER,
-    allowNull: false,
     validate: {
       min: 0,
       max: 1147483647
