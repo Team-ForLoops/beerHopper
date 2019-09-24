@@ -38,8 +38,7 @@ const seedUsers = [
     isAdmin: true,
     email: 'natalie@gmail.com',
     password: '123natalie',
-    imageUrl:
-      'https://m.media-amazon.com/images/M/MV5BMzkyMTk2NzM2Ml5BMl5BanBnXkFtZTcwNDQ4MjYzMg@@._V1_UY1200_CR109,0,630,1200_AL_.jpg'
+    imageUrl: 'https://i.redd.it/rwknyu50jmw11.png'
   },
   {
     username: 'pinzhi_zhang',
