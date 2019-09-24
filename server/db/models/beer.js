@@ -5,7 +5,6 @@ const Review = require('./review')
 const Beer = db.define('beer', {
   name: {
     type: Sequelize.STRING,
-    allowNull: false,
     defaultValue: 'Blue Moon Belgian'
   },
   ibu: {
@@ -39,7 +38,6 @@ const Beer = db.define('beer', {
   },
   price: {
     type: Sequelize.INTEGER,
-    allowNull: false,
     validate: {
       min: 0,
       max: 1147483647
@@ -47,22 +45,5 @@ const Beer = db.define('beer', {
     defaultValue: 5000
   }
 })
-
-Beer.prototype.averageRating = async function(beerId) {
-  try {
-    const reviews = await Review.findAll({
-      where: {
-        beerId: beerId
-      }
-    })
-    const ratingTotal = reviews.reduce((avg = 0, review) => {
-      return avg + review.rating
-    })
-    const averageRating = (ratingTotal / reviews.length).toFixed(1)
-    return averageRating
-  } catch (err) {
-    console.log(err)
-  }
-}
 
 module.exports = Beer

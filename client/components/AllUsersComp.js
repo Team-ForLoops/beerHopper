@@ -32,15 +32,18 @@ export class AllUsers extends React.Component {
   }
 
   handleChange(event) {
-    //console.log('event.target', event.target)
+    // console.log('event.target.name', event.target.name)
     this.setState({
       [event.target.name]: event.target.value
     })
   }
 
-  handleSubmit(userId) {
+  async handleSubmit(userId) {
     event.preventDefault()
 
+    console.log('event.target.name', event.target.name)
+    console.log('event.target.userId', userId)
+    console.log('state', this.state)
     const updatedUser = {
       id: userId,
       isAdmin: this.state.stat
@@ -48,13 +51,17 @@ export class AllUsers extends React.Component {
 
     // console.log('UPDATE USER', updatedUser)
 
-    this.props.updateUserThunk(updatedUser)
-    this.props.fetchInitialUsers()
+    await this.props.updateUserThunk(updatedUser)
+    await this.props.loadSingleUser(userId)
+    await this.props.fetchInitialUsers()
   }
 
   handleDelete(userId) {
     event.preventDefault()
 
+    console.log('handleDelete')
+    console.log('this.props', this.props)
+    console.log('userId', userId)
     this.props.deleteUserThunk(userId)
   }
 

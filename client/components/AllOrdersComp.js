@@ -6,6 +6,7 @@ import {updateOrderThunk, fetchSingleOrder} from '../store/singleOrder'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import {UncontrolledCollapse, CardBody} from 'reactstrap'
+import {AvQueuePlayNext} from 'material-ui/svg-icons'
 
 export class AllOrders extends React.Component {
   constructor(props) {
@@ -43,16 +44,20 @@ export class AllOrders extends React.Component {
 
   async handleSubmit(orderId) {
     event.preventDefault()
+    try {
+      const updatedOrder = {
+        id: orderId,
+        status: this.state.stat
+      }
 
-    const updatedOrder = {
-      id: orderId,
-      status: this.state.stat
+      // console.log('UPDATE ORDER', updatedOrder)
+
+      await this.props.updateOrderThunk(updatedOrder)
+      await this.props.loadSingleOrder(orderId)
+      await this.props.fetchInitialOrders()
+    } catch (error) {
+      console.error(error)
     }
-
-    // console.log('UPDATE ORDER', updatedOrder)
-
-    await this.props.updateOrderThunk(updatedOrder)
-    this.props.fetchInitialOrders()
   }
 
   render() {

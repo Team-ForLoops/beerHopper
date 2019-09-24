@@ -45,15 +45,19 @@ router.get('/filter/:types', async (req, res, next) => {
     })
     let beerArray = []
     let beerIds = []
-    for (let i = 0; i < types.length; i++) {
-      let category = categories[i]
-      let beers = category.beers
-      beers.forEach(beer => {
-        if (!beerIds.includes(beer.id)) {
-          beerIds.push(beer.id)
-          beerArray.push(beer)
+    if (categories.length) {
+      for (let i = 0; i < types.length; i++) {
+        let category = categories[i]
+        if (category) {
+          let beers = category.beers
+          beers.forEach(beer => {
+            if (!beerIds.includes(beer.id)) {
+              beerIds.push(beer.id)
+              beerArray.push(beer)
+            }
+          })
         }
-      })
+      }
     }
 
     res.json(beerArray)
@@ -83,10 +87,23 @@ router.get('/search', async (req, res, next) => {
 // 8080/api/beer/:id
 router.get('/:beerId', async (req, res, next) => {
   let beerId = req.params.beerId
+
   try {
     const beer = await Beer.findByPk(beerId, {
       include: [{model: Review, include: {model: User}}, {model: Category}]
     })
+
+    let total = 0
+    if (beer.reviews === undefined || beer.reviews.length === 0) {
+      beer.dataValues.averageRating = 'No Ratings Yet!'
+    } else {
+      beer.reviews.forEach(review => {
+        total += review.rating
+      })
+      beer.dataValues.averageRating = `${(total / beer.reviews.length).toFixed(
+        1
+      )}/5`
+    }
     res.send(beer)
   } catch (err) {
     next(err)
@@ -97,6 +114,7 @@ router.get('/:beerId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
+    console.log('post ################################', req.body)
     const newBeer = await Beer.create(req.body)
     res.json(newBeer)
   } catch (err) {
