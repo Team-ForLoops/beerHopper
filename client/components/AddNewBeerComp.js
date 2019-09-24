@@ -24,7 +24,6 @@ class AddBeer extends React.Component {
   }
 
   handleChange(event) {
-    console.log('event.target', event.target)
     this.setState({
       [event.target.name]: event.target.value,
       success: false
@@ -35,7 +34,6 @@ class AddBeer extends React.Component {
     event.preventDefault()
 
     // fetch updated robot
-    console.log('STATE', this.state)
     this.state.id = this.props.beer.id
 
     const updatedBeer = {
@@ -80,11 +78,6 @@ class AddBeer extends React.Component {
   }
 
   render() {
-    // pull form variables from state -- check this
-
-    console.log('PROPS', this.props)
-    console.log('STATE', this.state)
-
     return (
       <div>
         <h1>Create New Beer</h1>

@@ -26,13 +26,10 @@ class Cart extends Component {
   handleToken = async token => {
     const cart = this.props.cart
     const amount = this.props.subTotal
-    console.log('amount value', amount)
-    console.log('typeof amount', typeof amount)
-    //console.log('typeof amount', typeof amount);
     const response = await Axios.post('/api/checkout', {token, amount})
 
     const {status} = response.data
-    console.log(status)
+
     if (status === 'success') {
       this.checkoutHandler()
     }
@@ -66,9 +63,6 @@ class Cart extends Component {
         </Table>
         {cart.length > 0 && (
           <Container>
-            {/* <Button variant="success" onClick={this.checkoutHandler}>
-              Checkout
-            </Button> */}
             <StripeCheckout
               stripeKey="pk_test_Op4RMowgyOZd3B6fDoKc1KSb00ij9iL8r5"
               token={this.handleToken}

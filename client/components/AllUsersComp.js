@@ -40,9 +40,6 @@ export class AllUsers extends React.Component {
   async handleSubmit(userId) {
     event.preventDefault()
 
-    console.log('event.target.name', event.target.name)
-    console.log('event.target.userId', userId)
-    console.log('state', this.state)
     const updatedUser = {
       id: userId,
       isAdmin: this.state.stat

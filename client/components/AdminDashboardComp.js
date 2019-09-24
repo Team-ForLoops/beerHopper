@@ -13,10 +13,6 @@ import {
 
 class AdminDash extends React.Component {
   render() {
-    // console.log('before beer......', this.props.beers)
-    // const beers = this.props.beers
-    // console.log('beer variable......', beers)
-
     return (
       <div>
         <ButtonToolbar aria-label="Toolbar with button groups">

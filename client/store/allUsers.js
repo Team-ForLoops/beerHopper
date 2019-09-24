@@ -49,7 +49,6 @@ export default function(state = allUsers, action) {
     case SET_USERS:
       return action.users
     case DELETE_USER: {
-      console.log('IN REDUCER')
       return state.filter(user => {
         return user.id !== action.delUserId
       })
