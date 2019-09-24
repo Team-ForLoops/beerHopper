@@ -113,7 +113,6 @@ export const sortBeers = (sortBy, beers) => dispatch => {
 
 export const postBeerThunk = newBeer => async dispatch => {
   try {
-    console.log('NEW BEER', newBeer)
     for (let i in newBeer) {
       if (
         newBeer[i] === '' ||
@@ -124,13 +123,12 @@ export const postBeerThunk = newBeer => async dispatch => {
         delete newBeer[i]
       }
     }
-    console.log('NEW BEER AFTER', newBeer)
     const response = await axios.post('/api/beer', newBeer)
     const createdBeer = response.data
 
     dispatch(addBeer(createdBeer))
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 

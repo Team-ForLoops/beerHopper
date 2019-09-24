@@ -36,7 +36,6 @@ export class AllOrders extends React.Component {
   }
 
   handleChange(event) {
-    //console.log('event.target', event.target)
     this.setState({
       [event.target.name]: event.target.value
     })
@@ -50,8 +49,6 @@ export class AllOrders extends React.Component {
         status: this.state.stat
       }
 
-      // console.log('UPDATE ORDER', updatedOrder)
-
       await this.props.updateOrderThunk(updatedOrder)
       await this.props.loadSingleOrder(orderId)
       await this.props.fetchInitialOrders()
@@ -62,24 +59,9 @@ export class AllOrders extends React.Component {
 
   render() {
     const orders = this.props.orders
-    // console.log('PROPS', this.props)
-    console.log('ORDERS', this.props.orders)
-
-    // const beers = orders.beers || []
 
     return (
       <div>
-        {/* <div className="options">
-          <select onChange={this.handleChange}>
-            <option value="">Sort By...</option>
-            <option value="priceHighToLow">Price (high to low)</option>
-            <option value="priceLowToHigh">Price (low to high)</option>
-            <option value="name">Name</option>
-          </select>
-
-          <BeerFilter />
-        </div> */}
-
         <div id="filter" />
 
         <div className="flex-cards">

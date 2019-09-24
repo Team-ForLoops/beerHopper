@@ -26,7 +26,7 @@ export const fetchReviews = beerId => {
       const {data} = await axios.get(`/api/reviews/${beerId}`)
       dispatch(getReviews(data))
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 }
@@ -35,7 +35,7 @@ export const postReviewThunk = (beerId, review) => async dispatch => {
     const {data} = await axios.post(`/api/beer/${beerId}/review`, review)
     dispatch(addReview(data))
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 

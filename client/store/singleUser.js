@@ -26,17 +26,16 @@ export const fetchSingleUser = userId => async dispatch => {
     const {data} = await axios.get(`/api/users/${userId}`)
     dispatch(setSingleUser(data))
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 
 export const updateUserThunk = userUpdate => async dispatch => {
   try {
     const {data} = await axios.put(`/api/users/${userUpdate.id}`, userUpdate)
-    console.log('UPDATE THUNK USERS TEST', data)
     dispatch(updateUser(data))
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 
