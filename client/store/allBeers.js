@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {setSearchedBeers} from './searchBeers'
 
 /**
  * ACTION TYPES
@@ -49,7 +50,7 @@ export const filterBeers = types => async dispatch => {
   try {
     types = types.join('+')
     const {data} = await axios.get(`/api/beer/filter/${types}`)
-    dispatch(setBeers(data))
+    dispatch(setSearchedBeers(data))
   } catch (err) {
     console.error(err)
   }
@@ -58,7 +59,7 @@ export const filterBeers = types => async dispatch => {
 export const searchBeers = name => async dispatch => {
   try {
     const {data} = await axios.get(`/api/beer/search?name=${name}`)
-    dispatch(setBeers(data))
+    dispatch(setSearchedBeers(data))
   } catch (err) {
     console.error(err)
   }

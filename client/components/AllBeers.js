@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {toDollars, getBeers, sortBeers} from '../store/allBeers'
+import {toDollars, getBeers, sortBeers, searchBeers} from '../store/allBeers'
 import {Link} from 'react-router-dom'
 import BeerFilter from './BeerFilter'
 import Button from 'react-bootstrap/Button'
@@ -25,12 +25,24 @@ export class AllBeers extends React.Component {
     })
   }
   handleChange(event) {
-    return this.props.getSortedBeers(event.target.value, this.props.beers)
+    const beers = !this.props.location.search
+      ? this.props.beers
+      : this.props.searchedBeers
+    console.log('BEERRRSSS: ', beers)
+    return this.props.getSortedBeers(event.target.value, beers)
+  }
+  componentDidMount() {
+    const search = this.props.location.search
+    if (search) {
+      const name = search.split('=')[1]
+      this.props.fetchSearchedBeers(name)
+    }
   }
 
   render() {
-    const beers = this.props.beers
-
+    const beers = !this.props.location.search
+      ? this.props.beers
+      : this.props.searchedBeers
     return (
       <Container>
         <Row className="options justify-content-space-between">
@@ -42,7 +54,7 @@ export class AllBeers extends React.Component {
             >
               Filter Products
             </Button>
-            {this.state.showFilter && <BeerFilter beers={this.props.beers} />}
+            {this.state.showFilter && <BeerFilter beers={beers} />}
           </Col>
           <Col className="justify-content-end ml-5 mr-0">
             <select onChange={this.handleChange}>
@@ -85,14 +97,16 @@ export class AllBeers extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    beers: state.allBeers
+    beers: state.allBeers,
+    searchedBeers: state.searchedBeers
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     getSortedBeers: (sortBy, beers) => dispatch(sortBeers(sortBy, beers)),
-    fetchInitialBeers: () => dispatch(getBeers())
+    fetchInitialBeers: () => dispatch(getBeers()),
+    fetchSearchedBeers: search => dispatch(searchBeers(search))
   }
 }
 

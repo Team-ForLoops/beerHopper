@@ -15,6 +15,7 @@ import myOrders from './myOrders'
 import subTotal from './subTotal'
 import reviews from './reviews'
 import singleReview from './singleReview'
+import searchedBeers from './searchBeers'
 
 const reducer = combineReducers({
   user,
@@ -29,7 +30,8 @@ const reducer = combineReducers({
   myOrders,
   subTotal,
   reviews,
-  singleReview
+  singleReview,
+  searchedBeers
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))

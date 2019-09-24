@@ -7,8 +7,7 @@ export class SearchBar extends React.Component {
   constructor() {
     super()
     this.state = {
-      searchValue: '',
-      once: 1
+      searchValue: ''
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -21,7 +20,6 @@ export class SearchBar extends React.Component {
       },
       this.helper
     )
-    console.log('wwwwww', this.props)
   }
   handleSubmit(event) {
     event.preventDefault()
