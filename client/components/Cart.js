@@ -7,8 +7,14 @@ import Table from 'react-bootstrap/Table'
 import {checkoutThunk, fetchCart} from '../store/cart'
 import {setSubTotalThunk, clearSubTotal} from '../store/subTotal'
 import {Link} from 'react-router-dom'
+import StripeCheckout from 'react-stripe-checkout'
+import Axios from 'axios'
 
 class Cart extends Component {
+  constructor() {
+    super()
+    this.handleToken = this.handleToken.bind(this)
+  }
   componentDidMount() {
     this.props.setSubTotal()
     this.props.fetchCart()
@@ -16,6 +22,20 @@ class Cart extends Component {
   checkoutHandler = () => {
     this.props.checkout(this.props.subTotal)
     this.props.clearSubTotal()
+  }
+  handleToken = async token => {
+    const cart = this.props.cart
+    const amount = this.props.subTotal
+    console.log('amount value', amount)
+    console.log('typeof amount', typeof amount)
+    //console.log('typeof amount', typeof amount);
+    const response = await Axios.post('/api/checkout', {token, amount})
+
+    const {status} = response.data
+    console.log(status)
+    if (status === 'success') {
+      this.checkoutHandler()
+    }
   }
   render() {
     const cart = this.props.cart || []
@@ -46,9 +66,17 @@ class Cart extends Component {
         </Table>
         {cart.length > 0 && (
           <Container>
-            <Button variant="success" onClick={this.checkoutHandler}>
+            {/* <Button variant="success" onClick={this.checkoutHandler}>
               Checkout
-            </Button>
+            </Button> */}
+            <StripeCheckout
+              stripeKey="pk_test_Op4RMowgyOZd3B6fDoKc1KSb00ij9iL8r5"
+              token={this.handleToken}
+              billingAddress
+              shippingAddress
+              amount={Number(this.props.subTotal.toFixed(2))}
+              name="Beer Hopper"
+            />
             <span className="mx-5">
               {' '}
               Subtotal: ${(this.props.subTotal / 100).toFixed(2)}
