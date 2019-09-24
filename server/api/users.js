@@ -44,10 +44,6 @@ router.put('/:userId', isAdmin, async (req, res, next) => {
 
   try {
     const user = await User.findByPk(userId)
-    console.log(
-      'req.body ##################################################',
-      req.body
-    )
     user.update(req.body)
     res.send(user)
   } catch (err) {

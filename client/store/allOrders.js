@@ -23,7 +23,6 @@ export const getOrders = () => async dispatch => {
   try {
     const {data} = await axios.get('/api/orders')
     dispatch(setOrders(data))
-    console.log('getOrdersThunk DATA ARRAY', data)
   } catch (err) {
     console.error(err)
   }

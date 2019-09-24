@@ -14,20 +14,4 @@ const Order = db.define('order', {
   }
 })
 
-// Order.prototype.updateInv = async function() {
-//   let orderId = this.id;
-//   console.log(this)
-//   try{
-//     let beerOrders = await BeerOrder.findAll({
-//       where:{
-//         orderId: orderId
-//       }
-//     })
-//     console.log(beerOrders)
-//   }catch(err){
-//     console.log(err)
-//   }
-//}
-//find all beers in the beerOrders array
-
 module.exports = Order

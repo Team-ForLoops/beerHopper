@@ -20,7 +20,7 @@ BeerOrder.prototype.getItemSubTotal = async function() {
     await this.update({itemPrice: price})
     return subTotal
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 
@@ -30,7 +30,7 @@ BeerOrder.prototype.updateInv = async function() {
     let newQuantity = beer.quantityInv - this.quantity
     await beer.update({quantityInv: newQuantity})
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 

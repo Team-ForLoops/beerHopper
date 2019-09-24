@@ -48,7 +48,7 @@ export const cancelOrderThunk = orderId => {
       const {data} = await axios.post(`/api/orders/cancel/${orderId}`)
       dispatch(cancelOrder(data, orderId))
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 }

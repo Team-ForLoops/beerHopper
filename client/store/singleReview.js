@@ -21,7 +21,6 @@ export const updateReview = review => ({
 })
 
 export const deleteReview = reviewId => {
-  console.log('IN HERE', reviewId)
   return {
     type: DELETE_REVIEW,
     reviewId
@@ -35,7 +34,7 @@ export const fetchSingleReview = reviewId => async dispatch => {
     const {data} = await axios.get(`/api/reviews/${reviewId}`)
     dispatch(setSingleReview(data))
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 
@@ -47,7 +46,7 @@ export const updateReviewThunk = reviewUpdate => async dispatch => {
     )
     dispatch(updateReview(data))
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 

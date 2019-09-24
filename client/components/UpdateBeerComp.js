@@ -26,10 +26,7 @@ class UpdateBeer extends React.Component {
 
   componentDidMount() {
     try {
-      this.props.loadSingleBeer(this.props.match.params.beerId).then(res => {
-        console.log('res', res)
-      })
-      //console.log('test', test)
+      this.props.loadSingleBeer(this.props.match.params.beerId).then(res => {})
     } catch (error) {
       console.error(error)
     }

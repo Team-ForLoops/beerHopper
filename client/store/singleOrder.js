@@ -26,17 +26,16 @@ export const fetchSingleOrder = orderId => async dispatch => {
     const {data} = await axios.get(`/api/orders/${orderId}`)
     dispatch(setSingleOrder(data))
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 
 export const updateOrderThunk = orderUpdate => async dispatch => {
   try {
     const {data} = await axios.put(`/api/orders/${orderUpdate.id}`, orderUpdate)
-    console.log('UPDATE THUNK TEST', data)
     dispatch(updateOrder(data))
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 

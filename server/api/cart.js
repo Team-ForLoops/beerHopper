@@ -56,7 +56,6 @@ router.get('/', async (req, res, next) => {
           //duplicated beers
           await userOrder[0].addBeers(orderToMerge.beers)
           let result = mergeArrays(beersToMerge, userBeerArr)
-          console.log(result)
           // eslint-disable-next-line guard-for-in
           for (let key in result) {
             let beerOrder = await BeerOrder.findOne({
@@ -67,8 +66,6 @@ router.get('/', async (req, res, next) => {
             })
             await beerOrder.update({quantity: result[key]})
           }
-          let userBeers = userOrder[0]
-          //let duplicatedBeers = findDuplicateBeers(beersToMerge, userBeers)
         }
       }
       if (!req.session.userInfo) req.session.userInfo = userInfo
@@ -220,7 +217,6 @@ router.post('/checkout', async (req, res, next) => {
     await Promise.all(beerOrders.map(beerOrder => beerOrder.updateInv()))
     //create new order for a logged in guest
     let newOrder = []
-    console.log(req.user.id)
     if (req.session.passport) {
       newOrder = await Order.create({
         where: {
@@ -246,7 +242,6 @@ router.post('/checkout', async (req, res, next) => {
 
 router.delete('/:beerId', async (req, res, next) => {
   try {
-    console.log('in delete route', req.session)
     await BeerOrder.destroy({
       where: {
         orderId: req.session.userInfo.orderId,
