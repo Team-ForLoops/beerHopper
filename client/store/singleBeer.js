@@ -26,7 +26,7 @@ export const fetchSingleBeer = beerId => async dispatch => {
     const {data} = await axios.get(`/api/beer/${beerId}`)
     dispatch(setSingleBeer(data))
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 
@@ -35,7 +35,7 @@ export const updateBeerThunk = beerUpdate => async dispatch => {
     const {data} = await axios.put(`/api/beer/${beerUpdate.id}`, beerUpdate)
     dispatch(updateBeer(data))
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 

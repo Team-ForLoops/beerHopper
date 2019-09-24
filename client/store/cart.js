@@ -40,7 +40,7 @@ export const fetchCart = () => {
       const {data} = await axios.get('/api/cart')
       dispatch(getCart(data))
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 }
@@ -50,7 +50,7 @@ export const addItemThunk = itemDetails => {
       const {data} = await axios.put(`/api/cart/${itemDetails.id}`)
       dispatch(addItem(data))
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 }
@@ -58,10 +58,9 @@ export const deleteItemThunk = beerId => {
   return async dispatch => {
     try {
       let {data} = await axios.delete(`/api/cart/${beerId}`)
-      console.log('data', data)
       dispatch(deleteItem(beerId))
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 }
@@ -73,7 +72,7 @@ export const checkoutThunk = subTotal => {
       //put in new cart should be empty []?
       dispatch(checkout([]))
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 }

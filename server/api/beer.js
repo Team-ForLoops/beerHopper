@@ -112,9 +112,8 @@ router.get('/:beerId', async (req, res, next) => {
 
 // 8080/api/beer/
 
-router.post('/', async (req, res, next) => {
+router.post('/', isAdmin, async (req, res, next) => {
   try {
-    console.log('post ################################', req.body)
     const newBeer = await Beer.create(req.body)
     res.json(newBeer)
   } catch (err) {
@@ -129,7 +128,6 @@ router.post('/:id/review', isUser, async (req, res, next) => {
     const {rating, description} = req.body
 
     const beer = await Beer.findByPk(req.params.id)
-    // console.log(beer)
 
     const newReview = await Review.create({rating, description, userId: id})
     newReview.setBeer(beer)
@@ -154,10 +152,6 @@ router.put('/:beerId', isAdmin, async (req, res, next) => {
 
   try {
     const beer = await Beer.findByPk(beerId)
-    console.log(
-      'req.body ##################################################',
-      req.body
-    )
     beer.update(req.body)
     res.send(beer)
   } catch (err) {
@@ -166,7 +160,6 @@ router.put('/:beerId', isAdmin, async (req, res, next) => {
 })
 
 router.get('/pagination/page?', async (req, res, next) => {
-  console.log(req.query)
   try {
     let beers = await Beer.findAll({
       limit: 50,
@@ -177,18 +170,3 @@ router.get('/pagination/page?', async (req, res, next) => {
     next(err)
   }
 })
-// 8080/api/beer/:beerId
-
-// router.delete('/:beerId', async (req, res, next) => {
-//   let beerId = req.params.beerId
-
-//   try {
-//     await Beer.destroy({
-//       wehre: {
-//         id: beerId
-//       }
-//     })
-//   } catch (err) {
-//     next(err)
-//   }
-// })

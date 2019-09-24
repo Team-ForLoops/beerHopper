@@ -32,7 +32,6 @@ export class AllUsers extends React.Component {
   }
 
   handleChange(event) {
-    // console.log('event.target.name', event.target.name)
     this.setState({
       [event.target.name]: event.target.value
     })
@@ -48,9 +47,6 @@ export class AllUsers extends React.Component {
       id: userId,
       isAdmin: this.state.stat
     }
-
-    // console.log('UPDATE USER', updatedUser)
-
     await this.props.updateUserThunk(updatedUser)
     await this.props.loadSingleUser(userId)
     await this.props.fetchInitialUsers()
@@ -59,34 +55,17 @@ export class AllUsers extends React.Component {
   handleDelete(userId) {
     event.preventDefault()
 
-    console.log('handleDelete')
-    console.log('this.props', this.props)
-    console.log('userId', userId)
     this.props.deleteUserThunk(userId)
   }
 
   render() {
     const users = this.props.users
-    // console.log('PROPS', this.props)
-    console.log('USERS', this.props.users)
 
     return (
       <div>
-        {/* <div className="options">
-          <select onChange={this.handleChange}>
-            <option value="">Sort By...</option>
-            <option value="priceHighToLow">Price (high to low)</option>
-            <option value="priceLowToHigh">Price (low to high)</option>
-            <option value="name">Name</option>
-          </select>
-
-          <BeerFilter />
-          </div> */}
-
         <div className="flex-cards">
           {users.map(user => (
             <Card style={{width: '18rem'}} key={user.id}>
-              {/* delete thunk */}
               <div>
                 <Button
                   id={`delete${user.id}`}

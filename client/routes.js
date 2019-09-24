@@ -23,9 +23,7 @@ import Cart from './components/Cart'
 import OrderHistory from './components/OrderHistory'
 import {getBeers} from './store/allBeers'
 import {getCategories} from './store/categories'
-import {getOrders} from './store/allOrders'
 import {getUsers} from './store/allUsers'
-import {getMyOrders} from './store/myOrders'
 
 /**
  * COMPONENT
@@ -34,10 +32,8 @@ class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
     this.props.fetchInitialBeers()
-    this.props.fetchInitialOrders()
     this.props.fetchCart()
     this.props.fetchCategories()
-    this.props.fetchMyOrders()
   }
 
   render() {
@@ -93,11 +89,9 @@ const mapDispatch = dispatch => {
       dispatch(me())
     },
     fetchInitialBeers: () => dispatch(getBeers()),
-    fetchInitialOrders: () => dispatch(getOrders()),
     fetchInitialUsers: () => dispatch(getUsers()),
     fetchCart: () => dispatch(fetchCart()),
-    fetchCategories: () => dispatch(getCategories()),
-    fetchMyOrders: () => dispatch(getMyOrders())
+    fetchCategories: () => dispatch(getCategories())
   }
 }
 

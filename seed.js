@@ -578,7 +578,6 @@ const seed = async () => {
       )
     )
     //create beer-categories join table
-    //console.log(Beer.prototype); how to get magic methods
     await Promise.all(
       beers.map(beer => {
         let catIdx = randomIndex(categories)
@@ -591,7 +590,7 @@ const seed = async () => {
     console.log('done seeding!')
     // db.close();
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 

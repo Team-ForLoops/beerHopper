@@ -7,8 +7,6 @@ module.exports = router
 router.use(cors())
 
 router.post('/', async (req, res, next) => {
-  console.log('Request:', req.body)
-
   let error
   let status
   try {
@@ -42,7 +40,6 @@ router.post('/', async (req, res, next) => {
         idempotency_key
       }
     )
-    console.log('Charge:', {charge})
     status = 'success'
   } catch (error) {
     console.error('Error', error)
