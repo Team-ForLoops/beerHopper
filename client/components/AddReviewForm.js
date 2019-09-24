@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {postReviewThunk} from '../store/reviews'
+import {fetchSingleBeer} from '../store/singleBeer'
 
 class AddReviewForm extends Component {
   constructor() {
@@ -10,19 +11,26 @@ class AddReviewForm extends Component {
       description: ''
     }
   }
+
   handleChange = event => {
     //update the state with input fields
     this.setState({
       [event.target.name]: event.target.value
     })
   }
-  handleSubmit = () => {
+  handleSubmit = async () => {
     event.preventDefault()
-    this.props.postReviewThunk(this.props.beer.id, this.state)
-    this.setState({
-      rating: '',
-      description: ''
-    })
+    try {
+      await this.props.postReviewThunk(this.props.beer.id, this.state)
+      this.setState({
+        rating: '',
+        description: ''
+      })
+      await this.props.getBeer(this.props.beer.id)
+    } catch (error) {
+      console.error(error)
+    }
+    this.props.clickHandler()
   }
   render() {
     return (
@@ -66,7 +74,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     postReviewThunk: (beerId, Review) =>
-      dispatch(postReviewThunk(beerId, Review))
+      dispatch(postReviewThunk(beerId, Review)),
+    getBeer: beerId => dispatch(fetchSingleBeer(beerId))
   }
 }
 

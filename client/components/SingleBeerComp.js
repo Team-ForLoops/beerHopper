@@ -5,9 +5,11 @@ import {fetchSingleBeer} from '../store/singleBeer' // unassignProjectThunk
 import {connect} from 'react-redux'
 import {toDollars} from '../store/allBeers'
 import AddReviewForm from './AddReviewForm'
+import EditReviewForm from './EditReviewForm'
 import {addItemThunk} from '../store/cart'
 import {Link} from 'react-router-dom'
 import {fetchReviews} from '../store/reviews'
+import {removeReview} from '../store/singleReview'
 
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
@@ -22,25 +24,37 @@ class SingleBeer extends React.Component {
 
     this.state = {
       showForm: false,
-      showCart: false
+      showCart: false,
+      showEditForm: false
     }
+    this.clickHandler = this.clickHandler.bind(this)
+    this.clickEditHandler = this.clickEditHandler.bind(this)
   }
 
   componentDidMount() {
     try {
-      this.props.loadSingleBeer(this.props.match.params.beerId)
       this.props.fetchReviews(this.props.match.params.beerId)
+      this.props.loadSingleBeer(this.props.match.params.beerId)
     } catch (error) {
       console.error(error)
     }
   }
-
   clickHandler() {
     let hidden = this.state.showForm
     this.setState({
       showForm: !hidden
     })
   }
+
+  clickEditHandler() {
+    let editHidden = this.state.showEditForm
+
+    this.setState({
+      showEditForm: !editHidden,
+      showForm: false
+    })
+  }
+
   addToCartHandler = () => {
     const beerId = this.props.beer.id
     this.props.addItem({id: beerId, quantity: 1})
@@ -48,7 +62,36 @@ class SingleBeer extends React.Component {
     this.setState({showCart: true})
   }
 
-  // eslint-disable-next-line complexity
+  hasUserReviewed = reviews => {
+    const userId = this.props.user.id
+
+    let reviewed = false
+
+    reviews.map(review => {
+      if (review.user.id === userId) {
+        reviewed = true
+      }
+    })
+    return reviewed
+  }
+
+  deleteReview = async reviewId => {
+    await this.props.deleteReview(reviewId)
+    await this.props.loadSingleBeer(this.props.beer.id)
+    await this.props.fetchReviews(this.props.beer.id)
+  }
+
+  getEditReview = reviews => {
+    const userId = this.props.user.id
+    let editReview
+    reviews.map(review => {
+      if (review.user.id === userId) {
+        editReview = review
+      }
+    })
+    return editReview
+  }
+
   render() {
     // single beer prop
     // reviews are properties on beer
@@ -82,6 +125,7 @@ class SingleBeer extends React.Component {
               <Row>
                 <ul>
                   <li>
+                    <p>Rating: {beer.averageRating}</p>
                     <p>IBU: {beer.ibu}</p>
                     <p>Color: {beer.color}</p>
                     <p>Description: {beer.description}</p>
@@ -108,22 +152,52 @@ class SingleBeer extends React.Component {
           {/* setup conditional for if beer has no projects */}
           <Row>
             {this.props.user.id ? (
-              <Button
-                onClick={() => {
-                  this.clickHandler()
-                }}
-                type="button"
-                variant="light"
-              >
-                Add Review
-              </Button>
+              this.hasUserReviewed(reviews) ? (
+                <Row>
+                  <Button
+                    onClick={() => {
+                      this.clickEditHandler()
+                    }}
+                    type="button"
+                    variant="light"
+                  >
+                    Edit Review
+                  </Button>
+                  <Button
+                    onClick={() =>
+                      this.deleteReview(this.getEditReview(beer.reviews).id)
+                    }
+                  >
+                    Remove Review
+                  </Button>
+                </Row>
+              ) : (
+                <Button
+                  onClick={() => {
+                    this.clickHandler()
+                  }}
+                  type="button"
+                  variant="light"
+                >
+                  Add Review
+                </Button>
+              )
             ) : (
               <div className="">
                 <Link to="/signup">Sign Up to Leave a Review!</Link>
               </div>
             )}
-            {this.state.showForm && <AddReviewForm />}
+            {this.state.showForm && (
+              <AddReviewForm clickHandler={this.clickHandler} />
+            )}
+            {this.state.showEditForm && (
+              <EditReviewForm
+                review={this.getEditReview(beer.reviews)}
+                clickEditHandler={this.clickEditHandler}
+              />
+            )}
           </Row>
+
           <table id="single-beer-reviews" className="my-3">
             {reviews.length === 0
               ? `${beer.name} has no reviews!`
@@ -182,7 +256,8 @@ const mapDispatchToProps = dispatch => {
   return {
     loadSingleBeer: id => dispatch(fetchSingleBeer(id)),
     addItem: itemDetail => dispatch(addItemThunk(itemDetail)),
-    fetchReviews: beerId => dispatch(fetchReviews(beerId))
+    fetchReviews: beerId => dispatch(fetchReviews(beerId)),
+    deleteReview: reviewId => dispatch(removeReview(reviewId))
   }
 }
 
