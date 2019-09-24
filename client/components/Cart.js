@@ -7,6 +7,7 @@ import Table from 'react-bootstrap/Table'
 import {checkoutThunk, fetchCart} from '../store/cart'
 import {setSubTotalThunk, clearSubTotal} from '../store/subTotal'
 import {Link} from 'react-router-dom'
+import StrikeCheckout from 'react-stripe-checkout'
 
 class Cart extends Component {
   componentDidMount() {
