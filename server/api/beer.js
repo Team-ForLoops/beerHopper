@@ -164,6 +164,18 @@ router.put('/:beerId', isAdmin, async (req, res, next) => {
   }
 })
 
+router.get('/pagination/page?', async (req, res, next) => {
+  console.log(req.query)
+  try {
+    let beers = await Beer.findAll({
+      limit: 50,
+      offset: 1
+    })
+    res.json(beers)
+  } catch (err) {
+    next(err)
+  }
+})
 // 8080/api/beer/:beerId
 
 // router.delete('/:beerId', async (req, res, next) => {
