@@ -24,6 +24,9 @@ export class OrderHistory extends React.Component {
     const newDate = new Date(date)
     return newDate.toLocaleString()
   }
+  cancelHandler = orderId => {
+    this.props.cancelOrder(orderId)
+  }
   clickHandler() {
     let hidden = this.state.showForm
     this.setState({

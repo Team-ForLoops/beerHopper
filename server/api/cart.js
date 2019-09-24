@@ -2,7 +2,19 @@ const router = require('express').Router()
 const {Order, Beer, User, BeerOrder} = require('../db/models')
 module.exports = router
 
+const mergeArrays = (arr1, arr2) => {
+  let result = {}
+  for (let i = 0; i < arr1.length; i++) {
+    for (let j = 0; j < arr2.length; j++) {
+      if (arr1[i].beerId === arr2[j].beerId) {
+        result[arr1[i].beerId] = arr1[i].quantity + arr2[j].quantity
+      }
+    }
+  }
+  return result
+}
 //8080/api/cart
+// eslint-disable-next-line max-statements
 router.get('/', async (req, res, next) => {
   //create session data
   const userInfo = {
@@ -15,7 +27,8 @@ router.get('/', async (req, res, next) => {
     //if user is logged in
     if (req.session.passport) {
       let userId = req.session.passport.user
-      let result = await Order.findOrCreate({
+      //get user cart
+      let userOrder = await Order.findOrCreate({
         where: {
           userId: userId,
           status: 'open'
@@ -24,9 +37,44 @@ router.get('/', async (req, res, next) => {
           model: Beer
         }
       })
+      //merging carts
+      if (req.session.userInfo) {
+        //find cart to merge
+        let orderToMerge = await Order.findOne({
+          where: {
+            id: req.session.userInfo.orderId,
+            userId: null
+          },
+          include: {
+            model: Beer
+          }
+        })
+        if (orderToMerge) {
+          //check if cart exists
+          let beersToMerge = orderToMerge.beers.map(beer => beer['beer-orders'])
+          let userBeerArr = userOrder[0].beers.map(beer => beer['beer-orders'])
+          //duplicated beers
+          await userOrder[0].addBeers(orderToMerge.beers)
+          let result = mergeArrays(beersToMerge, userBeerArr)
+          console.log(result)
+          // eslint-disable-next-line guard-for-in
+          for (let key in result) {
+            let beerOrder = await BeerOrder.findOne({
+              where: {
+                beerId: +key,
+                orderId: userOrder[0].id
+              }
+            })
+            await beerOrder.update({quantity: result[key]})
+          }
+          let userBeers = userOrder[0]
+          //let duplicatedBeers = findDuplicateBeers(beersToMerge, userBeers)
+        }
+      }
       if (!req.session.userInfo) req.session.userInfo = userInfo
-      req.session.userInfo.orderId = result[0].dataValues.id
-      let order = result[0]
+      req.session.userInfo.orderId = userOrder[0].dataValues.id
+      let order = userOrder[0]
+
       cart = order.beers
     } else {
       //unauthenicated user
