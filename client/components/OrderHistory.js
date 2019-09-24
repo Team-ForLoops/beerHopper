@@ -54,18 +54,18 @@ export class OrderHistory extends React.Component {
         <br />
         <br />
         <div>
-          <ul>
-            <CardDeck>
-              {orders === undefined || orders.length === 0
-                ? 'Your order history is empty'
-                : orders.map(order => (
-                    <Card
-                      style={{width: '18rem', borderColor: '#000FFF'}}
-                      key={order.id}
-                    >
-                      <Card.Body>
-                        <CardText>
-                          <div>
+          <div className="flex-cards">
+            {orders === undefined || orders.length === 0
+              ? 'Your order history is empty'
+              : orders.map(order => (
+                  <Card
+                    style={{width: '18rem', borderColor: '#000FFF'}}
+                    key={order.id}
+                  >
+                    <Card.Body>
+                      <Card.Text>
+                        <div>
+                          <ul>
                             <li>
                               <div className="details">
                                 <p>
@@ -92,7 +92,7 @@ export class OrderHistory extends React.Component {
                                   toggler={`#order${order.id}`}
                                 >
                                   <Card style={{borderColor: '#000099'}}>
-                                    <CardBody>
+                                    <Card.Body>
                                       <span>
                                         <div>
                                           {order.beers.length === 0
@@ -129,25 +129,25 @@ export class OrderHistory extends React.Component {
                                                   </p>
                                                   <p>
                                                     {
-                                                      '-------------------------------------------'
+                                                      '-----------------------------------------'
                                                     }
                                                   </p>
                                                 </div>
                                               ))}
                                         </div>
                                       </span>
-                                    </CardBody>
+                                    </Card.Body>
                                   </Card>
                                 </UncontrolledCollapse>
                               </div>
                             </li>
-                          </div>
-                        </CardText>
-                      </Card.Body>
-                    </Card>
-                  ))}
-            </CardDeck>
-          </ul>
+                          </ul>
+                        </div>
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                ))}
+          </div>
         </div>
       </div>
     )

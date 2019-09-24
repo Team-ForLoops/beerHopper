@@ -78,7 +78,7 @@ class SingleBeer extends React.Component {
   deleteReview = async reviewId => {
     await this.props.deleteReview(reviewId)
     await this.props.loadSingleBeer(this.props.beer.id)
-    //await this.props.fetchReviews(this.props.beer.id)
+    await this.props.fetchReviews(this.props.beer.id)
   }
 
   getEditReview = reviews => {
