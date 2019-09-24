@@ -56,7 +56,7 @@ export class AllUsers extends React.Component {
   }
 
   render() {
-    const users = this.props.users
+    const users = this.props.users || []
 
     return (
       <div>
