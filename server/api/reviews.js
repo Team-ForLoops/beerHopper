@@ -41,7 +41,7 @@ router.get('/:reviewId', async (req, res, next) => {
   }
 })
 
-router.put('/:reviewId', async (req, res, next) => {
+router.put('/:reviewId', isUser, async (req, res, next) => {
   try {
     const review = await Review.findByPk(req.params.reviewId)
     review.update(req.body)
@@ -51,7 +51,7 @@ router.put('/:reviewId', async (req, res, next) => {
   }
 })
 
-router.delete('/:reviewId', async (req, res, next) => {
+router.delete('/:reviewId', isUser, async (req, res, next) => {
   try {
     Review.destroy({
       where: {
