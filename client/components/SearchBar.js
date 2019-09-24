@@ -1,29 +1,40 @@
 import React from 'react'
-import {setBeers, searchBeers} from '../store/allBeers'
+import {setBeers, searchBeers, getBeers} from '../store/allBeers'
 import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
 
 export class SearchBar extends React.Component {
   constructor() {
     super()
     this.state = {
-      searchValue: ''
+      searchValue: '',
+      once: 1
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.helper = this.helper.bind(this)
   }
   handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
+    this.setState(
+      {
+        [event.target.name]: event.target.value
+      },
+      this.helper
+    )
+    console.log('wwwwww', this.props)
   }
   handleSubmit(event) {
     event.preventDefault()
-    const search = this.state.searchValue.replace(' ', '+')
-    console.log(search)
-    this.props.fetchSearchBeers(search)
+    this.helper()
     this.setState({
       searchValue: ''
     })
+  }
+  helper() {
+    const search = this.state.searchValue.replace(' ', '+')
+    this.props.history.push('/beers/search?name=' + search)
+    console.log(search)
+    this.props.fetchSearchBeers(search)
   }
   render() {
     return (
@@ -49,8 +60,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setFilteredBeers: beers => dispatch(setBeers(beers)),
-    fetchSearchBeers: name => dispatch(searchBeers(name))
+    fetchSearchBeers: name => dispatch(searchBeers(name)),
+    fetchInitialBeers: () => dispatch(getBeers())
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(SearchBar)
+)
