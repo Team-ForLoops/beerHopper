@@ -92,6 +92,7 @@ class SingleBeer extends React.Component {
     return editReview
   }
 
+  // eslint-disable-next-line complexity
   render() {
     // single beer prop
     // reviews are properties on beer
@@ -113,6 +114,7 @@ class SingleBeer extends React.Component {
         ) : (
           ''
         )}
+
         <Container>
           <Row className="justify-content-sm-center">
             <Col className="single-beer px-0">
@@ -151,6 +153,32 @@ class SingleBeer extends React.Component {
             </Col>
           </Row>
           {/* setup conditional for if beer has no projects */}
+          <Row className="my-4">
+            {beer.quantityInv <= 0 ? (
+              <h3 className="text-danger">OUT OF STOCK!</h3>
+            ) : (
+              <Button
+                variant="warning"
+                className="sm"
+                onClick={() => this.addToCartHandler()}
+              >
+                Add To Cart
+              </Button>
+            )}
+            {this.state.showCart && (
+              <span className="mx-5">
+                This item was added to your cart!
+                <Link to="/cart">
+                  <Button variant="success" className="mx-3">
+                    Go To Cart
+                  </Button>
+                </Link>
+              </span>
+            )}
+            <Link to="/beers">
+              <Button variant="dark">Continue Shopping</Button>
+            </Link>
+          </Row>
           <Row>
             {this.props.user.id ? (
               this.hasUserReviewed(reviews) ? (
@@ -214,31 +242,6 @@ class SingleBeer extends React.Component {
                   </tr>
                 ))}
           </table>
-
-          {beer.quantityInv <= 0 ? (
-            <h3 className="text-danger">OUT OF STOCK!</h3>
-          ) : (
-            <Button
-              variant="warning"
-              className="sm"
-              onClick={() => this.addToCartHandler()}
-            >
-              Add To Cart
-            </Button>
-          )}
-          {this.state.showCart && (
-            <span className="mx-5">
-              This item was added to your cart!
-              <Link to="/cart">
-                <Button variant="success" className="mx-3">
-                  Go To Cart
-                </Button>
-              </Link>
-            </span>
-          )}
-          <Link to="/beers">
-            <Button variant="dark">Continue Shopping</Button>
-          </Link>
         </Container>
       </Container>
     )

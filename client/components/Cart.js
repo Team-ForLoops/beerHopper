@@ -17,6 +17,7 @@ class Cart extends Component {
   }
   componentDidMount() {
     this.props.setSubTotal()
+    this.props.fetchCart()
   }
   checkoutHandler = () => {
     this.props.checkout(this.props.subTotal)
@@ -40,7 +41,7 @@ class Cart extends Component {
     const cart = this.props.cart || []
     return (
       <React.Fragment>
-        <Table className="mx-5">
+        <Table className="mx-5 cart">
           <thead>
             <tr>
               <th>Item</th>

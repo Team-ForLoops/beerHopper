@@ -19,6 +19,7 @@ const cancelOrder = (updatedOrder, orderId) => {
     orderId
   }
 }
+
 //THUNK
 export const getUserOrders = userId => {
   return async dispatch => {
@@ -51,6 +52,7 @@ export const cancelOrderThunk = orderId => {
     }
   }
 }
+
 //Sorting Function
 export const sortMyOrders = (sortBy, myOrders) => dispatch => {
   try {
