@@ -101,6 +101,7 @@ router.get('/:beerId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
+    console.log('post ################################', req.body)
     const newBeer = await Beer.create(req.body)
     res.json(newBeer)
   } catch (err) {
