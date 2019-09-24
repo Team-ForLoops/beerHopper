@@ -11,7 +11,7 @@ import NavBar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import Row from 'react-bootstrap/Row'
 
-const Navbar = ({handleClick, isLoggedIn}) => {
+const Navbar = ({handleClick, isLoggedIn, isAdmin}) => {
   function handleChange() {}
   function handleSubmit() {}
 
@@ -54,11 +54,9 @@ const Navbar = ({handleClick, isLoggedIn}) => {
 
         {/* placeholder: make links only available to admins */}
 
-        <div className="justify-content-end">
-          <Link to="/admin/dashboard"> Admin Dashboard </Link>
-        </div>
-
         {isLoggedIn ? <Link to="/orders/myOrders">My Orders</Link> : ''}
+
+        {isAdmin ? <Link to="/admin/dashboard">Admin Dashboard</Link> : ''}
       </NavBar>
 
       <hr />
@@ -71,8 +69,8 @@ const Navbar = ({handleClick, isLoggedIn}) => {
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
-    // placeholder isAdmin
+    isLoggedIn: !!state.user.id,
+    isAdmin: !!state.user.isAdmin
   }
 }
 
@@ -91,5 +89,6 @@ export default connect(mapState, mapDispatch)(Navbar)
  */
 Navbar.propTypes = {
   handleClick: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool.isRequired
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import {postBeerThunk} from '../store/allBeers'
+import {postBeerThunk, getBeers} from '../store/allBeers'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 
@@ -75,6 +75,8 @@ class AddBeer extends React.Component {
     this.setState({
       success: true
     })
+
+    await this.props.fetchAllBeers()
   }
 
   render() {
@@ -191,10 +193,11 @@ class AddBeer extends React.Component {
             <br />
 
             <span>
-              <p>Beer Quantity Inventory</p>
+              <p>Beer Quantity Inventory (required field)</p>
               <input
                 type="number"
                 min="0"
+                max="1147483647"
                 name="quantityInv"
                 value={
                   typeof this.state.quantityInv === 'string'
@@ -208,11 +211,12 @@ class AddBeer extends React.Component {
             <br />
 
             <span>
-              <p>Beer Price (required field)</p>
+              <p>Beer Price $USD (required field)</p>
               <input
                 type="number"
                 name="price"
                 min="0"
+                max="1147483647"
                 value={
                   typeof this.state.price === 'string'
                     ? this.state.price
@@ -244,7 +248,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  postBeerThunk: newBeer => dispatch(postBeerThunk(newBeer))
+  postBeerThunk: newBeer => dispatch(postBeerThunk(newBeer)),
+  fetchAllBeers: () => dispatch(getBeers())
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddBeer))

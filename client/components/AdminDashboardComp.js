@@ -45,12 +45,6 @@ class AdminDash extends React.Component {
           </ButtonGroup>
 
           <ButtonGroup className="mr-2" aria-label="Second group">
-            <Link to="/admin/edit/beer/3">
-              <Button variant="outline-info">Edit Existing Product</Button>
-            </Link>
-          </ButtonGroup>
-
-          <ButtonGroup className="mr-2" aria-label="Second group">
             <Link to="/admin/category">
               <Button variant="outline-info">New Category</Button>
             </Link>
