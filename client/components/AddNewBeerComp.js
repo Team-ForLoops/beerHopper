@@ -204,7 +204,7 @@ class AddBeer extends React.Component {
             <br />
 
             <span>
-              <p>Beer Price $USD (required field)</p>
+              <p>Beer Price Cents (required field)</p>
               <input
                 type="number"
                 name="price"
