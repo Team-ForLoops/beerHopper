@@ -50,6 +50,5 @@ export default connect(mapState)(UserHome)
  * PROP TYPES
  */
 UserHome.propTypes = {
-  email: PropTypes.string,
-  isAdmin: PropTypes.bool
+  email: PropTypes.string
 }
