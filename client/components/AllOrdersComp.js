@@ -5,6 +5,7 @@ import {updateOrderThunk, fetchSingleOrder} from '../store/singleOrder'
 // Status Filter import BeerFilter from './BeerFilter'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
+import Container from 'react-bootstrap/Container'
 import {UncontrolledCollapse, CardBody} from 'reactstrap'
 import {AvQueuePlayNext} from 'material-ui/svg-icons'
 
@@ -21,11 +22,7 @@ export class AllOrders extends React.Component {
   }
 
   componentDidMount() {
-    try {
-      this.props.fetchInitialOrders()
-    } catch (error) {
-      console.error(error)
-    }
+    this.props.fetchInitialOrders()
   }
 
   clickHandlerOne() {
@@ -58,8 +55,7 @@ export class AllOrders extends React.Component {
   }
 
   render() {
-    const orders = this.props.orders
-
+    const orders = this.props.orders || []
     return (
       <div>
         <div id="filter" />
@@ -74,10 +70,14 @@ export class AllOrders extends React.Component {
                     <ul>
                       <li>
                         <div className="highlight">
-                          <img src={order.user.imageUrl} />
+                          {order.user && <img src={order.user.imageUrl} />}
                         </div>
                         <div className="details">
-                          <p>User: {order.user.username}</p>
+                          <p>
+                            {order.user
+                              ? order.user.username
+                              : 'Anonymous User'}
+                          </p>
                           <p>Order Status: {order.status}</p>
                           <p>
                             Order Date:{' '}
@@ -173,32 +173,38 @@ export class AllOrders extends React.Component {
                             <Card>
                               <CardBody>
                                 <span>
-                                  <div>
-                                    {order.beers.length === 0
-                                      ? `${order.user.username} has no orders!`
-                                      : order.beers.map(beer => (
-                                          <div key={beer.id}>
-                                            <p> Beer Name: {beer.name} </p>
-                                            <img src={beer.imageUrl} />
-                                            <p>
-                                              {' '}
-                                              Beer Description:{' '}
-                                              {beer.description}{' '}
-                                            </p>
-                                            <p> Beer IBU: {beer.ibu} </p>
-                                            <p>
-                                              {' '}
-                                              Beer Price:{' '}
-                                              {toDollars(beer.price)}{' '}
-                                            </p>
+                                  {order.user ? (
+                                    <div>
+                                      {order.beers.length === 0
+                                        ? `${
+                                            order.user.username
+                                          } has no orders!`
+                                        : order.beers.map(beer => (
+                                            <div key={beer.id}>
+                                              <p> Beer Name: {beer.name} </p>
+                                              <img src={beer.imageUrl} />
+                                              <p>
+                                                {' '}
+                                                Beer Description:{' '}
+                                                {beer.description}{' '}
+                                              </p>
+                                              <p> Beer IBU: {beer.ibu} </p>
+                                              <p>
+                                                {' '}
+                                                Beer Price:{' '}
+                                                {toDollars(beer.price)}{' '}
+                                              </p>
 
-                                            <div>
-                                              {' '}
-                                              --------------------------------
+                                              <div>
+                                                {' '}
+                                                --------------------------------
+                                              </div>
                                             </div>
-                                          </div>
-                                        ))}
-                                  </div>
+                                          ))}
+                                    </div>
+                                  ) : (
+                                    ''
+                                  )}
                                 </span>
                               </CardBody>
                             </Card>
