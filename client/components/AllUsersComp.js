@@ -52,6 +52,7 @@ export class AllUsers extends React.Component {
     // console.log('UPDATE USER', updatedUser)
 
     await this.props.updateUserThunk(updatedUser)
+    await this.props.loadSingleUser(userId)
     await this.props.fetchInitialUsers()
   }
 
