@@ -87,10 +87,23 @@ router.get('/search', async (req, res, next) => {
 // 8080/api/beer/:id
 router.get('/:beerId', async (req, res, next) => {
   let beerId = req.params.beerId
+
   try {
     const beer = await Beer.findByPk(beerId, {
       include: [{model: Review, include: {model: User}}, {model: Category}]
     })
+
+    let total = 0
+    if (beer.reviews === undefined || beer.reviews.length === 0) {
+      beer.dataValues.averageRating = 'No Ratings Yet!'
+    } else {
+      beer.reviews.forEach(review => {
+        total += review.rating
+      })
+      beer.dataValues.averageRating = `${(total / beer.reviews.length).toFixed(
+        1
+      )}/5`
+    }
     res.send(beer)
   } catch (err) {
     next(err)

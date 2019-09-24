@@ -1,11 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getMyOrders, sortMyOrders} from '../store/myOrders'
+import {getMyOrders, sortMyOrders, cancelOrderThunk} from '../store/myOrders'
 import {toDollars} from '../store/allOrders'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import {UncontrolledCollapse, CardBody, CardText, CardDeck} from 'reactstrap'
-import {cancelOrderThunk} from '../store/myOrders'
+import {Link} from 'react-router-dom'
 
 export class OrderHistory extends React.Component {
   constructor(props) {
@@ -57,21 +57,23 @@ export class OrderHistory extends React.Component {
         <br />
         <br />
         <div>
-          <ul>
-            <CardDeck>
-              {orders === undefined || orders.length === 0
-                ? 'Your order history is empty'
-                : orders.map(order => (
-                    <Card
-                      style={{width: '18rem', borderColor: '#000FFF'}}
-                      key={order.id}
-                    >
-                      <Card.Body>
-                        <CardText>
-                          <div>
+          <div className="flex-cards">
+            {orders === undefined || orders.length === 0
+              ? 'Your order history is empty'
+              : orders.map(order => (
+                  <Card
+                    style={{width: '18rem', borderColor: '#000FFF'}}
+                    key={order.id}
+                  >
+                    <Card.Body>
+                      <Card.Text>
+                        <div>
+                          <ul>
                             <li>
                               <div className="details">
-                                <p>Date: {this.formatDate(order.updatedAt)}</p>
+                                <p>
+                                  Ordered On: {this.formatDate(order.updatedAt)}
+                                </p>
                                 <p>Order Status: {order.status}</p>
                                 <div>
                                   {' '}
@@ -104,7 +106,7 @@ export class OrderHistory extends React.Component {
                                   toggler={`#order${order.id}`}
                                 >
                                   <Card style={{borderColor: '#000099'}}>
-                                    <CardBody>
+                                    <Card.Body>
                                       <span>
                                         <div>
                                           {order.beers.length === 0
@@ -113,16 +115,15 @@ export class OrderHistory extends React.Component {
                                               } has no orders!`
                                             : order.beers.map(beer => (
                                                 <div key={beer.id}>
-                                                  <p>
-                                                    {' '}
-                                                    Beer Name: {beer.name}{' '}
-                                                  </p>
+                                                  <Link to={`/beer/${beer.id}`}>
+                                                    <p>
+                                                      {' '}
+                                                      Beer Name: {
+                                                        beer.name
+                                                      }{' '}
+                                                    </p>
+                                                  </Link>
                                                   <img src={beer.imageUrl} />
-                                                  <p>
-                                                    {' '}
-                                                    Beer Description:{' '}
-                                                    {beer.description}{' '}
-                                                  </p>
                                                   <p>
                                                     {' '}
                                                     Beer Price:{' '}
@@ -142,25 +143,25 @@ export class OrderHistory extends React.Component {
                                                   </p>
                                                   <p>
                                                     {
-                                                      '-------------------------------------------'
+                                                      '-----------------------------------------'
                                                     }
                                                   </p>
                                                 </div>
                                               ))}
                                         </div>
                                       </span>
-                                    </CardBody>
+                                    </Card.Body>
                                   </Card>
                                 </UncontrolledCollapse>
                               </div>
                             </li>
-                          </div>
-                        </CardText>
-                      </Card.Body>
-                    </Card>
-                  ))}
-            </CardDeck>
-          </ul>
+                          </ul>
+                        </div>
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                ))}
+          </div>
         </div>
       </div>
     )
