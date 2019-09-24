@@ -1,6 +1,7 @@
 import React from 'react'
 import {setBeers, searchBeers} from '../store/allBeers'
 import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
 
 export class SearchBar extends React.Component {
   constructor() {
@@ -10,20 +11,28 @@ export class SearchBar extends React.Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.helper = this.helper.bind(this)
   }
   handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
+    this.setState(
+      {
+        searchValue: event.target.value
+      },
+      this.helper
+    )
   }
   handleSubmit(event) {
     event.preventDefault()
-    const search = this.state.searchValue.replace(' ', '+')
-    console.log(search)
-    this.props.fetchSearchBeers(search)
+
+    this.props.helper()
     this.setState({
       searchValue: ''
     })
+  }
+  helper() {
+    const search = this.state.searchValue.replace(' ', '+')
+    this.props.history.push('/beers/search?name=' + search)
+    this.props.fetchSearchBeers(search)
   }
   render() {
     return (
@@ -53,4 +62,6 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(SearchBar)
+)
