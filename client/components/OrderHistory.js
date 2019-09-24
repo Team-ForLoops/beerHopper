@@ -33,6 +33,9 @@ export class OrderHistory extends React.Component {
       showForm: !hidden
     })
   }
+  cancelHandler = orderId => {
+    this.props.cancelOrder(orderId)
+  }
   handleChange(event) {
     return this.props.fetchSortedOrders(event.target.value, this.props.orders)
   }
