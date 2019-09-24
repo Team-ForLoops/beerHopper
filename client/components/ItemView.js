@@ -75,7 +75,7 @@ class ItemView extends Component {
   render() {
     const beer = this.props.item
     return (
-      <tr className="my-2">
+      <tr className="cart my-2">
         <td>
           <span>
             <img src={beer.imageUrl} />
