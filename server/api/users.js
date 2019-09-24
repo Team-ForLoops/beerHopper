@@ -66,8 +66,9 @@ router.delete('/:userId', isAdmin, async (req, res, next) => {
         id: userId
       }
     })
-    res.status(204)
+    res.status(204).send(userId)
   } catch (err) {
+    console.log('error', err)
     next(err)
   }
 })
