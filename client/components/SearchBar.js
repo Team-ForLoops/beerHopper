@@ -2,6 +2,8 @@ import React from 'react'
 import {setBeers, searchBeers} from '../store/allBeers'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
+import FormControl from 'react-bootstrap/FormControl'
+import Form from 'react-bootstrap/Form'
 
 export class SearchBar extends React.Component {
   constructor() {
@@ -36,15 +38,16 @@ export class SearchBar extends React.Component {
   }
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit} inline>
         🔎
-        <input
+        <FormControl
           placeholder="beer..."
           name="searchValue"
+          className="mr-sm-2"
           value={this.state.searchValue}
           onChange={this.handleChange}
         />
-      </form>
+      </Form>
     )
   }
 }

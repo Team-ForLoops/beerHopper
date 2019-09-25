@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import {fetchSingleReview, updateReviewThunk} from '../store/singleReview'
 import {fetchSingleBeer} from '../store/singleBeer'
 import {fetchReviews} from '../store/reviews'
+import Form from 'react-bootstrap/Form'
+import Container from 'react-bootstrap/Container'
 
 class EditReviewForm extends Component {
   constructor(props) {
@@ -58,41 +60,43 @@ class EditReviewForm extends Component {
   }
   render() {
     return (
-      <form onSubmit={() => this.handleSubmit()}>
-        <div className="form-group">
-          <label htmlFor="rating">Rating:</label>
-          <input
-            className="form-control"
-            onChange={this.handleChange}
-            type="number"
-            min="1"
-            max="5"
-            name="rating"
-            value={
-              typeof this.state.rating === 'string'
-                ? this.state.rating
-                : this.props.review.rating
-            }
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="description">Description:</label>
-          <input
-            className="form-control"
-            onChange={this.handleChange}
-            type="text"
-            name="description"
-            value={
-              typeof this.state.description === 'string'
-                ? this.state.description
-                : this.props.review.description
-            }
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Edit
-        </button>
-      </form>
+      <Container className="mx-auto">
+        <Form onSubmit={() => this.handleSubmit()}>
+          <div className="form-group">
+            <label htmlFor="rating">Rating:</label>
+            <input
+              className="form-control"
+              onChange={this.handleChange}
+              type="number"
+              min="1"
+              max="5"
+              name="rating"
+              value={
+                typeof this.state.rating === 'string'
+                  ? this.state.rating
+                  : this.props.review.rating
+              }
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="description">Description:</label>
+            <input
+              className="form-control"
+              onChange={this.handleChange}
+              type="text"
+              name="description"
+              value={
+                typeof this.state.description === 'string'
+                  ? this.state.description
+                  : this.props.review.description
+              }
+            />
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Edit
+          </button>
+        </Form>
+      </Container>
     )
   }
 }

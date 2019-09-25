@@ -65,7 +65,40 @@ a {
 }
 a:hover {
   text-decoration: none;
-  color: orange;
+  color: darkgrey;
+  opacity: 0.6;
+  transition: 0.4s;
+}
+.navcart {
+  max-width: 35px;
+  max-height: 35px;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.desc {
+  padding: 15px;
+  text-align: center;
+}
+
+.miniCart {
+  max-width: 100px;
+  max-height: 100px;
 }
 /* to add cart mini view, if time permits
 .dropdown-content {
@@ -120,11 +153,22 @@ span {
   max-width: 200px;
   max-height: 200px;
 }
-.single-beer img {
-  max-width: 200px;
-  max-height: 250px;
+.single-beer {
+  min-width: 200px;
+  min-height: 200px;
+}
+.single-beer:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.single-beer img {
+  max-width: 200px;
+  max-height: 200px;
+}
+.single-item img {
+  max-width: 200px;
+  max-height: 200px;
+}
 /* #dash-image-mock {
   height: 100%;
   width: 100%

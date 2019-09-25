@@ -8,6 +8,7 @@ import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Image from 'react-bootstrap/Image'
 // import Accordion from 'react-bootstrap/Accordion'
 
 export class AllBeers extends React.Component {
@@ -32,7 +33,7 @@ export class AllBeers extends React.Component {
     const beers = this.props.beers
 
     return (
-      <Container>
+      <Container fluid>
         <Row className="options justify-content-space-between">
           <Col>
             <Button
@@ -57,18 +58,17 @@ export class AllBeers extends React.Component {
           <Row>
             <ul>
               {beers.map(beer => (
-                <Col key={beer.id} className="m-3">
-                  <Link to={`/beer/${beer.id}`}>
-                    <li>
-                      <div className="highlight">
-                        <img src={beer.imageUrl} />
-                      </div>
-                      <div className="details">
-                        <h3>{beer.name}</h3>
-                        <div>{toDollars(beer.price)}</div>
-                      </div>
-                    </li>
-                  </Link>
+                <Col
+                  key={beer.id}
+                  className="m-3 justify-content-center lg={2} single-beer"
+                >
+                  <div>
+                    <Link to={`/beer/${beer.id}`}>
+                      <Image className="py-3" src={beer.imageUrl} fluid />
+                      <h3>{beer.name}</h3>
+                      <p>{toDollars(beer.price)}</p>
+                    </Link>
+                  </div>
                 </Col>
               ))}
             </ul>
