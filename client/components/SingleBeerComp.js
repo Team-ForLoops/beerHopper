@@ -117,7 +117,7 @@ class SingleBeer extends React.Component {
 
         <Container>
           <Row className="justify-content-sm-center">
-            <Col className="single-beer px-0">
+            <Col className="single-item px-0">
               <img src={beer.imageUrl} />
             </Col>
             <Col xs={8} className="flex-grow-1 bd-highlight">
