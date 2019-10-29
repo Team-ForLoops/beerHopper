@@ -13,7 +13,7 @@ We are deployed on Heroku! Check us out at: https://beerhopperfullstack.herokuap
 ## Built With
 React - a front end JavaScript library
 Redux - open-source JavaScript library for managing application state
-PostgresSQL - open source object-relational database
+PostgreSQL - open source object-relational database
 Node.js - open-source, cross-platform, JavaScript runtime environment
 Express - Node.js framework
 Sequelize - promise-based Node.js ORM for Postgres, MySQL, MariaDB, SQLite and Microsoft SQL Server
